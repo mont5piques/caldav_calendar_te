@@ -1,4 +1,4 @@
-I made this as a working, out of the box, calendar for use with Nextcloud 12.
+I made this as a working, out of the box, calendar for use with Nextcloud 15.
 
 I will update this when needed by deprecated purposes or when Nextcloud changes their sabre version.
 
@@ -6,9 +6,9 @@ This is a fork of Kolab and FasterIT calendars combining the best of both and us
 and then go back to Roundcube and it should be there. From Roundcube, you can add, edit and delete events and will be in sync
 with Nextcloud.
 
-This is also compatible with RCMCARDDAV 2.0.4 as I use it to sync my contacts with Nextcloud to Roundcube as well.
+This is also compatible with RCMCARDDAV 3.0.3 as I use it to sync my contacts with Nextcloud to Roundcube as well.
 
-This was tested using Roundcube 1.3 and PHP 7.0.17.
+This was tested using Roundcube 1.3 and PHP 7.2.11.
 
 I recently discovered the libcalendaring didn't agree with tasklist, so I have made multiple changes in libcalendaring folder in order to be capatable with everything, so I may have introduced some bugs. We shall sort them out as they are found.
 
@@ -43,7 +43,7 @@ TODO:
 * Ability to add new calendar to Nextcloud from Roundcube Calendar GUI.
 * Oauth support. (In progress)
 * Assign random colors to autodiscover calendars.
-* Remove mcrypt and replace with openssl
+* ~~Remove mcrypt and replace with openssl.~~ Fixed!!!!
 
 Random Color Quickie:
 -------
