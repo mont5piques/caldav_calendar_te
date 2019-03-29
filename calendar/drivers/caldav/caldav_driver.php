@@ -1917,14 +1917,30 @@ class caldav_driver extends calendar_driver
                 return "UNIX_TIMESTAMP($field)";
         }
     }
+private function mw_encrypt($data,  $key, $method) {
+        $ivSize = openssl_cipher_iv_length($method);
+        $iv = openssl_random_pseudo_bytes($ivSize);
+        $encrypted = openssl_encrypt($data, $method, $key, OPENSSL_RAW_DATA, $iv);
+        $encrypted = base64_encode($iv . $encrypted);
+        return $encrypted;
+    }
+    private function mw_decrypt($data, $key, $method) {
+        $data = base64_decode($data);
+        $ivSize = openssl_cipher_iv_length($method);
+        $iv = substr($data, 0, $ivSize);
+        $data = openssl_decrypt(substr($data, $ivSize), $method, $key, OPENSSL_RAW_DATA, $iv);
+        return $data;
+    }
     private function _decrypt_pass($pass) {
-        $p = base64_decode($pass);
-        $e = new Encryption(MCRYPT_BlOWFISH, MCRYPT_MODE_CBC);
-        return $e->decrypt($p, $this->crypt_key);
+        $method = 'AES-256-CBC';
+        $password = 'FvK2znEU73x5yAeC6iRbp9r-8sPQgDMZ';
+        $key = hash('sha256', $password);
+        return $this->mw_decrypt($pass, $key, $method);
     }
     private function _encrypt_pass($pass) {
-        $e = new Encryption(MCRYPT_BlOWFISH, MCRYPT_MODE_CBC);
-        $p = $e->encrypt($pass, $this->crypt_key);
-        return base64_encode($p);
+        $method = 'AES-256-CBC';
+        $password = 'FvK2znEU73x5yAeC6iRbp9r-8sPQgDMZ';
+        $key = hash('sha256', $password);
+        return $this->mw_encrypt($pass, $key, $method);
     }
 }
