@@ -643,7 +643,7 @@ class calendar_ui
     return html::div($attrib,
       html::div(null, $input->show()) .
       html::div('formbuttons', $button->show($this->rc->gettext('upload'), array('class' => 'button mainaction',
-        'onclick' => JS_OBJECT_NAME . ".upload_file(this.form)"))) .
+        'onclick' => 'JS_OBJECT_NAME' . ".upload_file(this.form)"))) .
       html::div('hint', $this->rc->gettext(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize))))
     );
   }
