@@ -298,8 +298,8 @@ class calendar_ui
     $classes = array('calendar', 'cal-'  . asciiwords($id, true));
     if (defined(RCUBE_CHARSET)) {
         $charset = RCUBE_CHARSET;
-    } elseif (defined(RCMAIL_CHARSET)) {
-        $charset = RCMAIL_CHARSET;
+    } elseif (defined(RCUBE_CHARSET)) {
+        $charset = RCUBE_CHARSET;
     } else {
         $charset = $this->rc->config->get('default_charset');
     }
