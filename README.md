@@ -8,9 +8,9 @@ with Nextcloud.
 
 This is also compatible with RCMCARDDAV 3.0.3 as I use it to sync my contacts with Nextcloud to Roundcube as well.
 
-This was tested using Roundcube 1.3 and PHP 7.2.11.
+This was tested using Roundcube 1.3.9 and PHP 7.2.11.
 
-I recently discovered the libcalendaring didn't agree with tasklist, so I have made multiple changes in libcalendaring folder in order to be capatable with everything, so I may have introduced some bugs. We shall sort them out as they are found.
+________________________________________________________________________________________
 
 Installation is pretty straight forward.
 
