@@ -83,7 +83,7 @@ class caldav_driver extends calendar_driver
         $this->crypt_key = $this->rc->config->get("calendar_crypt_key", "%E`c{2;<J2F^4_&._BxfQ<5Pf3qv!m{e");
         // Set debug state
         if(self::$debug === null)
-            self::$debug = $this->rc->config->get('calendar_caldav_debug', False);
+            self::$debug = $this->rc->config->get('calendar_caldav_debug', True);
         $this->_read_calendars();
     }
     /**
@@ -149,6 +149,7 @@ class caldav_driver extends calendar_driver
         $result = false;
         $cal['caldav_url'] = self::_encode_url($cal["caldav_url"]);
         if(!isset($cal['color'])) $cal['color'] = dechex(rand(0x000000, 0xFFFFFF));
+		$cal = $this->_expand_pass($cal);
         $calendars = $this->_autodiscover_calendars($this->_expand_pass($cal));
         $cal_ids = array();
         if($calendars)
@@ -278,6 +279,10 @@ class caldav_driver extends calendar_driver
             "DELETE FROM " . $this->db_calendars . " WHERE calendar_id=?",
             $prop['id']
         );
+		
+		if ($this->rc->config->get('calendar_default_calendar') == $prop['id'])
+ 	    $this->rc->user->save_prefs(array('calendar_default_calendar' => null));
+	
         return $this->rc->db->affected_rows($query);
     }
     /**
@@ -1677,11 +1682,62 @@ class caldav_driver extends calendar_driver
      * @return array List of properties, with expanded 'caldav_pass' attribute
      *
      */
-    private function _expand_pass($props)
+    private function _expand_pass($props, $names = array('caldav_pass'))
     {
-        if (isset($props['caldav_pass']))
-            $props['caldav_pass'] = str_replace('%p', $this->rc->get_user_password(), $props['caldav_pass']);
+        foreach($names as $name) {
+            if (isset($props[$name]) && $props[$name] === '%p')
+				$props[$name] = $this->rc->get_user_password();
+		}
         return $props;
+    }
+	
+	private function _expand_user($props, $names = array('caldav_url', 'caldav_user'))
+    {
+        foreach($names as $name) {
+            if (isset($props[$name]))
+                $props[$name] = str_replace('%u', $this->rc->get_user_name(), $props[$name]);
+        }
+         return $props;
+    }
+     /**
+     * Add default (pre-installation provisioned) calendar. If calendars from 
+     * same url exist, insertion does not take place.  
+     *
+     * @param array $props
+     *    caldav_url: Absolute URL to calendar server collection
+     *    caldav_user: Username
+     *    caldav_pass: Password
+     *    color: Events color
+     *    showAlarms:  
+     * @return bool false on creation error, true otherwise
+     *    
+     */
+    public function insert_default_calendar($props)
+    {
+        $props = $this->_expand_user($props);
+         foreach ($this->list_calendars() as $cal) {
+            $vcal_info = $this->calendars[$cal['id']];
+            if ($vcal_info['url'] == self::_encode_url($props['caldav_url'])) {
+                return true;
+            }
+        }
+         return $this->create_calendar($props);
+    }
+     /**
+     * Returns true if the specified calendar is a preinstalled calendar, false otherwise.
+     *
+     * @param $cal
+     * @return bool
+     */
+    public function is_preinstalled_calendar($cal)
+    {
+        $preinstalled_calendars = $this->rc->config->get('calendar_preinstalled_calendars', array());
+        if (is_array($preinstalled_calendars)) foreach ($preinstalled_calendars as $props) {
+            $props = $this->_expand_user($props);
+            if($props['url'] == $cal['url'])
+                return true;
+        }
+         return false;
     }
     /**
      * Auto discover calenders available to the user on the caldav server
@@ -1925,7 +1981,7 @@ class caldav_driver extends calendar_driver
                 return "UNIX_TIMESTAMP($field)";
         }
     }
-private function mw_encrypt($data,  $key, $method) {
+    private function mw_encrypt($data,  $key, $method) {
         $ivSize = openssl_cipher_iv_length($method);
         $iv = openssl_random_pseudo_bytes($ivSize);
         $encrypted = openssl_encrypt($data, $method, $key, OPENSSL_RAW_DATA, $iv);
@@ -1941,14 +1997,12 @@ private function mw_encrypt($data,  $key, $method) {
     }
     private function _decrypt_pass($pass) {
         $method = 'AES-256-CBC';
-        $password = 'FvK2znEU73x5yAeC6iRbp9r-8sPQgDMZ';
-        $key = hash('sha256', $password);
+        $key = hash('sha256', $this->crypt_key);
         return $this->mw_decrypt($pass, $key, $method);
     }
     private function _encrypt_pass($pass) {
         $method = 'AES-256-CBC';
-        $password = 'FvK2znEU73x5yAeC6iRbp9r-8sPQgDMZ';
-        $key = hash('sha256', $password);
+        $key = hash('sha256', $this->crypt_key);
         return $this->mw_encrypt($pass, $key, $method);
     }
 }
