@@ -1087,7 +1087,7 @@ class libcalendaring extends rcube_plugin
                   $content = html::a(array(
                       'href' => "#delete",
                       'class' => 'delete',
-                      'onclick' => sprintf("return %s.remove_from_attachment_list('rcmfile%s')", JS_OBJECT_NAME, $id),
+                      'onclick' => sprintf("return %s.remove_from_attachment_list('rcmfile%s')", 'JS_OBJECT_NAME', $id),
                       'title' => $this->rc->gettext('delete'),
                       'aria-label' => $this->rc->gettext('delete') . ' ' . $attachment['name'],
                   ), $button);
@@ -1223,7 +1223,7 @@ class libcalendaring extends rcube_plugin
 
         header('Content-Type: text/html; charset=' . RCUBE_CHARSET);
         print "<html>\n<head>\n"
-            . '<meta http-equiv="refresh" content="0; url='.Q($url).'">' . "\n"
+            . '<meta http-equiv="refresh" content="0; url='.rcube::Q($url).'">' . "\n"
             . '<meta http-equiv="content-type" content="text/html; charset='.RCUBE_CHARSET.'">' . "\n"
             . "</head>\n<body>\n$message\n</body>\n</html>";
         exit;
