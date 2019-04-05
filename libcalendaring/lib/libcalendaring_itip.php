@@ -264,8 +264,8 @@ class libcalendaring_itip
         // compose multipart message using PEAR:Mail_Mime
         if (defined(RCUBE_CHARSET)) {
             $charset = RCUBE_CHARSET;
-        } elseif (defined(RCMAIL_CHARSET)) {
-            $charset = RCMAIL_CHARSET;
+        } elseif (defined(RCUBE_CHARSET)) {
+            $charset = RCUBE_CHARSET;
         } else {
             $charset = $this->rc->config->get('default_charset');
         }
