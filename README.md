@@ -10,7 +10,7 @@ This is also compatible with RCMCARDDAV 3.0.3 as I use it to sync my contacts wi
 
 This was tested using Roundcube 1.3.9 and PHP 7.2.11.
 
-________________________________________________________________________________________
+_________________________________________________________________________________________
 
 Installation is pretty straight forward.
 
