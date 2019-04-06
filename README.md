@@ -41,7 +41,7 @@ If anyone would like to help out to make oauth work and other features, I would 
 TODO:
 -------
 * Ability to add new calendar to Nextcloud from Roundcube Calendar GUI.
-* Oauth support. (TBD. My skills aren't the best. :-(  ....  )
+* Oauth support. (TBD. My skills aren't the best. :-(  ....  I need some help)
 * Assign random colors to autodiscover calendars.
 * ~~Remove mcrypt and replace with openssl.~~ Fixed!!!!
 
