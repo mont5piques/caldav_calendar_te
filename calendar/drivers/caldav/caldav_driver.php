@@ -83,7 +83,7 @@ class caldav_driver extends calendar_driver
         $this->crypt_key = $this->rc->config->get("calendar_crypt_key", "%E`c{2;<J2F^4_&._BxfQ<5Pf3qv!m{e");
         // Set debug state
         if(self::$debug === null)
-            self::$debug = $this->rc->config->get('calendar_caldav_debug', True);
+            self::$debug = $this->rc->config->get('calendar_caldav_debug', False);
         $this->_read_calendars();
     }
     /**
