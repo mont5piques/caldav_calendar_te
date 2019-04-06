@@ -2598,7 +2598,7 @@ if(count($cals) > 0){
     }
     
     // only compare number of attachments
-    if (count($a['attachments']) != count($b['attachments']))
+    if (is_array($a['attachments']) != is_array($b['attachments']))
       $diff[] = 'attachments';
     
     return $diff;
