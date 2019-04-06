@@ -22,7 +22,7 @@ Add "calendar" to $config['plugins'] in your Roundcube main config file and you 
 
 ***IMPORTANT***
 
-Your login and password must be the same for Nextcloud and Roundcube to work properly.
+Your username and password must be the same for Nextcloud and Roundcube to work properly.
 
 Known Issues:
 -------
