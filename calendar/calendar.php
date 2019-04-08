@@ -248,9 +248,6 @@ class calendar extends rcube_plugin
         require_once($this->home . '/drivers/calendar_driver.php');
         require_once($this->home . '/drivers/' . $driver_name . '/' . $driver_class . '.php');
 
-        if($driver_name == "kolab")
-          $this->require_plugin('libkolab');
-
         $driver = new $driver_class($this);
 
         if ($driver->undelete)
@@ -350,7 +347,7 @@ class calendar extends rcube_plugin
    */
   public function get_default_driver()
   {
-    $default = $this->rc->config->get("calendar_driver_default", "kolab"); // Fallback to kolab if nothing was configured.
+    $default = $this->rc->config->get("calendar_driver_default", "caldav"); // Fallback to caldav if nothing was configured.
     return $this->get_driver_by_name($default);
   }
 
@@ -1360,10 +1357,6 @@ if(count($cals) > 0){
               if (is_array($change['new']))
                 $change['new']['classname'] = rcube_utils::file2class($change['new']['mimetype'], $change['new']['name']);
             }
-            // compute a nice diff of description texts
-            if ($change['property'] == 'description') {
-              $change['diff_'] = libkolab::html_diff($change['old'], $change['new']);
-            }
           });
           $this->rc->output->command('plugin.event_show_diff', $data);
         }
@@ -1949,7 +1942,7 @@ if(count($cals) > 0){
     $settings['event_coloring'] = (int)$this->rc->config->get('calendar_event_coloring', $this->defaults['calendar_event_coloring']);
     $settings['time_indicator'] = (int)$this->rc->config->get('calendar_time_indicator', $this->defaults['calendar_time_indicator']);
     $settings['invite_shared'] = (int)$this->rc->config->get('calendar_allow_invite_shared', $this->defaults['calendar_allow_invite_shared']);
-    $settings['invitation_calendars'] = (bool)$this->rc->config->get('kolab_invitation_calendars', false);
+    $settings['invitation_calendars'] = (bool)$this->rc->config->get('calendar_invitation_calendars', false);
     $settings['itip_notify'] = (int)$this->rc->config->get('calendar_itip_send_option', $this->defaults['calendar_itip_send_option']);
 
     // get user identity to create default attendee
