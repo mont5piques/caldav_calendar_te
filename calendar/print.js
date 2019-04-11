@@ -53,6 +53,11 @@ window.rcmail && rcmail.addEventListener('init', function(evt) {
       id: id
     }, rcmail.env.calendars[id]);
 
+    source.color = '#' + source.color.replace(/^#/, '');
+
+    if (source.color.match(/^#f+$/i))
+      source.color = '#ccc';
+
     event_sources.push(source);
   }
   

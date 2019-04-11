@@ -2,13 +2,13 @@
     "name": "kolab/libcalendaring",
     "type": "roundcube-plugin",
     "description": "Library providing common functions for calendaring plugins",
-    "homepage": "https://github.com/texxasrulez/caldav_calendar/",
+    "homepage": "http://git.kolab.org/roundcubemail-plugins-kolab/",
     "license": "AGPLv3",
     "version": "3.2.8",
     "authors": [
         {
-            "name": "Gene Hawkins",
-            "email": "texxasrulez@yahoo.com",
+            "name": "Thomas Bruederli",
+            "email": "bruederli@kolabsys.com",
             "role": "Lead"
         }
     ],

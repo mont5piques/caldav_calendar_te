@@ -2,7 +2,7 @@
     "name": "texxasrulez/calendar",
     "type": "roundcube-plugin",
     "description": "Calendar plugin",
-    "homepage": "https://github.com/texxasrulez/caldav_calendar/",
+    "homepage": "https://github.com/texxasrulez/caldav_calendar",
     "license": "AGPLv3",
     "version": "0.3",
     "authors": [

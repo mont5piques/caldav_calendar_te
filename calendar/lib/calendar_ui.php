@@ -36,7 +36,7 @@ class calendar_ui
     $this->rc = $cal->rc;
     $this->screen = $this->rc->task == 'calendar' ? ($this->rc->action ? $this->rc->action: 'calendar') : 'other';
   }
-    
+
   /**
    * Calendar UI initialization and requests handlers
    */
@@ -44,14 +44,14 @@ class calendar_ui
   {
     if ($this->ready)  // already done
       return;
-      
+
     // add taskbar button
     $this->cal->add_button(array(
-      'command' => 'calendar',
-      'class'   => 'button-calendar',
-      'classsel' => 'button-calendar button-selected',
+      'command'    => 'calendar',
+      'class'      => 'button-calendar',
+      'classsel'   => 'button-calendar button-selected',
       'innerclass' => 'button-inner',
-      'label'   => 'calendar.calendar',
+      'label'      => 'calendar.calendar',
       'type'       => 'link'
       ), 'taskbar');
     
@@ -284,12 +284,11 @@ class calendar_ui
     // enrich calendar properties with settings from the driver
     if (!$prop['virtual']) {
       unset($prop['user_id']);
-      $driver = $this->cal->get_driver_by_cal($id);
-      $prop['alarms']      = $driver->alarms;
-      $prop['attendees']   = $driver->attendees;
-      $prop['freebusy']    = $driver->freebusy;
-      $prop['attachments'] = $driver->attachments;
-      $prop['undelete']    = $driver->undelete;
+      $prop['alarms']      = $this->cal->driver->alarms;
+      $prop['attendees']   = $this->cal->driver->attendees;
+      $prop['freebusy']    = $this->cal->driver->freebusy;
+      $prop['attachments'] = $this->cal->driver->attachments;
+      $prop['undelete']    = $this->cal->driver->undelete;
       $prop['feedurl']     = $this->cal->get_url(array('_cal' => $this->cal->ical_feed_hash($id) . '.ics', 'action' => 'feed'));
 
       $jsenv[$id] = $prop;
@@ -736,8 +735,8 @@ class calendar_ui
     }
 
     // allow driver to extend or replace the form content
-    return html::tag('form', array('action' => "#", 'method' => "get", 'id' => 'calendarpropform'),
-      $driver->calendar_form($action, $calendar, $formfields)
+    return html::tag('form', $attrib + array('action' => "#", 'method' => "get", 'id' => 'calendarpropform'),
+      $this->cal->driver->calendar_form($this->action, $this->calendar, $formfields)
     );
   }
 
@@ -758,7 +757,7 @@ class calendar_ui
     $table->add_header('confirmstate', $this->cal->gettext('confirmstate'));
     if ($invitations) {
       $table->add_header(array('class' => 'invite', 'title' => $this->cal->gettext('sendinvitations')),
-        $invite->show(1) . html::label('edit-attendees-invite', $this->cal->gettext('sendinvitations')));
+        $invite->show(1) . html::label('edit-attendees-invite', html::span('inner', $this->cal->gettext('sendinvitations'))));
     }
     $table->add_header('options', '');
 
