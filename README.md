@@ -48,3 +48,8 @@ TODO:
 Random Color Quickie:
 -------
 * Multiple Calendars saved with same color. (Import into database `UPDATE caldav_calendars SET color = substring(MD5(RAND()), -6);` to assign radmon colors after initial sync of calendars)
+
+Issue submitting:
+-------
+I will only accept geuine issues using Nextcloud running on regular server (No VM's, cross domains or Dockers ... Sorry  :-(  ) ....
+This was forked for use with Nextcloud only. I wished I had the time to make it work for all but real life says otherwise.
