@@ -8,7 +8,7 @@ with Nextcloud.
 
 This is also compatible with RCMCARDDAV 3.0.3 as I use it to sync my contacts with Nextcloud to Roundcube as well.
 
-This was tested using Roundcube 1.3.9 and PHP 7.2.11.
+This was tested using Roundcube 1.4-RC1 and PHP 7.2.11.
 
 _________________________________________________________________________________________
 
