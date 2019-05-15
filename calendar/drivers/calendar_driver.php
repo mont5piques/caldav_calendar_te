@@ -693,19 +693,18 @@ abstract class calendar_driver
           // quick-and-dirty recurrence computation: just replace the year
           $bday->setDate($year, $bday->format('n'), $bday->format('j'));
           $bday->setTime(12, 0, 0);
-		  $this_year = $year;
 
           // date range reaches over multiple years: use end year if not in range
           if (($bday > $end || $bday < $start) && $year2 != $year) {
             $bday->setDate($year2, $bday->format('n'), $bday->format('j'));
-            $this_year = $year2;
+            $year = $year2;
           }
 
           // birthday is within requested range
           if ($bday <= $end && $bday >= $start) {
-            $age = $this_year - $birthyear;
+            $age = $year - $birthyear;
             $event = array(
-              'id'          => rcube_ldap::dn_encode('bday:' . $source . ':' . $contact['ID'] . ':' . $this_year),
+              'id'          => rcube_ldap::dn_encode('bday:' . $source . ':' . $contact['ID'] . ':' . $year),
               'calendar'    => self::BIRTHDAY_CALENDAR_ID,
               'title'       => $event_title,
               'description' => $rcmail->gettext(array('name' => 'birthdayage', 'vars' => array('age' => $age)), 'calendar'),

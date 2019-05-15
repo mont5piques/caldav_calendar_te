@@ -149,7 +149,6 @@ class caldav_driver extends calendar_driver
         $result = false;
         $cal['caldav_url'] = self::_encode_url($cal["caldav_url"]);
         if(!isset($cal['color'])) $cal['color'] = dechex(rand(0x000000, 0xFFFFFF));
-		$cal = $this->_expand_pass($cal);
         $calendars = $this->_autodiscover_calendars($this->_expand_pass($cal));
         $cal_ids = array();
         if($calendars)
@@ -207,10 +206,10 @@ class caldav_driver extends calendar_driver
             $prop['color'],
             $prop['showalarms']?1:0,
             $prop['caldav_url'],
-            isset($prop["caldav_tag"]) && $prop["caldav_tag"] ? $prop["caldav_tag"] : null,
-            isset($prop["caldav_user"]) && $prop["caldav_user"] ? $prop["caldav_user"] : null,
-            isset($prop["caldav_pass"]) && $prop["caldav_pass"] ? $this->_encrypt_pass($prop["caldav_pass"]) : null,
-            isset($prop["caldav_oauth_provider"]) && $prop["caldav_oauth_provider"] ? $prop["caldav_oauth_provider"] : null
+            isset($prop["caldav_tag"]) ? $prop["caldav_tag"] : null,
+            isset($prop["caldav_user"]) ? $prop["caldav_user"] : null,
+            isset($prop["caldav_pass"]) ? $this->_encrypt_pass($prop["caldav_pass"]) : null,
+            isset($prop["caldav_oauth_provider"]) ? $prop["caldav_oauth_provider"] : null
         );
         if ($result)
             return $this->rc->db->insert_id($this->db_calendars);
@@ -231,9 +230,9 @@ class caldav_driver extends calendar_driver
             $cal['color'],
             $cal['showalarms']?1:0,
             $cal['caldav_url'],
-            isset($cal["caldav_tag"]) && $cal["caldav_tag"] ? $cal["caldav_tag"] : null,
-            isset($cal["caldav_user"]) && $cal["caldav_user"] ? $cal["caldav_user"] : null,
-            isset($cal["caldav_oauth_provider"]) && $cal["caldav_oauth_provider"] ? $cal["caldav_oauth_provider"] : null,
+            isset($cal["caldav_tag"]) ? $cal["caldav_tag"] : null,
+            isset($cal["caldav_user"]) ? $cal["caldav_user"] : null,
+            isset($cal["caldav_oauth_provider"]) ? $cal["caldav_oauth_provider"] : null,
             $cal['id'],
             $this->rc->user->ID
         );
@@ -279,10 +278,6 @@ class caldav_driver extends calendar_driver
             "DELETE FROM " . $this->db_calendars . " WHERE calendar_id=?",
             $prop['id']
         );
-		
-		if ($this->rc->config->get('calendar_default_calendar') == $prop['id'])
- 	    $this->rc->user->save_prefs(array('calendar_default_calendar' => null));
-	
         return $this->rc->db->affected_rows($query);
     }
     /**
@@ -1270,13 +1265,12 @@ class caldav_driver extends calendar_driver
      */
     private function add_attachment($attachment, $event_id)
     {
-        if (isset($attachment['data']))
+                if (isset($attachment['data']))
 	    $data = $attachment['data'];
 	elseif (isset($attachment['path']) && $attachment['path'] != '')
 	    $data = file_get_contents($attachment['path']);
 	else
 	    return 0;
-
         $query = $this->rc->db->query(
             "INSERT INTO " . $this->db_attachments .
             " (event_id, filename, mimetype, size, data)" .
@@ -1287,10 +1281,8 @@ class caldav_driver extends calendar_driver
             strlen($data),
             base64_encode($data)
         );
-
         return $this->rc->db->affected_rows($query);
     }
-
     /**
      * Remove a specific attachment from the given event
      */
@@ -1682,62 +1674,11 @@ class caldav_driver extends calendar_driver
      * @return array List of properties, with expanded 'caldav_pass' attribute
      *
      */
-    private function _expand_pass($props, $names = array('caldav_pass'))
+    private function _expand_pass($props)
     {
-        foreach($names as $name) {
-            if (isset($props[$name]) && $props[$name] === '%p')
-				$props[$name] = $this->rc->get_user_password();
-		}
+        if (isset($props['caldav_pass']))
+            $props['caldav_pass'] = str_replace('%p', $this->rc->get_user_password(), $props['caldav_pass']);
         return $props;
-    }
-	
-	private function _expand_user($props, $names = array('caldav_url', 'caldav_user'))
-    {
-        foreach($names as $name) {
-            if (isset($props[$name]))
-                $props[$name] = str_replace('%u', $this->rc->get_user_name(), $props[$name]);
-        }
-         return $props;
-    }
-     /**
-     * Add default (pre-installation provisioned) calendar. If calendars from 
-     * same url exist, insertion does not take place.  
-     *
-     * @param array $props
-     *    caldav_url: Absolute URL to calendar server collection
-     *    caldav_user: Username
-     *    caldav_pass: Password
-     *    color: Events color
-     *    showAlarms:  
-     * @return bool false on creation error, true otherwise
-     *    
-     */
-    public function insert_default_calendar($props)
-    {
-        $props = $this->_expand_user($props);
-         foreach ($this->list_calendars() as $cal) {
-            $vcal_info = $this->calendars[$cal['id']];
-            if ($vcal_info['url'] == self::_encode_url($props['caldav_url'])) {
-                return true;
-            }
-        }
-         return $this->create_calendar($props);
-    }
-     /**
-     * Returns true if the specified calendar is a preinstalled calendar, false otherwise.
-     *
-     * @param $cal
-     * @return bool
-     */
-    public function is_preinstalled_calendar($cal)
-    {
-        $preinstalled_calendars = $this->rc->config->get('calendar_preinstalled_calendars', array());
-        if (is_array($preinstalled_calendars)) foreach ($preinstalled_calendars as $props) {
-            $props = $this->_expand_user($props);
-            if($props['url'] == $cal['url'])
-                return true;
-        }
-         return false;
     }
     /**
      * Auto discover calenders available to the user on the caldav server
@@ -1755,10 +1696,7 @@ class caldav_driver extends calendar_driver
         $current_user_principal = array('{DAV:}current-user-principal');
         $calendar_home_set = array('{urn:ietf:params:xml:ns:caldav}calendar-home-set');
         $cal_attribs = array('{DAV:}resourcetype', '{DAV:}displayname');
-        $oauth_client = (isset($props["caldav_oauth_provider"]) && $props["caldav_oauth_provider"]) ? new oauth_client($this->rc, $props["caldav_oauth_provider"]) : null;
-        if (!class_exists('caldav_client')) {
-        	require_once ($this->cal->home.'/lib/caldav-client.php');
-        }
+        require_once ($this->cal->home.'/lib/caldav-client.php');
         $caldav = new caldav_client($props["caldav_url"], $props["caldav_user"], $props["caldav_pass"]);
         $tokens = parse_url($props["caldav_url"]);
         $base_uri = $tokens['scheme']."://".$tokens['host'].($tokens['port'] ? ":".$tokens['port'] : null);

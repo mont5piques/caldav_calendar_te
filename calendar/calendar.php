@@ -106,27 +106,6 @@ class calendar extends rcube_plugin
   }
 
   /**
-   * Setup basic plugin environment and UI
-   */
-  protected function setup()
-  {
-    $this->require_plugin('libcalendaring');
-    $this->require_plugin('libkolab');
-
-    $this->lib             = libcalendaring::get_instance();
-    $this->timezone        = $this->lib->timezone;
-    $this->gmt_offset      = $this->lib->gmt_offset;
-    $this->dst_active      = $this->lib->dst_active;
-    $this->timezone_offset = $this->gmt_offset / 3600 - $this->dst_active;
-
-    // load localizations
-    $this->add_texts('localization/', $this->rc->task == 'calendar' && (!$this->rc->action || $this->rc->action == 'print'));
-
-    require($this->home . '/lib/calendar_ui.php');
-    $this->ui = new calendar_ui($this);
-  }
-
-  /**
    * Startup hook
    */
   public function startup($args)
@@ -577,7 +556,6 @@ class calendar extends rcube_plugin
       }
 
       $field_id = 'rcmfd_default_view';
-	  $view = $this->rc->config->get('calendar_default_view', $this->defaults['calendar_default_view']);
       $select = new html_select(array('name' => '_default_view', 'id' => $field_id));
       $select->add($this->gettext('day'), "agendaDay");
       $select->add($this->gettext('week'), "agendaWeek");
@@ -1510,21 +1488,12 @@ if(count($cals) > 0){
    */
   function load_events()
   {
-    $start  = rcube_utils::get_input_value('start', rcube_utils::INPUT_GET);
-    $end    = rcube_utils::get_input_value('end', rcube_utils::INPUT_GET);
-    $query  = rcube_utils::get_input_value('q', rcube_utils::INPUT_GET);
-    $source = rcube_utils::get_input_value('source', rcube_utils::INPUT_GET);
-
-    if (!is_numeric($start) || strpos($start, 'T')) {
-      $start = new DateTime($start, $this->timezone);
-      $start = $start->getTimestamp();
-    }
-    if (!is_numeric($end) || strpos($end, 'T')) {
-      $end = new DateTime($end, $this->timezone);
-      $end = $end->getTimestamp();
-    }
-
-    $events = $this->driver->load_events($start, $end, $query, $source);
+    $events = $this->get_driver_by_gpc()->load_events(
+      rcube_utils::get_input_value('start', rcube_utils::INPUT_GET),
+      rcube_utils::get_input_value('end', rcube_utils::INPUT_GET),
+      ($query = rcube_utils::get_input_value('q', rcube_utils::INPUT_GET)),
+      rcube_utils::get_input_value('source', rcube_utils::INPUT_GET)
+    );
     echo $this->encode($events, !empty($query));
     exit;
   }
@@ -1731,7 +1700,7 @@ if(count($cals) > 0){
     {
       // Upload progress update
       if (!empty($_GET['_progress'])) {
-        $this->rc->upload_progress();
+        rcube_upload_progress();
       }
 
       @set_time_limit(0);
@@ -2629,7 +2598,7 @@ if(count($cals) > 0){
     }
     
     // only compare number of attachments
-    if (isset($a['attachments']) != isset($b['attachments']))
+    if (count($a['attachments']) != count($b['attachments']))
       $diff[] = 'attachments';
     
     return $diff;
@@ -3438,7 +3407,7 @@ if(count($cals) > 0){
     $uid     = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_POST);
     $mbox    = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_POST);
     $mime_id = rcube_utils::get_input_value('_part', rcube_utils::INPUT_POST);
-    if (defined(RCUBE_CHARSET)) {
+        if (defined(RCUBE_CHARSET)) {
         $charset = RCUBE_CHARSET;
     } elseif (defined(RCMAIL_CHARSET)) {
         $charset = RCMAIL_CHARSET;

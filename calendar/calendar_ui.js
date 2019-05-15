@@ -3170,8 +3170,6 @@ function rcube_calendar_ui(settings)
         }).show();
 
         $('#calfeedurl').val(calendar.feedurl).select();
-        // PAMELA
-        $('#calfreebusyurl').val(calendar.feedfreebusyurl);
       }
     };
 
@@ -3527,7 +3525,7 @@ function rcube_calendar_ui(settings)
 
       // insert to #calendar-select options if writeable
       select = $('#edit-calendar');
-      if (fc && has_permission(cal, 'i') && select.length && !select.find('option[value="'+id+'"]').length) {
+      if (fc && has_permission(cal, 'i') && select.length && !select.find('option[value="'+id+'"]').length && cal.editable) {
         $('<option>').attr('value', id).html(cal.name).appendTo(select);
       }
     }

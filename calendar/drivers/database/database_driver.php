@@ -1041,7 +1041,7 @@ class database_driver extends calendar_driver
       
     // only allow to select from calendars of this use
     $calendar_ids = array_map(array($this->rc->db, 'quote'), array_intersect($calendars, array_keys($this->calendars)));
-
+    
     // compose (slow) SQL query for searching
     // FIXME: improve searching using a dedicated col and normalized values
     if ($query) {
@@ -1450,7 +1450,7 @@ class database_driver extends calendar_driver
     }
     // decode the old serialization format
     else {
-      foreach (explode("\n", $s_attendees) as $line) {
+      foreach (explode("\n", $event['attendees']) as $line) {
         $att = array();
         foreach (rcube_utils::explode_quoted_string(';', $line) as $prop) {
           list($key, $value) = explode("=", $prop);
