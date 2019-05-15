@@ -108,7 +108,7 @@ $config['calendar_categories'] = array(
 );
 
 // enable users to invite/edit attendees for shared events organized by others
-$config['calendar_allow_invite_shared'] = false;
+$config['calendar_allow_invite_shared'] = true;
 
 // allow users to accecpt iTip invitations who are no explicitly listed as attendee.
 // this can be the case if invitations are sent to mailing lists or alias email addresses.
