@@ -1,7 +1,7 @@
 {
     "name": "texxasrulez/caldav_calendar",
     "type": "roundcube-plugin",
-    "description": "Calendar plugin",
+    "description": "Caldav Calendar plugin for use with NextCloud",
     "homepage": "https://github.com/texxasrulez/caldav_calendar",
     "license": "AGPLv3",
     "version": "0.5.1",
