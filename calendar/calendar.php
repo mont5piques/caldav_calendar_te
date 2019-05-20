@@ -105,6 +105,24 @@ class calendar extends rcube_plugin
     $this->add_hook('user_delete', array($this, 'user_delete'));
   }
 
+  /**	
+   * Setup basic plugin environment and UI	
+   */	
+  protected function setup()	
+  {	
+    $this->require_plugin('libcalendaring');	
+    $this->require_plugin('libkolab');	
+     $this->lib             = libcalendaring::get_instance();	
+    $this->timezone        = $this->lib->timezone;	
+    $this->gmt_offset      = $this->lib->gmt_offset;	
+    $this->dst_active      = $this->lib->dst_active;	
+    $this->timezone_offset = $this->gmt_offset / 3600 - $this->dst_active;	
+     // load localizations	
+    $this->add_texts('localization/', $this->rc->task == 'calendar' && (!$this->rc->action || $this->rc->action == 'print'));	
+     require($this->home . '/lib/calendar_ui.php');	
+    $this->ui = new calendar_ui($this);	
+  }
+  
   /**
    * Startup hook
    */
@@ -840,7 +858,7 @@ if(count($cals) > 0){
   }
    out = $table->show();
   */
-	/*
+
     // virtual birthdays calendar TODO
     if (!isset($no_override['calendar_contact_birthdays'])) {
       $p['blocks']['birthdays']['name'] = $this->gettext('birthdayscalendar');
@@ -893,8 +911,6 @@ if(count($cals) > 0){
         'content' => $select_type->show($this->rc->config->get('calendar_birthdays_alarm_type', '')) . ' ' . $input_value->show($preset[0]) . '&nbsp;' . $select_offset->show($preset[1]),
       );
     }
-	
-	*/
 
     return $p;
   }
