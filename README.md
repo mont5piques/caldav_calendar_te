@@ -10,11 +10,13 @@ This is also compatible with RCMCARDDAV 3.0.3 as I use it to sync my contacts wi
 
 This was tested using Roundcube 1.4-RC1 and PHP 7.2.11.
 
+For Roundcube 1.3 download ver 0.4 here https://github.com/texxasrulez/Caldav_Calendar/releases/tag/0.4
+
 _________________________________________________________________________________________
 
 Installation is pretty straight forward.
 
-Copy calendar and libcalendaring folders to Roundcube Plugin folder, copy config.inc.php.dist to config.inc.php, located in root of calendar directory, and change domain.ltd to your URL. 'These URL's are already configured for the default calendar url for Nextcloud.'
+Copy calendar and libcalendaring folders to Roundcube Plugin folder, copy config.inc.php.dist to config.inc.php, located in root of calendar directory, and change domain.ltd to your URL. 'These URL's are already configured for the default calendar url for Nextcloud just change domain.ltd to your FQDN.'
 
 Import sql schemas located in /driver/ folders to your database.
 
