@@ -1,10 +1,8 @@
-I made this as a working, out of the box, calendar for use with Nextcloud (Version 16 is the latest known working).
+I made this as a working, out of the box, calendar for use with Roundcube (Version 1.4) and Nextcloud (Version 16 is the latest known working).
 
 I will update this when needed by deprecated purposes or when Nextcloud changes their sabre version.
 
-This is a fork of Kolab and FasterIT calendars combining the best of both and using the sabre from Nextcloud to work with it's version of sabre. It will sync already existing calendars. If you want more than the default, you must add calendar within Nextcloud
-and then go back to Roundcube and it should be there. From Roundcube, you can add, edit and delete events and will be in sync
-with Nextcloud.
+This is a fork of Kolab and FasterIT calendars combining the best of both and using the sabre from Nextcloud to work with it's version of sabre. It will sync already existing calendars. If you want more than the default, you must add calendar within Nextcloud and then go back to Roundcube and it should be there. From Roundcube, you can add, edit and delete events and will be in sync with Nextcloud.
 
 This is also compatible with RCMCARDDAV 3.0.3 as I use it to sync my contacts with Nextcloud to Roundcube as well.
 
@@ -18,7 +16,7 @@ Installation is pretty straight forward. I wouldn't use composer to install, jus
 
 Copy calendar and libcalendaring folders to Roundcube Plugin folder, copy config.inc.php.dist to config.inc.php, located in root of calendar directory, and change domain.ltd to your FQDN. 'These URL's are already configured for the default calendar url for Nextcloud assuming your cloud install is located in webroot.'
 
-Import sql schemas located in /driver/ folders to your database.
+Import sql schemas located in /drivers/caldav/sql/ folders to your database. (I am only supporting caldav drivers with MySQL compatible database at this time. I would like some help adding more database types to support. Any help would be appreciated ... 
 
 Add "calendar" to $config['plugins'] in your Roundcube main config file and you are set.
 
@@ -29,7 +27,7 @@ Your username and password must be the same for Nextcloud and Roundcube to work 
 Known Issues:
 -------
 * Incompatible libcalendaring with Tasklist (WIP to make compatible)
-* Will not create new calendar.
+* Will not create new calendar from Roundcube GUI.
 * ~~Itip does not send reply to event organizer using RC1.3. Works in RC1.2.4.~~ Fixed!!!!
 * ~~Recurring events marked as "All Day Events" will be a day early the following years.~~ Fixed!!!!
 * ~~Database driver does not work. Birthdays are the issue due to being all day.~~ Fixed!!!
@@ -53,5 +51,5 @@ Random Color Quickie:
 
 Issue submitting:
 -------
-I will only accept geuine issues using Roundcube and Nextcloud running on a dedicated server (No VM's, cross domains or Dockers ... Sorry  :-(  ) ....
+I will only accept genuine issues using Roundcube and Nextcloud running on a dedicated server (No VM's, cross domains or Dockers ... Sorry  :-(  ) ....
 This was forked for use with Nextcloud only. I wished I had the time to make it work for all but real life says otherwise.
