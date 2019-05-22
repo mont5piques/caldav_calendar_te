@@ -22,6 +22,7 @@
  +-------------------------------------------------------------------------+
  | Author: Lazlo Westerhof <hello@lazlo.me>                                |
  |         Thomas Bruederli <bruederli@kolabsys.com>                       |
+ |         Gene Hawkins <gene@genesworld.net>                              |
  +-------------------------------------------------------------------------+
 */
 
@@ -155,7 +156,7 @@ $config['calendar_itip_smtp_pass'] = '123456';
 // %u - Current webmail user name
 // %n - Calendar name
 // %i - Calendar UUID
-$config['calendar_caldav_url'] = 'https://www.domain.ltd/cloud/remote.php/dav/calendars/%u/%n';
+$config['calendar_caldav_url'] = 'https://www.domain.ltd/remote.php/dav/calendars/%u/%n';
 
 // Crypt key to encrypt passwords for added iCAL/CalDAV calendars
 $config['calendar_crypt_key'] = "put some random string here";
@@ -198,7 +199,7 @@ $config['calendar_oauth_providers'] = array(
 		    'name'        => 'Personal',
                     'caldav_user' => '%u',
                     'caldav_pass' => '%p',
-                    'caldav_url'  => 'https://www.domain.ltd/cloud/remote.php/dav/calendars/%u/',
+                    'caldav_url'  => 'https://www.domain.ltd/remote.php/dav/calendars/%u/',
                     'color'       => '#0000FF',
                     'showAlarms'  => 1));
 ?>

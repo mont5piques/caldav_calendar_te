@@ -14,9 +14,9 @@ For Roundcube 1.3 download ver 0.4 here https://github.com/texxasrulez/Caldav_Ca
 
 _________________________________________________________________________________________
 
-Installation is pretty straight forward.
+Installation is pretty straight forward. I wouldn't use composer to install, just download repo from github and follow the directions below:
 
-Copy calendar and libcalendaring folders to Roundcube Plugin folder, copy config.inc.php.dist to config.inc.php, located in root of calendar directory, and change domain.ltd to your FQDN. 'These URL's are already configured for the default calendar url for Nextcloud.'
+Copy calendar and libcalendaring folders to Roundcube Plugin folder, copy config.inc.php.dist to config.inc.php, located in root of calendar directory, and change domain.ltd to your FQDN. 'These URL's are already configured for the default calendar url for Nextcloud assuming your cloud install is located in webroot.'
 
 Import sql schemas located in /driver/ folders to your database.
 
