@@ -36,7 +36,7 @@ class calendar_ui
     $this->rc = $cal->rc;
     $this->screen = $this->rc->task == 'calendar' ? ($this->rc->action ? $this->rc->action: 'calendar') : 'other';
   }
-
+    
   /**
    * Calendar UI initialization and requests handlers
    */
@@ -44,15 +44,15 @@ class calendar_ui
   {
     if ($this->ready)  // already done
       return;
-
+      
     // add taskbar button
     $this->cal->add_button(array(
-      'command'    => 'calendar',
-      'class'      => 'button-calendar',
-      'classsel'   => 'button-calendar button-selected',
+      'command' => 'calendar',
+      'class'   => 'button-calendar',
+      'classsel' => 'button-calendar button-selected',
       'innerclass' => 'button-inner',
-      'label'      => 'calendar.calendar',
-      'type'       => 'link'
+      'label'   => 'calendar.calendar',
+	  'type' => 'link',
       ), 'taskbar');
     
     // load basic client script
@@ -284,27 +284,20 @@ class calendar_ui
     // enrich calendar properties with settings from the driver
     if (!$prop['virtual']) {
       unset($prop['user_id']);
-      $prop['alarms']      = $this->cal->driver->alarms;
-      $prop['attendees']   = $this->cal->driver->attendees;
-      $prop['freebusy']    = $this->cal->driver->freebusy;
-      $prop['attachments'] = $this->cal->driver->attachments;
-      $prop['undelete']    = $this->cal->driver->undelete;
+      $driver = $this->cal->get_driver_by_cal($id);
+      $prop['alarms']      = $driver->alarms;
+      $prop['attendees']   = $driver->attendees;
+      $prop['freebusy']    = $driver->freebusy;
+      $prop['attachments'] = $driver->attachments;
+      $prop['undelete']    = $driver->undelete;
       $prop['feedurl']     = $this->cal->get_url(array('_cal' => $this->cal->ical_feed_hash($id) . '.ics', 'action' => 'feed'));
 
       $jsenv[$id] = $prop;
     }
 
     $classes = array('calendar', 'cal-'  . asciiwords($id, true));
-    if (defined(RCUBE_CHARSET)) {
-        $charset = RCUBE_CHARSET;
-    } elseif (defined(RCUBE_CHARSET)) {
-        $charset = RCUBE_CHARSET;
-    } else {
-        $charset = $this->rc->config->get('default_charset');
-    }
-
     $title = $prop['title'] ?: ($prop['name'] != $prop['listname'] || strlen($prop['name']) > 25 ?
-      html_entity_decode($prop['name'], ENT_COMPAT, $charset) : '');
+      html_entity_decode($prop['name'], ENT_COMPAT, RCMAIL_CHARSET) : '');
 
     if ($prop['virtual'])
       $classes[] = 'virtual';
@@ -529,7 +522,7 @@ class calendar_ui
       $attrib['id'] = 'rcmImportForm';
 
     // Get max filesize, enable upload progress bar
-    $max_filesize = $this->rc->upload_init();
+    $max_filesize = rcmail::get_instance()->upload_init();
 
     $accept = '.ics, text/calendar, text/x-vcalendar, application/ics';
     if (class_exists('ZipArchive', false)) {
@@ -553,7 +546,7 @@ class calendar_ui
 
     $html = html::div('form-section',
       html::div(null, $input->show()) .
-      html::div('hint', $this->rc->gettext(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize))))
+      html::div('hint', rcmail::get_instance()->gettext(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize))))
     );
 
     $html .= html::div('form-section',
@@ -632,7 +625,7 @@ class calendar_ui
       $attrib['id'] = 'rcmUploadForm';
 
     // Get max filesize, enable upload progress bar
-    $max_filesize = $this->rc->upload_init();
+    $max_filesize = rcmail::get_instance()->upload_init();
 
     $button = new html_inputfield(array('type' => 'button'));
     $input = new html_inputfield(array(
@@ -641,9 +634,9 @@ class calendar_ui
 
     return html::div($attrib,
       html::div(null, $input->show()) .
-      html::div('formbuttons', $button->show($this->rc->gettext('upload'), array('class' => 'button mainaction',
+      html::div('formbuttons', $button->show(rcmail::get_instance()->gettext('upload'), array('class' => 'button mainaction',
         'onclick' => rcmail_output::JS_OBJECT_NAME . ".upload_file(this.form)"))) .
-      html::div('hint', $this->rc->gettext(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize))))
+      html::div('hint', rcmail::get_instance()->gettext(array('name' => 'maxuploadsize', 'vars' => array('size' => $max_filesize))))
     );
   }
 
@@ -735,8 +728,8 @@ class calendar_ui
     }
 
     // allow driver to extend or replace the form content
-    return html::tag('form', $attrib + array('action' => "#", 'method' => "get", 'id' => 'calendarpropform'),
-      $this->cal->driver->calendar_form($this->action, $this->calendar, $formfields)
+    return html::tag('form', array('action' => "#", 'method' => "get", 'id' => 'calendarpropform'),
+      $driver->calendar_form($action, $calendar, $formfields)
     );
   }
 
@@ -757,7 +750,7 @@ class calendar_ui
     $table->add_header('confirmstate', $this->cal->gettext('confirmstate'));
     if ($invitations) {
       $table->add_header(array('class' => 'invite', 'title' => $this->cal->gettext('sendinvitations')),
-        $invite->show(1) . html::label('edit-attendees-invite', html::span('inner', $this->cal->gettext('sendinvitations'))));
+        $invite->show(1) . html::label('edit-attendees-invite', $this->cal->gettext('sendinvitations')));
     }
     $table->add_header('options', '');
 
@@ -835,7 +828,7 @@ class calendar_ui
       html::tag('table', array('id' => $attrib['id'] . '-owner', 'style' => 'display:none') + $attrib,
         html::tag('thead', null,
           html::tag('tr', null,
-            html::tag('td', array('colspan' => 2), rcube_utils::rep_specialchars_output($this->cal->gettext('resourceowner')))
+            html::tag('td', array('colspan' => 2), rcube::Q($this->cal->gettext('resourceowner')))
           )
         ) .
         html::tag('tbody', null, ''),

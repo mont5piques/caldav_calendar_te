@@ -1,5 +1,4 @@
 <?php
-
 /**
  * iTIP functions for the calendar-based Roudncube plugins
  *
@@ -32,39 +31,32 @@ class libcalendaring_itip
     protected $itip_send = false;
     protected $rsvp_actions = array('accepted','tentative','declined','delegated');
     protected $rsvp_status  = array('accepted','tentative','declined','delegated');
-
     function __construct($plugin, $domain = 'libcalendaring')
     {
         $this->plugin = $plugin;
         $this->rc = rcube::get_instance();
         $this->lib = libcalendaring::get_instance();
         $this->domain = $domain;
-
         $hook = $this->rc->plugins->exec_hook('calendar_load_itip',
             array('identity' => $this->rc->user->list_emails(true)));
         $this->sender = $hook['identity'];
-
         $this->plugin->add_hook('message_before_send', array($this, 'before_send_hook'));
         $this->plugin->add_hook('smtp_connect', array($this, 'smtp_connect_hook'));
     }
-
     public function set_sender_email($email)
     {
         if (!empty($email))
             $this->sender['email'] = $email;
     }
-
     public function set_rsvp_actions($actions)
     {
         $this->rsvp_actions = (array)$actions;
         $this->rsvp_status = array_merge($this->rsvp_actions, array('delegated'));
     }
-
     public function set_rsvp_status($status)
     {
         $this->rsvp_status = $status;
     }
-
     /**
      * Wrapper for rcube_plugin::gettext()
      * Checking for a label in different domains
@@ -80,7 +72,6 @@ class libcalendaring_itip
         }
         return $this->rc->gettext($p, $domain);
     }
-
     /**
      * Send an iTip mail message
      *
@@ -97,14 +88,11 @@ class libcalendaring_itip
     {
         if (!$this->sender['name'])
             $this->sender['name'] = $this->sender['email'];
-
         if (!$message) {
             libcalendaring::identify_recurrence_instance($event);
             $message = $this->compose_itip_message($event, $method, $rsvp);
         }
-
         $mailto = rcube_utils::idn_to_ascii($recipient['email']);
-
         $headers = $message->headers();
         $headers['To'] = format_email_recipient($mailto, $recipient['name']);
         $headers['Subject'] = $this->gettext(array(
@@ -114,7 +102,6 @@ class libcalendaring_itip
                 'name' => $this->sender['name']
             )
         ));
-
         // compose a list of all event attendees
         $attendees_list = array();
         foreach ((array)$event['attendees'] as $attendee) {
@@ -122,7 +109,6 @@ class libcalendaring_itip
                 $attendee['name'] . ' <' . $attendee['email'] . '>' :
                 ($attendee['name'] ? $attendee['name'] : $attendee['email']);
         }
-
         $recurrence_info = '';
         if (!empty($event['recurrence_id'])) {
             $recurrence_info = "\n\n** " . $this->gettext($event['thisandfuture'] ? 'itipmessagefutureoccurrence' : 'itipmessagesingleoccurrence') . ' **';
@@ -130,7 +116,6 @@ class libcalendaring_itip
         else if (!empty($event['recurrence'])) {
             $recurrence_info = sprintf("\n%s: %s", $this->gettext('recurring'), $this->lib->recurrence_text($event['recurrence']));
         }
-
         $mailbody = $this->gettext(array(
             'name' => $bodytext,
             'vars' => array(
@@ -141,37 +126,30 @@ class libcalendaring_itip
                 'organizer' => $this->sender['name'],
             )
         ));
-
         // if (!empty($event['comment'])) {
         //     $mailbody .= "\n\n" . $this->gettext('itipsendercomment') . $event['comment'];
         // }
-
         // append links for direct invitation replies
         if ($method == 'REQUEST' && $rsvp && ($token = $this->store_invitation($event, $recipient['email']))) {
             $mailbody .= "\n\n" . $this->gettext(array(
-        //        'name' => 'invitationattendlinks',
-        //        'vars' => array('url' => $this->plugin->get_url(array('action' => 'attend', 't' => $token))),
+                'name' => 'invitationattendlinks',
+                'vars' => array('url' => $this->plugin->get_url(array('action' => 'attend', 't' => $token))),
             ));
         }
         else if ($method == 'CANCEL' && $event['cancelled']) {
             $this->cancel_itip_invitation($event);
         }
-
         $message->headers($headers, true);
         $message->setTXTBody(rcube_mime::format_flowed($mailbody, 79));
-
         if ($this->rc->config->get('libcalendaring_itip_debug', false)) {
             console('iTip ' . $method, $message->txtHeaders() . "\n\r" . $message->get());
         }
-
         // finally send the message
         $this->itip_send = true;
         $sent = $this->rc->deliver_message($message, $headers['X-Sender'], $mailto, $smtp_error);
         $this->itip_send = false;
-
         return $sent;
     }
-
     /**
      * Plugin hook triggered by rcube::deliver_message() before delivering a message.
      * Here we can set the 'smtp_server' config option to '' in order to use
@@ -182,10 +160,8 @@ class libcalendaring_itip
         if ($this->itip_send && !$this->rc->user->ID && $this->rc->config->get('calendar_itip_smtp_server', null) === '') {
             $this->rc->config->set('smtp_server', '');
         }
-
         return $p;
     }
-
     /**
      * Plugin hook to alter SMTP authentication.
      * This is used if iTip messages are to be sent from an unauthenticated session
@@ -198,10 +174,8 @@ class libcalendaring_itip
                 $p[$prop] = $this->rc->config->get("calendar_itip_$prop", $p[$prop]);
             }
         }
-
       return $p;
     }
-
     /**
      * Helper function to build a Mail_mime object to send an iTip message
      *
@@ -215,7 +189,6 @@ class libcalendaring_itip
         $from = rcube_utils::idn_to_ascii($this->sender['email']);
         $from_utf = rcube_utils::idn_to_utf8($from);
         $sender = format_email_recipient($from, $this->sender['name']);
-
         // truncate list attendees down to the recipient of the iTip Reply.
         // constraints for a METHOD:REPLY according to RFC 5546
         if ($method == 'REPLY') {
@@ -260,23 +233,13 @@ class libcalendaring_itip
                 unset($event['recurrence']['EXCEPTIONS']);
             }
         }
-
         // compose multipart message using PEAR:Mail_Mime
-        if (defined(RCUBE_CHARSET)) {
-            $charset = RCUBE_CHARSET;
-        } elseif (defined(RCUBE_CHARSET)) {
-            $charset = RCUBE_CHARSET;
-        } else {
-            $charset = $this->rc->config->get('default_charset');
-        }
-
         $message = new Mail_mime("\r\n");
         $message->setParam('text_encoding', 'quoted-printable');
         $message->setParam('head_encoding', 'quoted-printable');
-        $message->setParam('head_charset', $charset);
-        $message->setParam('text_charset', $charset . ";\r\n format=flowed");
+        $message->setParam('head_charset', RCUBE_CHARSET);
+        $message->setParam('text_charset', RCUBE_CHARSET . ";\r\n format=flowed");
         $message->setContentType('multipart/alternative');
-
         // compose common headers array
         $headers = array(
             'From' => $sender,
@@ -287,18 +250,14 @@ class libcalendaring_itip
         if ($agent = $this->rc->config->get('useragent')) {
             $headers['User-Agent'] = $agent;
         }
-
         $message->headers($headers);
-
         // attach ics file for this event
         $ical = libcalendaring::get_ical();
         $ics = $ical->export(array($event), $method, false, $method == 'REQUEST' && $this->plugin->driver ? array($this->plugin->driver, 'get_attachment_body') : false);
         $filename = $event['_type'] == 'task' ? 'todo.ics' : 'event.ics';
-        $message->addAttachment($ics, 'text/calendar', $filename, false, '8bit', '', $charset . "; method=" . $method);
-
+        $message->addAttachment($ics, 'text/calendar', $filename, false, '8bit', '', RCUBE_CHARSET . "; method=" . $method);
         return $message;
     }
-
     /**
      * Forward the given iTip event as delegation to another person
      *
@@ -316,10 +275,8 @@ class libcalendaring_itip
                 $delegate = reset($delegates);
             }
         }
-
         $emails = $this->lib->get_user_emails();
         $me     = $this->rc->user->list_emails(true);
-
         // find/create the delegate attendee
         $delegate_attendee = array(
             'email' => $delegate['mailto'],
@@ -327,7 +284,6 @@ class libcalendaring_itip
             'role'  => 'REQ-PARTICIPANT',
         );
         $delegate_index = count($event['attendees']);
-
         foreach ($event['attendees'] as $i => $attendee) {
           // set myself the DELEGATED-TO parameter
           if ($attendee['email'] && in_array(strtolower($attendee['email']), $emails)) {
@@ -335,7 +291,6 @@ class libcalendaring_itip
               $event['attendees'][$i]['status'] = 'DELEGATED';
               $event['attendees'][$i]['role'] = 'NON-PARTICIPANT';
               $event['attendees'][$i]['rsvp'] = $rsvp;
-
               $me['email'] = $attendee['email'];
               $delegate_attendee['role'] = $attendee['role'];
           }
@@ -347,19 +302,15 @@ class libcalendaring_itip
           }
           // TODO: remove previous delegatee (i.e. attendee that has DELEGATED-FROM == $me)
         }
-
         // set/add delegate attendee with RSVP=TRUE and DELEGATED-FROM parameter
         $delegate_attendee['rsvp'] = true;
         $delegate_attendee['status'] = 'NEEDS-ACTION';
         $delegate_attendee['delegated-from'] = $me['email'];
         $event['attendees'][$delegate_index] = $delegate_attendee;
-
         $attendees[] = $delegate_index;
-
         $this->set_sender_email($me['email']);
         return $this->send_itip_message($event, 'REQUEST', $delegate_attendee, 'itipsubjectdelegatedto', 'itipmailbodydelegatedto');
     }
-
     /**
      * Handler for calendar/itip-status requests
      */
@@ -369,20 +320,16 @@ class libcalendaring_itip
       $status = $event['fallback'];
       $latest = false;
       $html = '';
-
       if (is_numeric($event['changed']))
         $event['changed'] = new DateTime('@'.$event['changed']);
-
       // check if the given itip object matches the last state
       if ($existing) {
         $latest = (isset($event['sequence']) && intval($existing['sequence']) == intval($event['sequence'])) ||
                   (!isset($event['sequence']) && $existing['changed'] && $existing['changed'] >= $event['changed']);
       }
-
       // determine action for REQUEST
       if ($event['method'] == 'REQUEST') {
         $html = html::div('rsvp-status', $this->gettext('acceptinvitation'));
-
         if ($existing) {
           $rsvp = $event['rsvp'];
           $emails = $this->lib->get_user_emails();
@@ -396,16 +343,13 @@ class libcalendaring_itip
         else {
           $rsvp = $event['rsvp'] && $this->rc->config->get('calendar_allow_itip_uninvited', true);
         }
-
         $status_lc = strtolower($status);
-
         if ($status_lc == 'unknown' && !$this->rc->config->get('calendar_allow_itip_uninvited', true)) {
           $html = html::div('rsvp-status', $this->gettext('notanattendee'));
           $action = 'import';
         }
         else if (in_array($status_lc, $this->rsvp_status)) {
           $status_text = $this->gettext(($latest ? 'youhave' : 'youhavepreviously') . $status_lc);
-
           if ($existing && ($existing['sequence'] > $event['sequence'] || (!isset($event['sequence']) && $existing['changed'] && $existing['changed'] > $event['changed']))) {
             $action = '';  // nothing to do here, outdated invitation
             if ($status_lc == 'needs-action')
@@ -417,7 +361,6 @@ class libcalendaring_itip
           else if ($latest && $status_lc != 'needs-action') {
             $action = 'update';
           }
-
           $html = html::div('rsvp-status ' . $status_lc, $status_text);
         }
       }
@@ -443,7 +386,6 @@ class libcalendaring_itip
               break;
             }
           }
-
           if (!$listed) {
             $html = html::div('rsvp-status', $this->gettext('itipnewattendee'));
           }
@@ -459,7 +401,6 @@ class libcalendaring_itip
           $action = '';
         }
       }
-
       return array(
           'uid' => $event['uid'],
           'id' => asciiwords($event['uid'], true),
@@ -471,7 +412,6 @@ class libcalendaring_itip
           'html' => $html,
       );
     }
-
     /**
      * Build inline UI elements for iTip messages
      */
@@ -480,7 +420,6 @@ class libcalendaring_itip
         $buttons = array();
         $dom_id = asciiwords($event['uid'], true);
         $rsvp_status = 'unknown';
-
         // pass some metadata about the event and trigger the asynchronous status check
         $changed = is_object($event['changed']) ? $event['changed'] : $message_date;
         $metadata = array(
@@ -491,14 +430,11 @@ class libcalendaring_itip
             'method'   => $method,
             'task'     => $task,
         );
-
         // create buttons to be activated from async request checking existence of this event in local calendars
         $buttons[] = html::div(array('id' => 'loading-'.$dom_id, 'class' => 'rsvp-status loading'), $this->gettext('loading'));
-
         // on iTip REPLY we have two options:
         if ($method == 'REPLY') {
             $title = $this->gettext('itipreply');
-
             foreach ($event['attendees'] as $attendee) {
                 if (!empty($attendee['email']) && $attendee['role'] != 'ORGANIZER' &&
                       (empty($event['_sender']) || ($attendee['email'] == $event['_sender'] || $attendee['email'] == $event['_sender_utf']))) {
@@ -509,7 +445,6 @@ class libcalendaring_itip
                     break;
                 }
             }
-
             // 1. update the attendee status on our copy
             $update_button = html::tag('input', array(
                 'type' => 'button',
@@ -517,7 +452,6 @@ class libcalendaring_itip
                 'onclick' => "rcube_libcalendaring.add_from_itip_mail('" . rcube::JQ($mime_id) . "', '$task')",
                 'value' => $this->gettext('updateattendeestatus'),
             ));
-
             // 2. accept or decline a new or delegate attendee
             $accept_buttons = html::tag('input', array(
                 'type' => 'button',
@@ -531,7 +465,6 @@ class libcalendaring_itip
                 'onclick' => "rcube_libcalendaring.decline_attendee_reply('" . rcube::JQ($mime_id) . "', '$task')",
                 'value' => $this->gettext('declineattendee'),
             ));
-
             $buttons[] = html::div(array('id' => 'update-'.$dom_id, 'style' => 'display:none'), $update_button);
             $buttons[] = html::div(array('id' => 'accept-'.$dom_id, 'style' => 'display:none'), $accept_buttons);
         }
@@ -541,17 +474,14 @@ class libcalendaring_itip
             $title = $event['sequence'] > 0 ? $this->gettext('itipupdate') : $this->gettext('itipinvitation');
             $metadata['rsvp'] = true;
             $metadata['sensitivity'] = $event['sensitivity'];
-
             if (is_object($event['start'])) {
                 $metadata['date'] = $event['start']->format('U');
             }
-
             // check for X-KOLAB-INVITATIONTYPE property and only show accept/decline buttons
             if (self::get_custom_property($event, 'X-KOLAB-INVITATIONTYPE') == 'CONFIRMATION') {
                 $this->rsvp_actions = array('accepted','declined');
                 $metadata['nosave'] = true;
             }
-
             // 1. display RSVP buttons (if the user was invited)
             foreach ($this->rsvp_actions as $method) {
                 $rsvp_buttons .= html::tag('input', array(
@@ -561,7 +491,6 @@ class libcalendaring_itip
                     'value' => $this->gettext('itip' . $method),
                 ));
             }
-
             // add button to open calendar/preview
             if (!empty($preview_url)) {
               $msgref = $this->lib->ical_message->folder . '/' . $this->lib->ical_message->uid . '#' . $mime_id;
@@ -572,7 +501,6 @@ class libcalendaring_itip
                   'value' => $this->gettext('openpreview'),
               ));
             }
-
             // 3. Simply import the event without replying
             $import_button = html::tag('input', array(
                 'type' => 'button',
@@ -580,7 +508,6 @@ class libcalendaring_itip
                 'onclick' => "rcube_libcalendaring.add_from_itip_mail('" . rcube::JQ($mime_id) . "', '$task')",
                 'value' => $this->gettext('importtocalendar'),
             ));
-
             // check my status
             foreach ($event['attendees'] as $attendee) {
                 if ($attendee['email'] && in_array(strtolower($attendee['email']), $emails)) {
@@ -590,13 +517,10 @@ class libcalendaring_itip
                     break;
                 }
             }
-
             // add itip reply message controls
             $rsvp_buttons .= html::div('itip-reply-controls', $this->itip_rsvp_options_ui($dom_id, $metadata['nosave']));
-
             $buttons[] = html::div(array('id' => 'rsvp-'.$dom_id, 'class' => 'rsvp-buttons', 'style' => 'display:none'), $rsvp_buttons);
             $buttons[] = html::div(array('id' => 'update-'.$dom_id, 'style' => 'display:none'), $update_button);
-
             // prepare autocompletion for delegation dialog
             if (in_array('delegated', $this->rsvp_actions)) {
                 $this->rc->autocomplete_init();
@@ -610,7 +534,6 @@ class libcalendaring_itip
               '_instance' => $event['_instance'],
               '_savemode' => $event['_savemode'],
             ));
-
             // 1. remove the event from our calendar
             $button_remove = html::tag('input', array(
                 'type' => 'button',
@@ -618,46 +541,36 @@ class libcalendaring_itip
                 'onclick' => "rcube_libcalendaring.remove_from_itip(" . rcube_output::json_serialize($event_prop) . ", '$task', '" . rcube::JQ($event['title']) . "')",
                 'value' => $this->gettext('removefromcalendar'),
             ));
-
             $buttons[] = html::div(array('id' => 'rsvp-'.$dom_id, 'style' => 'display:none'), $button_remove . $button_update);
-
             $rsvp_status = 'CANCELLED';
             $metadata['rsvp'] = true;
         }
-
         // append generic import button
         if ($import_button) {
             $buttons[] = html::div(array('id' => 'import-'.$dom_id, 'style' => 'display:none'), $import_button);
         }
-
         // pass some metadata about the event and trigger the asynchronous status check
         $metadata['fallback'] = $rsvp_status;
         $metadata['rsvp'] = intval($metadata['rsvp']);
-
         $this->rc->output->add_script("rcube_libcalendaring.fetch_itip_object_status(" . rcube_output::json_serialize($metadata) . ")", 'docready');
-
         // get localized texts from the right domain
         foreach (array('savingdata','deleteobjectconfirm','declinedeleteconfirm','declineattendee',
             'cancel','itipdelegated','declineattendeeconfirm','itipcomment','delegateinvitation',
             'delegateto','delegatersvpme','delegateinvalidaddress') as $label) {
           $this->rc->output->command('add_label', "itip.$label", $this->gettext($label));
         }
-
         // show event details with buttons
         return $this->itip_object_details_table($event, $title) .
             html::div(array('class' => 'itip-buttons', 'id' => 'itip-buttons-' . asciiwords($metadata['uid'], true)), join('', $buttons));
     }
-
     /**
      * Render an RSVP UI widget with buttons to respond on iTip invitations
      */
     function itip_rsvp_buttons($attrib = array(), $actions = null)
     {
         $attrib += array('type' => 'button');
-
         if (!$actions)
             $actions = $this->rsvp_actions;
-
         foreach ($actions as $method) {
             $buttons .= html::tag('input', array(
                 'type'  => $attrib['type'],
@@ -667,7 +580,6 @@ class libcalendaring_itip
                 'value' => $this->gettext('itip' . $method),
             ));
         }
-
         // add localized texts for the delegation dialog
         if (in_array('delegated', $actions)) {
             foreach (array('itipdelegated','itipcomment','delegateinvitation',
@@ -675,13 +587,10 @@ class libcalendaring_itip
                 $this->rc->output->command('add_label', "itip.$label", $this->gettext($label));
             }
         }
-
         foreach (array('all','current','future') as $mode) {
             $this->rc->output->command('add_label', "rsvpmode$mode", $this->gettext("rsvpmode$mode"));
         }
-
         $savemode_radio = new html_radiobutton(array('name' => '_rsvpmode', 'class' => 'rsvp-replymode'));
-
         return html::div($attrib,
             html::div('label', $this->gettext('acceptinvitation')) .
             html::div('rsvp-buttons',
@@ -690,14 +599,12 @@ class libcalendaring_itip
             )
         );
     }
-
     /**
      * Render UI elements to control iTip reply message sending
      */
     public function itip_rsvp_options_ui($dom_id, $disable = false)
     {
         $itip_sending = $this->rc->config->get('calendar_itip_send_option', 3);
-
         // itip sending is entirely disabled
         if ($itip_sending === 0) {
             return '';
@@ -709,16 +616,13 @@ class libcalendaring_itip
                 . ' ' . $this->gettext('itipsuppressreply')
             );
         }
-
         // add input field for reply comment
         $rsvp_additions .= html::a(array('href' => '#toggle', 'class' => 'reply-comment-toggle'), $this->gettext('itipeditresponse'));
         $rsvp_additions .= html::div('itip-reply-comment',
             html::tag('textarea', array('id' => 'reply-comment-'.$dom_id, 'name' => '_comment', 'cols' => 40, 'rows' => 6, 'style' => 'display:none', 'placeholder' => $this->gettext('itipcomment')), '')
         );
-
         return $rsvp_additions;
     }
-
     /**
      * Render event/task details in a table
      */
@@ -759,11 +663,8 @@ class libcalendaring_itip
             $table->add('label', $this->gettext('comment'));
             $table->add('location', rcube::Q($event['comment']));
         }
-
         return $table->show();
     }
-
-
     /**
      * Create iTIP invitation token for later replies via URL
      *
@@ -776,7 +677,6 @@ class libcalendaring_itip
         // empty stub
         return false;
     }
-
     /**
      * Mark invitations for the given event as cancelled
      *
@@ -787,14 +687,12 @@ class libcalendaring_itip
         // empty stub
         return false;
     }
-
     /**
      * Utility function to get the value of a custom property
      */
     public static function get_custom_property($event, $name)
     {
       $ret = false;
-
       if (is_array($event['x-custom'])) {
           array_walk($event['x-custom'], function($prop, $i) use ($name, &$ret) {
               if (strcasecmp($prop[0], $name) === 0) {
@@ -802,8 +700,6 @@ class libcalendaring_itip
               }
           });
       }
-
       return $ret;
     }
-
 }

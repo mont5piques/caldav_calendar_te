@@ -2207,10 +2207,12 @@ if(count($cals) > 0){
    */
   private function write_preprocess(&$event, $action)
   {
+  /**
     // convert dates into DateTime objects in user's current timezone
     $event['start'] = new DateTime($event['start'], $this->timezone);
     $event['end'] = new DateTime($event['end'], $this->timezone);
     $event['allday'] = (bool)$event['allday'];
+  */
 
     // start/end is all we need for 'move' action (#1480)
     if ($action == 'move') {
@@ -2614,7 +2616,7 @@ if(count($cals) > 0){
     }
     
     // only compare number of attachments
-    if (count($a['attachments']) != count($b['attachments']))
+    if (is_array($a['attachments']) != is_array($b['attachments']))
       $diff[] = 'attachments';
     
     return $diff;
