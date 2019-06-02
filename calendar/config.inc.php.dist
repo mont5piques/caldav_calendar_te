@@ -192,13 +192,17 @@ $config['calendar_oauth_providers'] = array(
 
 // Pre-installed calendars, added at first access to calendar section
 // Caldav driver is supported only
+// The following replacement variables are supported:
+// %u - Current webmail user name (potentially full email address)
+// %l - local part of the username (eg: user.name@example.com will become user.name).
+// %d - domain part of the username (eg: user.name@example.com will become example.com).
  $config['calendar_preinstalled_calendars'] = array(
     'Nextcloud' => array(
-                    'driver'      => 'caldav',
+        'driver'      => 'caldav',
 		    'name'        => 'Personal',
-                    'caldav_user' => '%u',
-                    'caldav_pass' => '%p',
-                    'caldav_url'  => 'https://www.domain.ltd/cloud/remote.php/dav/calendars/%u/',
-                    'color'       => '#0000FF',
-                    'showAlarms'  => 1));
+        'caldav_user' => '%l',
+        'caldav_pass' => '%p',
+        'caldav_url'  => 'https://www.domain.ltd/cloud/remote.php/dav/calendars/%l/',
+        'color'       => '#0000FF',
+        'showAlarms'  => 1));
 ?>
