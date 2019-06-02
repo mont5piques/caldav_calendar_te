@@ -43,7 +43,7 @@ CREATE TABLE events (
     calendar_id integer NOT NULL
         REFERENCES calendars (calendar_id) ON UPDATE CASCADE ON DELETE CASCADE,
     recurrence_id integer NOT NULL DEFAULT 0,
-    uid uuid NOT NULL,
+    uid varchar(255) NOT NULL,
     instance varchar(16) NOT NULL DEFAULT '',
     isexception smallint NOT NULL DEFAULT 0,
     created timestamp without time zone DEFAULT now() NOT NULL,
@@ -95,7 +95,7 @@ CREATE INDEX attachments_user_id_idx ON attachments (event_id);
 
 CREATE TABLE itipinvitations (
     token varchar(64) NOT NULL,
-    event_uid uuid NOT NULL,
+    event_uid varchar(255) NOT NULL,
     user_id integer NOT NULL
         REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     event TEXT NOT NULL,

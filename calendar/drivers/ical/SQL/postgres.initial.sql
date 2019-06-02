@@ -53,7 +53,7 @@ CREATE TABLE ical_events (
   calendar_id int NOT NULL
     REFERENCES ical_calendars(calendar_id) ON DELETE CASCADE ON UPDATE CASCADE,
   recurrence_id int NOT NULL DEFAULT 0,
-  uid uuid NOT NULL,
+  uid varchar(255) NOT NULL,
   instance varchar(16) NOT NULL DEFAULT '',
   isexception smallint NOT NULL DEFAULT 0,
   created timestamp with time zone DEFAULT now() NOT NULL,
