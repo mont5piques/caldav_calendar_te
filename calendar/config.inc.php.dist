@@ -199,10 +199,10 @@ $config['calendar_oauth_providers'] = array(
  $config['calendar_preinstalled_calendars'] = array(
     'Nextcloud' => array(
         'driver'      => 'caldav',
-		    'name'        => 'Personal',
-        'caldav_user' => '%l',
+	'name'        => 'Personal',
+        'caldav_user' => '%u',
         'caldav_pass' => '%p',
-        'caldav_url'  => 'https://www.domain.ltd/cloud/remote.php/dav/calendars/%l/',
+        'caldav_url'  => 'https://www.domain.ltd/cloud/remote.php/dav/calendars/%u/',
         'color'       => '#0000FF',
         'showAlarms'  => 1));
 ?>
