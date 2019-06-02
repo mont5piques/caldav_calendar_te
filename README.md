@@ -14,9 +14,12 @@ ________________________________________________________________________________
 
 Installation is pretty straight forward. I wouldn't use composer to install, just download repo from github and follow the directions below:
 
-Copy calendar and libcalendaring folders to Roundcube Plugin folder, copy config.inc.php.dist to config.inc.php, located in root of calendar directory, and change domain.ltd to your FQDN. 'These URL's are already configured for the default calendar url for Nextcloud assuming your cloud install is located in webroot.'
+Copy calendar and libcalendaring folders to Roundcube Plugin folder, copy config.inc.php.dist to config.inc.php, located in root of calendar directory, and change:
+* domain.ltd to your URL. 'These URL's are already configured for the default calendar url for Nextcloud.'
+* calendar_crypt_key to any random sequence of characters.
+* calendar_itip_smtp_server to the SMTP server of yours or set it empty ''.
 
-Import sql schemas located in /drivers/caldav/sql/ folders to your database. (I am only supporting caldav drivers with MySQL compatible database at this time. I would like some help adding more database types to support. Any help would be appreciated ... 
+ Import sql schemas located in /driver/ folders to your database.	Import the corresponding (MySQL, Postgres) initial SQL schema located in calendar/drivers/caldav/SQL/ folder to your roundcube database.
 
 Add "calendar" to $config['plugins'] in your Roundcube main config file and you are set.
 
