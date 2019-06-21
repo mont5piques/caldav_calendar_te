@@ -1,3 +1,6 @@
+***HELP REQUESTED***
+
+
 I made this as a working, out of the box, calendar for use with Roundcube (Version 1.4) and Nextcloud (Version 16 is the latest known working).
 
 I will update this when needed by deprecated purposes or when Nextcloud changes their sabre version.
@@ -49,7 +52,3 @@ Random Color Quickie:
 -------
 * Multiple Calendars saved with same color. (Import into database `UPDATE caldav_calendars SET color = substring(MD5(RAND()), -6);` to assign radmon colors after initial sync of calendars)
 
-Issue submitting:
--------
-I will only accept genuine issues using Roundcube and Nextcloud running on a dedicated server (No VM's, cross domains or Dockers ... Sorry  :-(  ) ....
-This was forked for use with Nextcloud only. I wished I had the time to make it work for all but real life says otherwise.

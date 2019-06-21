@@ -82,10 +82,10 @@ class calendar extends rcube_plugin
     // load localizations
     $this->add_texts('localization/', $this->rc->task == 'calendar' && (!$this->rc->action || $this->rc->action == 'print'));
 
-    $this->timezone = $this->lib->timezone;
+   $this->lib->timezone = $this->lib->timezone;
     $this->gmt_offset = $this->lib->gmt_offset;
     $this->dst_active = $this->lib->dst_active;
-    $this->timezone_offset = $this->gmt_offset / 3600 - $this->dst_active;
+    $this->lib->timezone_offset = $this->gmt_offset / 3600 - $this->dst_active;
 
     require($this->home . '/lib/calendar_ui.php');
     $this->ui = new calendar_ui($this);
@@ -110,13 +110,12 @@ class calendar extends rcube_plugin
    */	
   protected function setup()	
   {	
-    $this->require_plugin('libcalendaring');	
-    $this->require_plugin('libkolab');	
+    $this->require_plugin('libcalendaring');
      $this->lib             = libcalendaring::get_instance();	
-    $this->timezone        = $this->lib->timezone;	
+    $this->lib->timezone        = $this->lib->timezone;	
     $this->gmt_offset      = $this->lib->gmt_offset;	
     $this->dst_active      = $this->lib->dst_active;	
-    $this->timezone_offset = $this->gmt_offset / 3600 - $this->dst_active;	
+    $this->lib->timezone_offset = $this->gmt_offset / 3600 - $this->dst_active;	
      // load localizations	
     $this->add_texts('localization/', $this->rc->task == 'calendar' && (!$this->rc->action || $this->rc->action == 'print'));	
      require($this->home . '/lib/calendar_ui.php');	
@@ -186,12 +185,28 @@ class calendar extends rcube_plugin
 
       // loading preinstalled calendars
       $preinstalled_calendars = $this->rc->config->get('calendar_preinstalled_calendars', FALSE);
-      if ($preinstalled_calendars && is_array($preinstalled_calendars)) {
-      
-          // expanding both caldav url and user with RC (imap) username
-          foreach ($preinstalled_calendars as $index => $cal){
-              $preinstalled_calendars[$index]['caldav_url'] = str_replace('%u', $this->rc->get_user_name(), $cal['caldav_url']); 
-              $preinstalled_calendars[$index]['caldav_user'] = str_replace('%u', $this->rc->get_user_name(), $cal['caldav_user']);
+      if ($preinstalled_calendars && is_array($preinstalled_calendars)) {      
+		  $username= $this->rc->get_user_name();
+		  $rcmail = rcmail::get_instance();
+          $local = $rcmail->user->get_username('local');
+          $domain = $rcmail->user->get_username('domain');
+		  
+		  // expanding both caldav url and user
+				foreach ($preinstalled_calendars as $index => $cal){
+				$url = $cal['caldav_url'];
+				$user = $cal['caldav_user'];
+				
+	            $url = str_replace('%u', $username, $url);
+				$user = str_replace('%u', $username, $user);
+				
+                $url = str_replace('%l', $local, $url);
+                $user = str_replace('%l', $local, $user);
+				
+                $url = str_replace('%d', $domain, $url);
+                $user = str_replace('%d', $domain, $user);
+				
+              $preinstalled_calendars[$index]['caldav_url'] = $url;
+              $preinstalled_calendars[$index]['caldav_user'] = $user;
           }
         
           foreach ($this->get_drivers() as $driver_name => $driver) {
@@ -285,7 +300,7 @@ class calendar extends rcube_plugin
    */
   public function get_driver_names()
   {
-    $driver_names = $this->rc->config->get('calendar_driver', array('kolab'));
+    $driver_names = $this->rc->config->get('calendar_driver', array('caldav'));
     if(!is_array($driver_names)) $driver_names = array($driver_names);
     return $driver_names;
   }
@@ -368,7 +383,7 @@ class calendar extends rcube_plugin
    */
   public function get_default_driver()
   {
-    $default = $this->rc->config->get("calendar_driver_default", "kolab"); // Fallback to kolab if nothing was configured.
+    $default = $this->rc->config->get("calendar_driver_default", "caldav"); // Fallback to caldav if nothing was configured.
     return $this->get_driver_by_name($default);
   }
 
@@ -437,7 +452,7 @@ class calendar extends rcube_plugin
       require_once($this->home . '/lib/calendar_itip.php');
       $this->itip = new calendar_itip($this);
       
-      if ($this->rc->config->get('kolab_invitation_calendars'))
+      if ($this->rc->config->get('calendar_invitation_calendars'))
         $this->itip->set_rsvp_actions(array('accepted','tentative','declined','delegated','needs-action'));
     }
 
@@ -515,7 +530,7 @@ class calendar extends rcube_plugin
     // initialize attendees autocompletion
     $this->rc->autocomplete_init();
 
-    $this->rc->output->set_env('timezone', $this->timezone->getName());
+    $this->rc->output->set_env('timezone', $this->lib->timezone->getName());
     $this->rc->output->set_env('calendar_driver', $this->rc->config->get('calendar_driver'), false);
     $this->rc->output->set_env('calendar_resources', (bool)$this->rc->config->get('calendar_resources_driver'));
 //  $this->rc->output->set_env('mscolors', jqueryui::get_color_values());
@@ -1376,10 +1391,6 @@ if(count($cals) > 0){
               if (is_array($change['new']))
                 $change['new']['classname'] = rcube_utils::file2class($change['new']['mimetype'], $change['new']['name']);
             }
-            // compute a nice diff of description texts
-            if ($change['property'] == 'description') {
-              $change['diff_'] = libkolab::html_diff($change['old'], $change['new']);
-            }
           });
           $this->rc->output->command('plugin.event_show_diff', $data);
         }
@@ -1524,7 +1535,7 @@ if(count($cals) > 0){
 
     $start = rcube_utils::get_input_value('start', rcube_utils::INPUT_GET);
     if (!$start) {
-      $start = new DateTime('today 00:00:00', $this->timezone);
+      $start = new DateTime('today 00:00:00', $this->lib->timezone);
       $start = $start->format('U');
     }
 
@@ -1619,7 +1630,7 @@ if(count($cals) > 0){
 
         // refresh count for this calendar
         if ($cal['counts']) {
-          $today = new DateTime('today 00:00:00', $this->timezone);
+          $today = new DateTime('today 00:00:00', $this->lib->timezone);
           $counts += $driver->count_events($cal['id'], $today->format('U'));
         }
       }
@@ -1965,7 +1976,7 @@ if(count($cals) > 0){
     $settings['event_coloring'] = (int)$this->rc->config->get('calendar_event_coloring', $this->defaults['calendar_event_coloring']);
     $settings['time_indicator'] = (int)$this->rc->config->get('calendar_time_indicator', $this->defaults['calendar_time_indicator']);
     $settings['invite_shared'] = (int)$this->rc->config->get('calendar_allow_invite_shared', $this->defaults['calendar_allow_invite_shared']);
-    $settings['invitation_calendars'] = (bool)$this->rc->config->get('kolab_invitation_calendars', false);
+    $settings['invitation_calendars'] = (bool)$this->rc->config->get('calendar_invitation_calendars', false);
     $settings['itip_notify'] = (int)$this->rc->config->get('calendar_itip_send_option', $this->defaults['calendar_itip_send_option']);
 
     // get user identity to create default attendee
@@ -2207,12 +2218,10 @@ if(count($cals) > 0){
    */
   private function write_preprocess(&$event, $action)
   {
-  /**
     // convert dates into DateTime objects in user's current timezone
-    $event['start'] = new DateTime($event['start'], $this->timezone);
-    $event['end'] = new DateTime($event['end'], $this->timezone);
+    $event['start'] = new DateTime($event['start'], $this->lib->timezone);
+    $event['end'] = new DateTime($event['end'], $this->lib->timezone);
     $event['allday'] = (bool)$event['allday'];
-  */
 
     // start/end is all we need for 'move' action (#1480)
     if ($action == 'move') {
@@ -2413,11 +2422,11 @@ if(count($cals) > 0){
 
     // convert dates into unix timestamps
     if (!empty($start) && !is_numeric($start)) {
-      $dts = new DateTime($start, $this->timezone);
+      $dts = new DateTime($start, $this->lib->timezone);
       $start = $dts->format('U');
     }
     if (!empty($end) && !is_numeric($end)) {
-      $dte = new DateTime($end, $this->timezone);
+      $dte = new DateTime($end, $this->lib->timezone);
       $end = $dte->format('U');
     }
     
@@ -2462,11 +2471,11 @@ if(count($cals) > 0){
 
     // convert dates into unix timestamps
     if (!empty($start) && !is_numeric($start)) {
-      $dts = rcube_utils::anytodatetime($start, $this->timezone);
+      $dts = rcube_utils::anytodatetime($start, $this->lib->timezone);
       $start = $dts ? $dts->format('U') : null;
     }
     if (!empty($end) && !is_numeric($end)) {
-      $dte = rcube_utils::anytodatetime($end, $this->timezone);
+      $dte = rcube_utils::anytodatetime($end, $this->lib->timezone);
       $end = $dte ? $dte->format('U') : null;
     }
 
@@ -2476,7 +2485,7 @@ if(count($cals) > 0){
     
     if (!$dte) {
       $dts = new DateTime('@'.$start);
-      $dts->setTimezone($this->timezone);
+      $dts->setTimezone($this->lib->timezone);
     }
     
     $fblist = $this->_get_freebusy_list($email, $start, $end);
@@ -2487,7 +2496,7 @@ if(count($cals) > 0){
       $status = self::FREEBUSY_UNKNOWN;
       $t_end = $t + $interval * 60;
       $dt = new DateTime('@'.$t);
-      $dt->setTimezone($this->timezone);
+      $dt->setTimezone($this->lib->timezone);
 
       // determine attendee's status
       if (is_array($fblist)) {
@@ -2516,7 +2525,7 @@ if(count($cals) > 0){
     }
     
     $dte = new DateTime('@'.$t_end);
-    $dte->setTimezone($this->timezone);
+    $dte->setTimezone($this->lib->timezone);
     
     // let this information be cached for 5min
     send_future_expire_header(300);
@@ -3294,7 +3303,7 @@ if(count($cals) > 0){
           else
             $error_msg = $this->gettext('newerversionexists');
         }
-        else if (!$existing && ($status != 'declined' || $this->rc->config->get('kolab_invitation_calendars'))) {
+        else if (!$existing && ($status != 'declined' || $this->rc->config->get('calendar_invitation_calendars'))) {
           if ($status == 'declined' || $event['status'] == 'CANCELLED' || $event_attendee['role'] == 'NON-PARTICIPANT') {
             $event['free_busy'] = 'free';
           }
