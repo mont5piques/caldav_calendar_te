@@ -2225,10 +2225,12 @@ if(count($cals) > 0){
   {
   /**
     // convert dates into DateTime objects in user's current timezone
-    $event['start'] = new DateTime($event['start'], $this->timezone);
-    $event['end'] = new DateTime($event['end'], $this->timezone);
     $event['allday'] = (bool)$event['allday'];
   */
+    if (!is_object($event['start']))
+      $event['start'] = new DateTime($event['start'], $this->timezone);
+    if (!is_object($event['end']))
+      $event['end'] = new DateTime($event['end'], $this->timezone);
 
     // start/end is all we need for 'move' action (#1480)
     if ($action == 'move') {
