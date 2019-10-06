@@ -281,7 +281,7 @@ $labels['calendar_caldav'] = 'CalDAV Kalender';
 $labels['calendar_ical'] = 'iCAL Kalender';
 $labels['calendar_google'] = 'Google Calender';
 
-$labels['caldav_url'] = 'CalDAV URL";
+$labels['caldav_url'] = 'CalDAV URL';
 $labels['caldav_auth_digest'] = 'CalDAV Digest Login';
 $labels['caldav_auth_oauth'] = 'CalDAV OAuth2 Login';
 $labels['caldav_auth_oauth_providers'] = 'Verfügbare OAuth2 Providers';
