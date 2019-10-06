@@ -309,19 +309,21 @@ $labels['arialabeleventresources'] = 'Event resources list';
 $labels['arialabelresourcesearchform'] = 'Resources search form';
 $labels['arialabelresourceselection'] = 'Available resources';
 
+$labels['calendar_database'] = 'Default Calender';
 $labels['calendar_kolab'] = 'Kolab Calender';
 $labels['calendar_caldav'] = 'CalDAV Calender';
 $labels['calendar_ical'] = 'iCAL Calender';
 $labels['calendar_google'] = 'Google Calender';
 
-$labels['caldav_url'] = "CalDAV URL";
-$labels["caldav_auth_digest"] = "CalDAV Digest Login";
-$labels["caldav_auth_oauth"] = "CalDAV OAuth2 Login";
+$labels['caldav_url'] = 'CalDAV URL';
+$labels['caldav_auth_digest'] = 'CalDAV Digest Login';
+$labels['caldav_auth_oauth'] = 'CalDAV OAuth2 Login';
+$labels['caldav_auth_oauth_providers'] = 'Available OAuth2 Providers';
 
-$labels['ical_url'] = "iCal URL";
-$labels['ical_auth_digest'] = "iCal Basic Auth Login";
+$labels['ical_url'] = 'iCal URL';
+$labels['ical_auth_digest'] = 'iCal Basic Auth Login';
 
-$labels['auth'] = "Authentication";
-$labels["login_with"] = "Login with ";
-$labels['logout_from'] = "Logout from ";
+$labels['auth'] = 'Authentication';
+$labels['login_with'] = 'Login with ';
+$labels['logout_from'] = 'Logout from ';
 ?>

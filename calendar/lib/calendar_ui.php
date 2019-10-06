@@ -301,7 +301,7 @@ class calendar_ui
 
     if ($prop['virtual'])
       $classes[] = 'virtual';
-    else if (!$prop['editable'])
+    else if (!$prop['editable'] || $prop['readonly']) // Correct would be "readonly", but we tolerate "editable" for legacy support.
       $classes[] = 'readonly';
     if ($prop['subscribed'])
       $classes[] = 'subscribed';
@@ -368,7 +368,7 @@ class calendar_ui
     $select = new html_select($attrib);
 
     foreach ((array)$this->cal->get_calendars() as $id => $prop) {
-      if ($prop['editable'] || strpos($prop['rights'], 'i') !== false)
+      if (!$prop['readonly'] && ($prop['editable'] || strpos($prop['rights'], 'i') !== false))
         $select->add($prop['name'], $id);
     }
 
