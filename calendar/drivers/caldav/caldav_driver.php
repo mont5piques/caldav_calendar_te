@@ -107,6 +107,7 @@ class caldav_driver extends calendar_driver
                 $arr['listname'] = html::quote($arr['name']);
                 $arr['rights'] = 'lrswikxteav';
                 $arr['editable'] = true;
+                $arr['deletable'] = true;
                 $arr['caldav_pass'] = $this->_decrypt_pass($arr['caldav_pass']);
                 $arr['caldav_oauth_provider'] = html::quote($arr['caldav_oauth_provider']);
                 $this->calendars[$arr['calendar_id']] = $arr;
