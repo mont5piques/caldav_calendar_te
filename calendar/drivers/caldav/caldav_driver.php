@@ -107,6 +107,7 @@ class caldav_driver extends calendar_driver
                 $arr['listname'] = html::quote($arr['name']);
                 $arr['rights'] = 'lrswikxteav';
                 $arr['editable'] = true;
+                $arr['deletable'] = true;
                 $arr['caldav_pass'] = $this->_decrypt_pass($arr['caldav_pass']);
                 $arr['caldav_oauth_provider'] = html::quote($arr['caldav_oauth_provider']);
                 $this->calendars[$arr['calendar_id']] = $arr;
@@ -395,27 +396,21 @@ class caldav_driver extends calendar_driver
         $cal_id = $event["calendar"];
         if($old_event == null)
             $old_event = $this->get_event($event);
-        if($this->_db_edit_event($event))
-        {
+        if($this->_db_edit_event($event)) {
             // Re-load updated event and push to caldav.
             $event = $this->get_event(array("id" => $event_id));
             $sync_client = $this->sync_clients[$cal_id];
             $success = $sync_client->update_event($event);
-            if($success === true)
-            {
+            if($success === true) {
                 self::debug_log("Successfully updated event \"$event_id\".");
                 // Trigger calendar sync to update ctags and etags.
                 $this->_sync_calendar($cal_id);
                 return true;
-            }
-            else if($success < 0 && $sync_enforced == false)
-            {
+            } else if($success < 0 && $sync_enforced == false) {
                 self::debug_log("Event \"$event_id\", tag \"".$event["caldav_tag"]."\" not up to date, will update calendar first ...");
                 $this->_sync_calendar($cal_id);
                 return $this->edit_event($event, $old_event); // Re-try after re-sync
-            }
-            else
-            {
+            } else {
                 $this->_db_edit_event($old_event);
                 $this->_raise_error("Could not update event: Unexpected CalDAV error.");
                 return false;
@@ -1497,7 +1492,7 @@ class caldav_driver extends calendar_driver
         $calendar = $this->calendars[$calendar["id"]];
         $form = array();
         $hidden_fields[] = array("name" => "caldav_oauth_provider",
-                                 "value" => ""); // Don't send plain text oauth2 token to GUI
+            "value" => ""); // Don't send plain text oauth2 token to GUI
         // General tab
         $form['props'] = array(
             'name' => $this->rc->gettext('properties'),
@@ -1577,7 +1572,7 @@ class caldav_driver extends calendar_driver
             }
         }
         $form['auth']['fieldsets']['caldav_auth_oauth'] = array(
-            'name'    => $this->cal->gettext('caldav_auth_oauth'),
+            'name' => $this->cal->gettext('caldav_auth_oauth'),
             'content' => implode( "", $oauth2_buttons)
         );
         $this->form_html = '';
@@ -1671,11 +1666,10 @@ class caldav_driver extends calendar_driver
         else return $url;
     }
     /**
-     * Expand all "%p" occurrences in 'caldav_pass' element of calendar object
-     * properties array with RC (imap) password.
-     * Other elements are left untouched.
+     * Set RC (imap) password to the given calendar properties if their value is "%p".
      *
      * @param array List of properties
+     * @param array List of calendar properties to loop up
      * @return array List of properties, with expanded 'caldav_pass' attribute
      *
      */
@@ -1688,6 +1682,14 @@ class caldav_driver extends calendar_driver
         return $props;
     }
 	
+    /**
+     * Replace "%u" with RC (imap) user in the given calendar properties.
+     *
+     * @param array List of properties
+     * @param array List of calendar properties to loop up
+     * @return array List of properties, with expanded 'caldav_pass' attribute
+     *
+     */
 	private function _expand_user($props, $names = array('caldav_url', 'caldav_user'))
     {
         foreach($names as $name) {
@@ -1783,9 +1785,9 @@ class caldav_driver extends calendar_driver
         // probe further for principal url and user home set
         if (is_array($response[$current_user_principal[0]])) {
 	        $caldav_url = $base_uri . $response[$current_user_principal[0]][0]['value'];
-	} else {
+        } else {
 	        $caldav_url = $base_uri . $response[$current_user_principal[0]];
-	}
+        }
         $response = $caldav->prop_find($caldav_url, $calendar_home_set, 0);
         if (!$response) {
             $this->_raise_error("Resource \"$caldav_url\" contains no calendars.");
@@ -1793,7 +1795,7 @@ class caldav_driver extends calendar_driver
         }
         if (is_array($response[$calendar_home_set[0]])) {
 	        $caldav_url = $base_uri . $response[$calendar_home_set[0]][0]['value'];
-	} else {
+        } else {
 	        $caldav_url = $base_uri . $response[$calendar_home_set[0]];
         }
         $response = $caldav->prop_find($caldav_url, $cal_attribs, 1);

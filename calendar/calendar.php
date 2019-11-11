@@ -534,7 +534,7 @@ class calendar extends rcube_plugin
     $this->rc->output->set_env('timezone', $this->timezone->getName());
     $this->rc->output->set_env('calendar_driver', $this->rc->config->get('calendar_driver'), false);
     $this->rc->output->set_env('calendar_resources', (bool)$this->rc->config->get('calendar_resources_driver'));
-//  $this->rc->output->set_env('mscolors', jqueryui::get_color_values());
+    //$this->rc->output->set_env('mscolors', jqueryui::get_color_values());
     $this->rc->output->set_env('identities-selector', $this->ui->identity_select(array('id' => 'edit-identities-list', 'aria-label' => $this->gettext('roleorganizer'))));
 
     $view = rcube_utils::get_input_value('view', rcube_utils::INPUT_GPC);
@@ -2223,14 +2223,13 @@ if(count($cals) > 0){
    */
   private function write_preprocess(&$event, $action)
   {
-  /**
     // convert dates into DateTime objects in user's current timezone
-    $event['allday'] = (bool)$event['allday'];
-  */
     if (!is_object($event['start']))
       $event['start'] = new DateTime($event['start'], $this->timezone);
     if (!is_object($event['end']))
       $event['end'] = new DateTime($event['end'], $this->timezone);
+
+    $event['allday'] = (bool)$event['allday'];
 
     // start/end is all we need for 'move' action (#1480)
     if ($action == 'move') {
