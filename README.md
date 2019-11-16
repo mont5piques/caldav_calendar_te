@@ -58,3 +58,7 @@ Self sighned certs not supported. Letsencrypt solves that issue.
 
 Please keep issues using Roundcube and Nextcloud running on same FQDN  (No VM's, cross domains, self sighned certs or Dockers ... Sorry  :-(  ) ....
 This was forked for use with Nextcloud only. I wished I had the time to make it work for all but real life says otherwise.
+
+I am apologizing for comment above. I actually would love to make this the "End all be All" extension for a CalDav solution for all. I am asking for help on this.
+
+Let's Get'r Done
