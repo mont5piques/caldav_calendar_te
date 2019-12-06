@@ -182,27 +182,11 @@ class calendar extends rcube_plugin
       // loading preinstalled calendars
       $preinstalled_calendars = $this->rc->config->get('calendar_preinstalled_calendars', FALSE);
       if ($preinstalled_calendars && is_array($preinstalled_calendars)) {
-          $username= $this->rc->get_user_name();
-          $rcmail = rcmail::get_instance();
-          $local = $rcmail->user->get_username('local');
-          $domain = $rcmail->user->get_username('domain');
-
-          // expanding both caldav url and user
+      
+          // expanding both caldav url and user with RC (imap) username
           foreach ($preinstalled_calendars as $index => $cal){
-              $url = $cal['caldav_url'];
-              $user = $cal['caldav_user'];
-
-              $url = str_replace('%u', $username, $url);
-              $user = str_replace('%u', $username, $user);
-
-              $url = str_replace('%l', $local, $url);
-              $user = str_replace('%l', $local, $user);
-
-              $url = str_replace('%d', $domain, $url);
-              $user = str_replace('%d', $domain, $user);
-
-              $preinstalled_calendars[$index]['caldav_url'] = $url;
-              $preinstalled_calendars[$index]['caldav_user'] = $user;
+              $preinstalled_calendars[$index]['caldav_url'] = str_replace('%u', $this->rc->get_user_name(), $cal['caldav_url']); 
+              $preinstalled_calendars[$index]['caldav_user'] = str_replace('%u', $this->rc->get_user_name(), $cal['caldav_user']);
           }
         
           foreach ($this->get_drivers() as $driver_name => $driver) {
@@ -517,16 +501,11 @@ class calendar extends rcube_plugin
     $this->rc->output->set_env('timezone', $this->timezone->getName());
     $this->rc->output->set_env('calendar_driver', $this->rc->config->get('calendar_driver'), false);
     $this->rc->output->set_env('calendar_resources', (bool)$this->rc->config->get('calendar_resources_driver'));
-<<<<<<< HEAD
     $this->rc->output->set_env('identities-selector', $this->ui->identity_select(array(
         'id'         => 'edit-identities-list',
         'aria-label' => $this->gettext('roleorganizer'),
         'class'      => 'form-control custom-select',
     )));
-=======
-    //$this->rc->output->set_env('mscolors', jqueryui::get_color_values());
-    $this->rc->output->set_env('identities-selector', $this->ui->identity_select(array('id' => 'edit-identities-list', 'aria-label' => $this->gettext('roleorganizer'))));
->>>>>>> 921de91e7c5ec3cba0467a7cbe2145c62bfbb6aa
 
     $view = rcube_utils::get_input_value('view', rcube_utils::INPUT_GPC);
     if (in_array($view, array('agendaWeek', 'agendaDay', 'month', 'list')))
@@ -2334,7 +2313,6 @@ if(count($cals) > 0){
    */
   private function write_preprocess(&$event, $action)
   {
-<<<<<<< HEAD
     // Remove double timezone specification (T2313)
     $event['start'] = preg_replace('/\s*\(.*\)/', '', $event['start']);
     $event['end']   = preg_replace('/\s*\(.*\)/', '', $event['end']);
@@ -2344,15 +2322,6 @@ if(count($cals) > 0){
     $event['end']    = new DateTime($event['end'], $this->timezone);
     $event['allday'] = !empty($event['allDay']);
     unset($event['allDay']);
-=======
-    // convert dates into DateTime objects in user's current timezone
-    if (!is_object($event['start']))
-      $event['start'] = new DateTime($event['start'], $this->timezone);
-    if (!is_object($event['end']))
-      $event['end'] = new DateTime($event['end'], $this->timezone);
-
-    $event['allday'] = (bool)$event['allday'];
->>>>>>> 921de91e7c5ec3cba0467a7cbe2145c62bfbb6aa
 
     // start/end is all we need for 'move' action (#1480)
     if ($action == 'move') {
