@@ -21,7 +21,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once (dirname(__FILE__).'/../../lib/caldav-client.php');
+if (!class_exists('caldav_client')) {
+	require_once (dirname(__FILE__).'/../../lib/caldav-client.php');
+}
 
 class caldav_sync
 {
@@ -31,29 +33,32 @@ class caldav_sync
 
     private $cal_id = null;
     private $ctag = null;
-    private $username = null;
-    private $pass = null;
     private $url = null;
 
     /**
      *  Default constructor for calendar synchronization adapter.
      *
      * @param array Hash array with caldav properties at least the following:
-     *           id: Calendar ID
-     *   caldav_url: Caldav calendar URL.
-     *  caldav_user: Caldav http basic auth user.
-     *  caldav_pass: Password für caldav user.
-     *   caldav_tag: Caldav ctag for calendar.
+     *                    id: Calendar ID
+     *            caldav_url: Caldav calendar URL.
+     *           caldav_user: Caldav http basic auth user.
+     *           caldav_pass: Password für caldav user.
+     * caldav_oauth_provider: ID for optional OAuth2 provider
+     *            caldav_tag: Caldav ctag for calendar.
      */
     public function __construct($cal)
     {
         $this->cal_id = $cal["id"];
         $this->url = $cal["caldav_url"];
         $this->ctag = isset($cal["caldav_tag"]) ? $cal["caldav_tag"] : null;
-        $this->username = isset($cal["caldav_user"]) ? $cal["caldav_user"] : null;
-        $this->pass = isset($cal["caldav_pass"]) ? $cal["caldav_pass"] : null;
+
+        // CalDAV client auth
+        $username = isset($cal["caldav_user"]) ? $cal["caldav_user"] : null;
+        $pass = isset($cal["caldav_pass"]) ? $cal["caldav_pass"] : null;
+        $oauth_client = isset($cal["caldav_oauth_provider"]) && $cal["caldav_oauth_provider"] ?
+            new oauth_client(rcmail::get_instance(), $cal["caldav_oauth_provider"]) : null;
         
-        $this->caldav = new caldav_client($this->url, $this->username, $this->pass);
+        $this->caldav = new caldav_client($this->url, $username, $pass, $oauth_client);
     }
 
     /**
@@ -141,7 +146,7 @@ class caldav_sync
             $event_found = false;
             foreach($events as $event)
             {
-                if ($event["caldav_url"] == $url)
+	        if (str_replace("//", "/", $event["caldav_url"]) == $url)
                 {
                     $event_found = true;
 

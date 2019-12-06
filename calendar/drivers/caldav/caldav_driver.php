@@ -83,7 +83,7 @@ class caldav_driver extends calendar_driver
         $this->crypt_key = $this->rc->config->get("calendar_crypt_key", "%E`c{2;<J2F^4_&._BxfQ<5Pf3qv!m{e");
         // Set debug state
         if(self::$debug === null)
-            self::$debug = $this->rc->config->get('calendar_caldav_debug', True);
+            self::$debug = $this->rc->config->get('calendar_caldav_debug', False);
         $this->_read_calendars();
     }
     /**
@@ -1276,6 +1276,7 @@ class caldav_driver extends calendar_driver
 	    $data = file_get_contents($attachment['path']);
 	else
 	    return 0;
+
         $query = $this->rc->db->query(
             "INSERT INTO " . $this->db_attachments .
             " (event_id, filename, mimetype, size, data)" .
@@ -1286,8 +1287,10 @@ class caldav_driver extends calendar_driver
             strlen($data),
             base64_encode($data)
         );
+
         return $this->rc->db->affected_rows($query);
     }
+
     /**
      * Remove a specific attachment from the given event
      */
@@ -1446,7 +1449,7 @@ class caldav_driver extends calendar_driver
             $attendees = json_decode($s_attendees, true);
         } // decode the old serialization format
         else {
-            foreach (explode("\n", $event['attendees']) as $line) {
+            foreach (explode("\r\n", $event['attendees']) as $line) {
                 $att = array();
                 foreach (rcube_utils::explode_quoted_string(';', $line) as $prop) {
                     list($key, $value) = explode("=", $prop);
@@ -1584,7 +1587,7 @@ class caldav_driver extends calendar_driver
         if (is_array($hidden_fields)) {
             foreach ($hidden_fields as $field) {
                 $hiddenfield = new html_hiddenfield($field);
-                $this->form_html .= $hiddenfield->show() . "\n";
+                $this->form_html .= $hiddenfield->show() . "\r\n";
             }
         }
         // Create form output
@@ -1594,7 +1597,7 @@ class caldav_driver extends calendar_driver
                 foreach ($tab['fieldsets'] as $fieldset) {
                     $subcontent = $this->get_form_part($fieldset);
                     if ($subcontent) {
-                        $content .= html::tag('fieldset', null, html::tag('legend', null, rcube::Q($fieldset['name'])) . $subcontent) ."\n";
+                        $content .= html::tag('fieldset', null, html::tag('legend', null, rcube::Q($fieldset['name'])) . $subcontent) ."\r\n";
                     }
                 }
             }
@@ -1602,7 +1605,7 @@ class caldav_driver extends calendar_driver
                 $content = $this->get_form_part($tab);
             }
             if ($content) {
-                $this->form_html .= html::tag('fieldset', null, html::tag('legend', null, rcube::Q($tab['name'])) . $content) ."\n";
+                $this->form_html .= html::tag('fieldset', null, html::tag('legend', null, rcube::Q($tab['name'])) . $content) ."\r\n";
             }
         }
         // Parse form template for skin-dependent stuff

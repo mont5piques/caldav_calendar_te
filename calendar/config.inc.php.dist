@@ -25,15 +25,19 @@
  +-------------------------------------------------------------------------+
 */
 
-// backend type ("database", "caldav", "ical", "ldap")
+// backend type ("database", "kolab", "caldav", "ical", "ldap")
 $config['calendar_driver'] = array("caldav");
 $config['calendar_driver_default'] = "caldav";
 
 // default calendar view (agendaDay, agendaWeek, month)
 $config['calendar_default_view'] = "month";
 
+// Default calendar Save to
+// $config['default_save_calendar'] = 'Personal';
+
 // show a birthdays calendar from the user's address book(s)
-$config['calendar_contact_birthdays'] = false;
+$config['calendar_contact_birthdays'] = false;	// TODO
+
 
 // mapping of Roundcube date formats to calendar formats (long/short/agenda)
 // should be in sync with 'date_formats' in main config
@@ -63,22 +67,22 @@ $config['calendar_date_format_sets'] = array(
 // $config['calendar_date_agenda'] = 'ddd MM-dd';
 
 // timeslots per hour (1, 2, 3, 4, 6)
-$config['calendar_timeslots'] = 2;
+$config['calendar_timeslots'] = 4;
 
 // show this number of days in agenda view
 $config['calendar_agenda_range'] = 60;
 
 // first day of the week (0-6)
-$config['calendar_first_day'] = 1;
+$config['calendar_first_day'] = 0;
 
 // first hour of the calendar (0-23)
 $config['calendar_first_hour'] = 6;
 
 // working hours begin
-$config['calendar_work_start'] = 6;
+$config['calendar_work_start'] = 8;
 
 // working hours end
-$config['calendar_work_end'] = 18;
+$config['calendar_work_end'] = 17;
 
 // show line at current time of the day
 $config['calendar_time_indicator'] = true;
@@ -97,18 +101,20 @@ $config['calendar_default_alarm_offset'] = '-15M';
 // 1: according to category color
 // 2: calendar for outer, category for inner color
 // 3: category for outer, calendar for inner color
-$config['calendar_event_coloring'] = 0;
+$config['calendar_event_coloring'] = 2;
 
 // event categories
 $config['calendar_categories'] = array(
-  'Personal' => 'c0c0c0',
-      'Work' => 'ff0000',
-    'Family' => '00ff00',
-   'Holiday' => 'ff6600',
+  'Birthdays' => '7a4053',
+     'Family' => '191970',
+    'Friends' => '2e004f',
+   'Holidays' => '9e9e00',
+   'Personal' => '005c5c',
+       'Work' => 'ff0000',
 );
 
 // enable users to invite/edit attendees for shared events organized by others
-$config['calendar_allow_invite_shared'] = false;
+$config['calendar_allow_invite_shared'] = true;
 
 // allow users to accecpt iTip invitations who are no explicitly listed as attendee.
 // this can be the case if invitations are sent to mailing lists or alias email addresses.
@@ -141,24 +147,27 @@ $config['calendar_include_freebusy_data'] = 1;
 // SMTP server host used to send (anonymous) itip messages.
 // Set to '' in order to use PHP's mail() function for email delivery.
 // To override the SMTP port or connection method, provide a full URL like 'tls://somehost:587'
-$config['calendar_itip_smtp_server'] = null;
+$config['calendar_itip_smtp_server'] = '';
 
 // SMTP username used to send (anonymous) itip messages
-$config['calendar_itip_smtp_user'] = 'smtpauth';
+$config['calendar_itip_smtp_user'] = '%u';
 
 // SMTP password used to send (anonymous) itip messages
-$config['calendar_itip_smtp_pass'] = '123456';
+$config['calendar_itip_smtp_pass'] = '%p';
+
+// show virtual invitation calendars (Kolab driver only)
+$rcmail_config['kolab_invitation_calendars'] = false;
 
 // Base URL to build fully qualified URIs to access calendars via CALDAV
 // The following replacement variables are supported:
-// %h - Current HTTP host
+// %h - Current HTTP host //Not Working TODO
 // %u - Current webmail user name
 // %n - Calendar name
 // %i - Calendar UUID
-$config['calendar_caldav_url'] = 'https://www.domain.ltd/cloud/remote.php/dav/calendars/%u/%n';
+// $config['calendar_caldav_url'] = 'https://www.domain.ltd/cloud/remote.php/remote.php/dav/calendars/%u/%n';
 
 // Crypt key to encrypt passwords for added iCAL/CalDAV calendars
-$config['calendar_crypt_key'] = "put some random string here";
+$config['calendar_crypt_key'] = "random_string";
 
 // Driver to provide a resource directory ('ldap' is the only implementation yet).
 // Leave empty or commented to disable resources support.
@@ -170,35 +179,37 @@ $config['calendar_crypt_key'] = "put some random string here";
 // Enable debugging output for iCAL/CalDAV drivers
 $config['calendar_caldav_debug'] = false;
 $config['calendar_ical_debug'] = false;
-
+/*
 // OAuth2 provider for CalDAV auth
 $config['calendar_oauth_providers'] = array(
 
-//    "key" => array(
-//        "name" => "Google OAuth2 Provider",
-//        "scope" => "https://www.googleapis.com/auth/calendar",
-//        "json" => "/path/to/client_id.json"
+    "key" => array(
+        "name" => "Google OAuth2 Provider",
+        "scope" => "https://www.googleapis.com/auth/calendar",
+        "json" => "/lib/vendor/oauth2/google_oauth.json"
 //    ),
-
-//    "key2" => array(
-//        "name" => "My Custom OAuth2 Provider",
-//        "scope" => "",
-//        "client_id" => "",
-//        "client_secret" => "",
-//        "authorize_endpoint" => "",
-//        "token_endpoint" => "",
-//    )
+//
+//    "key" => array(
+//        "name" => "Google OAuth Provider",
+//        "scope" => "https://www.googleapis.com/auth/calendar",
+//        "client_id" => "some_string_from_your_google_account.apps.googleusercontent.com",
+//        "client_secret" => "your_app_secret",
+//        "authorize_endpoint" => "https://accounts.google.com/o/oauth2/v2/auth",
+//        "token_endpoint" => "https://www.domain.tld/mail/?_task=calendar="
+    )
 );
+
+*/
 
 // Pre-installed calendars, added at first access to calendar section
 // Caldav driver is supported only
  $config['calendar_preinstalled_calendars'] = array(
     'Nextcloud' => array(
-                    'driver'      => 'caldav',
-		    'name'        => 'Personal',
-                    'caldav_user' => '%u',
-                    'caldav_pass' => '%p',
-                    'caldav_url'  => 'https://www.domain.ltd/cloud/remote.php/dav/calendars/%u/',
-                    'color'       => '#0000FF',
-                    'showAlarms'  => 1));
+                    'driver'       => 'caldav',
+					'name'         => '%n',
+                    'caldav_user'  => '%u',
+                    'caldav_pass'  => '%p',
+                    'caldav_url'   => 'https://www.domain.ltd/nextcloud/remote.php/dav/calendars/%u/',
+					//'color' 	   =>  dechex(rand(0x000000, 0xFFFFFF)),
+                    'showAlarms'   => 1));
 ?>

@@ -229,7 +229,7 @@ class Tree {
         // flushing the entire cache
         $path = trim($path, '/');
         foreach ($this->cache as $nodePath => $node) {
-            if ($path === '' || $nodePath == $path || strpos($nodePath, $path . '/') === 0)
+            if ($nodePath == $path || strpos($nodePath, $path . '/') === 0)
                 unset($this->cache[$nodePath]);
 
         }
@@ -298,9 +298,7 @@ class Tree {
      */
     protected function copyNode(INode $source, ICollection $destinationParent, $destinationName = null) {
 
-        if ((string)$destinationName === '') {
-            $destinationName = $source->getName();
-        }
+        if (!$destinationName) $destinationName = $source->getName();
 
         if ($source instanceof IFile) {
 

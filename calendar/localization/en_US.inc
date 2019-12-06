@@ -32,15 +32,21 @@ $labels['afterflagdeleted'] = 'Flag as deleted';
 $labels['aftermoveto'] = 'Move to...';
 $labels['itipoptions'] = 'Event Invitations';
 $labels['afteraction'] = 'After an invitation or update message is processed';
+$labels['showweekno'] = 'Display week numbers';
+$labels['weeknonone'] = 'never';
+$labels['weeknodatepicker'] = 'in datepicker only';
+$labels['weeknoall'] = 'in datepicker and calendar view';
 
 // calendar
 $labels['calendar'] = 'Calendar';
 $labels['calendar_database'] = 'Database Calendar';
 $labels['calendars'] = 'Calendars';
 $labels['category'] = 'Category';
+$labels['addcalendar'] = 'Add calendar';
 $labels['categories'] = 'Categories';
 $labels['createcalendar'] = 'Create new calendar';
 $labels['editcalendar'] = 'Edit calendar properties';
+$labels['deletecalendar'] = 'Delete calendar';
 $labels['name'] = 'Name';
 $labels['color'] = 'Color';
 $labels['day'] = 'Day';
@@ -83,6 +89,7 @@ $labels['mystatus'] = 'My status';
 $labels['status'] = 'Status';
 $labels['status-confirmed'] = 'Confirmed';
 $labels['status-cancelled'] = 'Cancelled';
+$labels['status-tentative'] = 'Tentative';
 $labels['priority'] = 'Priority';
 $labels['sensitivity'] = 'Privacy';
 $labels['public'] = 'public';
@@ -144,7 +151,7 @@ $labels['futureevents'] = 'Future';
 $labels['showalarms'] = 'Show reminders';
 $labels['defaultalarmtype'] = 'Default reminder setting';
 $labels['defaultalarmoffset'] = 'Default reminder time';
-$labels['alarmdisplayoption'] = 'Default Reminder';
+//$labels['alarmdisplayoption'] = 'Default Reminder';
 
 // attendees
 $labels['attendee'] = 'Participant';
@@ -314,14 +321,14 @@ $labels['calendar_caldav'] = 'CalDAV Calender';
 $labels['calendar_ical'] = 'iCAL Calender';
 $labels['calendar_google'] = 'Google Calender';
 
-$labels['caldav_url'] = "CalDAV URL";
-$labels["caldav_auth_digest"] = "CalDAV Digest Login";
-$labels["caldav_auth_oauth"] = "CalDAV OAuth2 Login";
+$labels['caldav_url'] = 'CalDAV URL';
+$labels['caldav_auth_digest'] = 'CalDAV Digest Login';
+$labels['caldav_auth_oauth'] = 'CalDAV OAuth2 Login';
 
-$labels['ical_url'] = "iCal URL";
-$labels['ical_auth_digest'] = "iCal Basic Auth Login";
+$labels['ical_url'] = 'iCal URL';
+$labels['ical_auth_digest'] = 'iCal Basic Auth Login';
 
-$labels['auth'] = "Authentication";
-$labels["login_with"] = "Login with ";
-$labels['logout_from'] = "Logout from ";
+$labels['auth'] = 'Authentication';
+$labels['login_with'] = 'Login with ';
+$labels['logout_from'] = 'Logout from ';
 ?>

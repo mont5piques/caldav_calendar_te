@@ -1,17 +1,21 @@
-***HELP REQUESTED***
+Elastic Skin Support now available
 
 
-I made this as a working, out of the box, calendar for use with Roundcube (Version 1.4) and Nextcloud (Version 16 is the latest known working).
+I made this as a working, out of the box, calendar for use with Roundcube (Version 1.4.1) and Nextcloud (Version 17 is the latest known working).
 
 I will update this when needed by deprecated purposes or when Nextcloud changes their sabre version.
 
-This is a fork of Kolab and FasterIT calendars combining the best of both and using the sabre from Nextcloud to work with it's version of sabre. It will sync already existing calendars. If you want more than the default, you must add calendar within Nextcloud and then go back to Roundcube and it should be there. From Roundcube, you can add, edit and delete events and will be in sync with Nextcloud.
+This is a fork of Kolab and FasterIT calendars combining the best of both and using the sabre from Nextcloud to work with it's version of sabre. It will sync already existing calendars. If you want more than the default, you must add calendar within Nextcloud and then go back to Roundcube and it should be there automatically. From Roundcube, you can add, edit and delete events and will be in sync with Nextcloud.
 
 This is also compatible with RCMCARDDAV 3.0.3 as I use it to sync my contacts with Nextcloud to Roundcube as well.
 
 This was tested using Roundcube 1.4-RC1 and PHP 7.2.11.
 
 For Roundcube 1.3 download ver 0.4 here https://github.com/texxasrulez/Caldav_Calendar/releases/tag/0.4
+
+Latest merge with Kolab 3.5.2
+
+I have kept Kolab libkolab folder with this fork to keep compatible with kolab, just with a better caldav implementation.
 
 _________________________________________________________________________________________
 
@@ -31,6 +35,7 @@ Known Issues:
 -------
 * Incompatible libcalendaring with Tasklist (WIP to make compatible)
 * Will not create new calendar from Roundcube GUI.
+* Caldav errors upon initial sync.
 * ~~Itip does not send reply to event organizer using RC1.3. Works in RC1.2.4.~~ Fixed!!!!
 * ~~Recurring events marked as "All Day Events" will be a day early the following years.~~ Fixed!!!!
 * ~~Database driver does not work. Birthdays are the issue due to being all day.~~ Fixed!!!
