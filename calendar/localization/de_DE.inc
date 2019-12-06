@@ -292,4 +292,25 @@ $labels['arialabeleventattendees'] = 'Teilehmerliste';
 $labels['arialabeleventresources'] = 'Liste der Terminressourcen';
 $labels['arialabelresourcesearchform'] = 'Suchformular für Ressourcen';
 $labels['arialabelresourceselection'] = 'Verfügbare Ressourcen';
+<<<<<<< HEAD
+=======
+
+$labels['calendar_database'] = 'Default Kalender';
+$labels['calendar_kolab'] = 'Kolab Kalender';
+$labels['calendar_caldav'] = 'CalDAV Kalender';
+$labels['calendar_ical'] = 'iCAL Kalender';
+$labels['calendar_google'] = 'Google Calender';
+
+$labels['caldav_url'] = 'CalDAV URL';
+$labels['caldav_auth_digest'] = 'CalDAV Digest Login';
+$labels['caldav_auth_oauth'] = 'CalDAV OAuth2 Login';
+$labels['caldav_auth_oauth_providers'] = 'Verfügbare OAuth2 Providers';
+
+$labels['ical_url'] = 'iCal URL';
+$labels['ical_auth_digest'] = 'iCal Basic Auth Login';
+
+$labels['auth'] = 'Authentifizierung';
+$labels['login_with'] = 'Anmelden mit ';
+$labels['logout_from'] = 'Abmelden von ';
+>>>>>>> 921de91e7c5ec3cba0467a7cbe2145c62bfbb6aa
 ?>

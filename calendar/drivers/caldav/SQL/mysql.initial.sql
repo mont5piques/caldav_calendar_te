@@ -26,13 +26,20 @@ CREATE TABLE IF NOT EXISTS `caldav_calendars` (
   `name` varchar(255) NOT NULL,
   `color` varchar(8) NOT NULL,
   `showalarms` tinyint(1) NOT NULL DEFAULT '1',
+<<<<<<< HEAD
 
+=======
+  `readonly` tinyint(1) NOT NULL DEFAULT '0',
+>>>>>>> 921de91e7c5ec3cba0467a7cbe2145c62bfbb6aa
   `caldav_url` varchar(255) NOT NULL,
   `caldav_tag` varchar(255) DEFAULT NULL,
   `caldav_user` varchar(255) DEFAULT NULL,
   `caldav_pass` varchar(1024) DEFAULT NULL,
   `caldav_oauth_provider` varchar(255) DEFAULT NULL,
+<<<<<<< HEAD
   `readonly` int NOT NULL DEFAULT '0',
+=======
+>>>>>>> 921de91e7c5ec3cba0467a7cbe2145c62bfbb6aa
   `caldav_last_change` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
   PRIMARY KEY(`calendar_id`),

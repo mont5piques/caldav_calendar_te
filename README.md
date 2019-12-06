@@ -21,9 +21,12 @@ ________________________________________________________________________________
 
 Installation is pretty straight forward. I wouldn't use composer to install, just download repo from github and follow the directions below:
 
-Copy calendar and libcalendaring folders to Roundcube Plugin folder, copy config.inc.php.dist to config.inc.php, located in root of calendar directory, and change domain.ltd to your FQDN. 'These URL's are already configured for the default calendar url for Nextcloud assuming your cloud install is located in webroot.'
+Copy calendar and libcalendaring folders to Roundcube Plugin folder, copy config.inc.php.dist to config.inc.php, located in root of calendar directory, and change:
+* domain.ltd to your URL. 'These URL's are already configured for the default calendar url for Nextcloud.'
+* calendar_crypt_key to any random sequence of characters.
+* calendar_itip_smtp_server to the SMTP server of yours or set it empty ''.
 
-Import sql schemas located in /drivers/caldav/sql/ folders to your database. (I am only supporting caldav drivers with MySQL compatible database at this time. I would like some help adding more database types to support. Any help would be appreciated ... 
+ Import sql schemas located in /driver/ folders to your database.	Import the corresponding (MySQL, Postgres) initial SQL schema located in calendar/drivers/caldav/SQL/ folder to your roundcube database.
 
 Add "calendar" to $config['plugins'] in your Roundcube main config file and you are set.
 
@@ -57,3 +60,16 @@ Random Color Quickie:
 -------
 * Multiple Calendars saved with same color. (Import into database `UPDATE caldav_calendars SET color = substring(MD5(RAND()), -6);` to assign radmon colors after initial sync of calendars)
 
+<<<<<<< HEAD
+=======
+Issue submitting:
+-------
+Self sighned certs not supported. Letsencrypt solves that issue.
+
+Please keep issues using Roundcube and Nextcloud running on same FQDN  (No VM's, cross domains, self sighned certs or Dockers ... Sorry  :-(  ) ....
+This was forked for use with Nextcloud only. I wished I had the time to make it work for all but real life says otherwise.
+
+I am apologizing for comment above. I actually would love to make this the "End all be All" extension for a CalDav solution for all. I am asking for help on this.
+
+Let's Get'r Done
+>>>>>>> 921de91e7c5ec3cba0467a7cbe2145c62bfbb6aa
