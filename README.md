@@ -21,7 +21,7 @@ ________________________________________________________________________________
 
 Installation is pretty straight forward. I wouldn't use composer to install, just download repo from github and follow the directions below:
 
-Copy calendar and libcalendaring folders to Roundcube Plugin folder, copy config.inc.php.dist to config.inc.php, located in root of calendar directory, and change:
+Copy calendar, libcalendaring and libkolab folders to Roundcube Plugin folder, copy config.inc.php.dist to config.inc.php, located in root of calendar directory, and change:
 * domain.ltd to your URL. 'These URL's are already configured for the default calendar url for Nextcloud.'
 * calendar_crypt_key to any random sequence of characters.
 * calendar_itip_smtp_server to the SMTP server of yours or set it empty ''.
