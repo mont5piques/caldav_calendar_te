@@ -60,7 +60,6 @@ Random Color Quickie:
 -------
 * Multiple Calendars saved with same color. (Import into database `UPDATE caldav_calendars SET color = substring(MD5(RAND()), -6);` to assign radmon colors after initial sync of calendars)
 
-<<<<<<< HEAD
 =======
 Issue submitting:
 -------
@@ -72,4 +71,3 @@ This was forked for use with Nextcloud only. I wished I had the time to make it 
 I am apologizing for comment above. I actually would love to make this the "End all be All" extension for a CalDav solution for all. I am asking for help on this.
 
 Let's Get'r Done
->>>>>>> 921de91e7c5ec3cba0467a7cbe2145c62bfbb6aa
