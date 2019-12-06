@@ -293,7 +293,7 @@ class calendar_ui
 
     if ($prop['virtual'])
       $classes[] = 'virtual';
-    else if (!$prop['editable'] || $prop['readonly']) // Correct would be "readonly", but we tolerate "editable" for legacy support.
+    else if (!$prop['editable'])
       $classes[] = 'readonly';
     if ($prop['subscribed'])
       $classes[] = 'subscribed';
@@ -353,13 +353,8 @@ class calendar_ui
     $attrib['is_escaped'] = true;
     $select = new html_select($attrib);
 
-<<<<<<< HEAD
     foreach ((array)$this->cal->driver->list_calendars() as $id => $prop) {
       if ($prop['editable'] || strpos($prop['rights'], 'i') !== false)
-=======
-    foreach ((array)$this->cal->get_calendars() as $id => $prop) {
-      if (!$prop['readonly'] && ($prop['editable'] || strpos($prop['rights'], 'i') !== false))
->>>>>>> 921de91e7c5ec3cba0467a7cbe2145c62bfbb6aa
         $select->add($prop['name'], $id);
     }
 
