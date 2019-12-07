@@ -2868,11 +2868,11 @@ if(count($cals) > 0){
    */
   protected function find_event($event, &$mode)
   {
-    $this->load_driver();
+    $this->load_drivers();
 
     // We search for writeable calendars in personal namespace by default
     $mode   = calendar_driver::FILTER_WRITEABLE | calendar_driver::FILTER_PERSONAL;
-    $result = $driver->get_event($event, $mode);
+    $result = $this->driver->get_event($event, $mode);
     // ... now check shared folders if not found
     if (!$result) {
       $result = $driver->get_event($event, calendar_driver::FILTER_WRITEABLE | calendar_driver::FILTER_SHARED);
@@ -2891,7 +2891,7 @@ if(count($cals) > 0){
   {
     $data = rcube_utils::get_input_value('data', rcube_utils::INPUT_POST, true);
 
-    $this->load_driver();
+    $this->load_drivers();
 
     // find local copy of the referenced event (in personal namespace)
     $existing  = $this->find_event($data, $mode);
@@ -3293,7 +3293,7 @@ if(count($cals) > 0){
       // find writeable calendar to store event
       $cal_id    = rcube_utils::get_input_value('_folder', rcube_utils::INPUT_POST);
       $dontsave  = $cal_id === '' && $event['_method'] == 'REQUEST';
-      $calendars = $driver->list_calendars($mode);
+      $calendars = $this->driver->list_calendars($mode);
       $calendar  = $calendars[$cal_id];
 
       // select default calendar except user explicitly selected 'none'
@@ -3428,7 +3428,7 @@ if(count($cals) > 0){
             // found matching attendee entry in both existing and new events
             if ($existing_attendee >= 0 && $event_attendee) {
               $existing['attendees'][$existing_attendee] = $event_attendee;
-              $success = $driver->update_attendees($existing, $update_attendees);
+              $success = $this->driver->update_attendees($existing, $update_attendees);
             }
             // update the entire attendees block
             else if (($event['sequence'] >= $existing['sequence'] || $event['changed'] >= $existing['changed']) && $event_attendee) {

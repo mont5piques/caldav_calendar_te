@@ -160,7 +160,7 @@ class libvcalendar implements Iterator
             else {
                 rcube::raise_error(array(
                     'code' => 600, 'type' => 'php',
-//                    'file' => __FILE__, 'line' => __LINE__,
+                    'file' => __FILE__, 'line' => __LINE__,
                     'message' => "iCal data parse error: " . $e->getMessage()),
                     true, false);
             }

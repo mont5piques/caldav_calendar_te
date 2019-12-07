@@ -43,9 +43,9 @@ CREATE TABLE events (
     calendar_id integer NOT NULL
         REFERENCES calendars (calendar_id) ON UPDATE CASCADE ON DELETE CASCADE,
     recurrence_id integer NOT NULL DEFAULT 0,
-    uid varchar(255) NOT NULL,
+    uid varchar(255) NOT NULL DEFAULT '',
     instance varchar(16) NOT NULL DEFAULT '',
-    isexception smallint NOT NULL DEFAULT 0,
+    isexception smallint NOT NULL DEFAULT '0',
     created timestamp without time zone DEFAULT now() NOT NULL,
     changed timestamp without time zone DEFAULT now(),
     sequence integer NOT NULL DEFAULT 0,
@@ -106,4 +106,4 @@ CREATE TABLE itipinvitations (
 
 CREATE INDEX itipinvitations_user_id_event_uid_idx ON itipinvitations (user_id, event_uid);
 
-INSERT INTO "system" (name, value) VALUES ('calendar-database-version', '2015022700');
+INSERT INTO system (name, value) VALUES ('calendar-database-version', '2015022700');

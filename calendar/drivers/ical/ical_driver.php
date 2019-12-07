@@ -328,16 +328,12 @@ class ical_driver extends calendar_driver
      */
     private function _db_new_event($event)
     {
-        if (!$this->validate($event)) {
-            self::debug_log("Attempt to create an invalid event");
+        if (!$this->validate($event))
             return false;
-        }
 
         if (!empty($this->calendars)) {
-            if ($event['calendar'] && !$this->calendars[$event['calendar']]) {
-                self::debug_log("Attempt to create an event for an non-existing calendar: ".$event["calendar"]);
+            if ($event['calendar'] && !$this->calendars[$event['calendar']])
                 return false;
-            }
             if (!$event['calendar'])
                 $event['calendar'] = reset(array_keys($this->calendars));
 
