@@ -196,7 +196,6 @@ $labels['eventcancelmailbody'] = "*\$title*\n\nWhen: \$date\n\nInvitees: \$atten
 
 // invitation handling (overrides labels from libcalendaring)
 $labels['itipobjectnotfound'] = 'The event referred by this message was not found in your calendar.';
-
 $labels['itipmailbodyaccepted'] = "\$sender has accepted the invitation to the following event:\n\n*\$title*\n\nWhen: \$date\n\nInvitees: \$attendees";
 $labels['itipmailbodytentative'] = "\$sender has tentatively accepted the invitation to the following event:\n\n*\$title*\n\nWhen: \$date\n\nInvitees: \$attendees";
 $labels['itipmailbodydeclined'] = "\$sender has declined the invitation to the following event:\n\n*\$title*\n\nWhen: \$date\n\nInvitees: \$attendees";

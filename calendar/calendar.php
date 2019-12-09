@@ -266,8 +266,8 @@ class calendar extends rcube_plugin
 
         $driver = new $driver_class($this);
 
-        if ($driver->undelete)
-          $driver->undelete = $this->rc->config->get('undo_timeout', 0) > 0;
+        if ($this->driver->undelete)
+          $this->driver->undelete = $this->rc->config->get('undo_timeout', 0) > 0;
 
         $this->_drivers[$driver_name] = $driver;
       }
@@ -1922,7 +1922,7 @@ if(count($cals) > 0){
       $filename = $calendars[$calid]['name'] ? $calendars[$calid]['name'] : $calid;
       $filename = asciiwords(html_entity_decode($filename));  // to 7bit ascii
       if (!empty($event_id)) {
-        if ($event = $driver->get_event(array('calendar' => $calid, 'id' => $event_id), 0, true)) {
+        if ($event = $this->driver->get_event(array('calendar' => $calid, 'id' => $event_id), 0, true)) {
           if ($event['recurrence_id']) {
             $event = $driver->get_event(array('calendar' => $calid, 'id' => $event['recurrence_id']), 0, true);
           }
@@ -1933,7 +1933,7 @@ if(count($cals) > 0){
         }
       }
       else {
-         $events = $driver->load_events($start, $end, null, $calid, 0);
+         $events = $this->driver->load_events($start, $end, null, $calid, 0);
          if (empty($filename))
            $filename = $calid;
       }
@@ -2939,8 +2939,8 @@ if(count($cals) > 0){
       $day_end     = new Datetime(gmdate('Y-m-d 23:59', $data['date']), $this->lib->timezone);
 
       // get events on that day from the user's personal calendars
-      $calendars = $driver->list_calendars(calendar_driver::FILTER_PERSONAL);
-      $events = $driver->load_events($day_start->format('U'), $day_end->format('U'), null, array_keys($calendars));
+      $calendars = $this->driver->list_calendars(calendar_driver::FILTER_PERSONAL);
+      $events = $this->driver->load_events($day_start->format('U'), $day_end->format('U'), null, array_keys($calendars));
       usort($events, function($a, $b) { return $a['start'] > $b['start'] ? 1 : -1; });
 
       $before = $after = array();
@@ -3470,7 +3470,7 @@ if(count($cals) > 0){
             if ($status == 'declined' || $event['status'] == 'CANCELLED' || $event_attendee['role'] == 'NON-PARTICIPANT')
               $event['free_busy'] = 'free';
 
-            $success = $driver->edit_event($event);
+            $success = $this->driver->edit_event($event);
           }
           else if (!empty($status)) {
             $existing['attendees'] = $event['attendees'];

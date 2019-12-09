@@ -149,7 +149,7 @@ class caldav_driver extends calendar_driver
     {
         $result = false;
         $cal['caldav_url'] = self::_encode_url($cal["caldav_url"]);
-        if(!isset($cal['color'])) $cal['color'] = dechex(rand(0x000000, 0xFFFFFF));
+        if(!isset($cal['color'])) $cal['color'] = 'cc0000';
 		$cal = $this->_expand_pass($cal);
         $calendars = $this->_autodiscover_calendars($this->_expand_pass($cal));
         $cal_ids = array();
@@ -205,7 +205,7 @@ class caldav_driver extends calendar_driver
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
             $this->rc->user->ID,
             $prop['name'],
-            $prop['color'],
+            strval($prop['color']),
             $prop['showalarms']?1:0,
             $prop['caldav_url'],
             isset($prop["caldav_tag"]) && $prop["caldav_tag"] ? $prop["caldav_tag"] : null,
@@ -757,12 +757,6 @@ class caldav_driver extends calendar_driver
                 unset($attachment);
             }
         }
-        // remove attachments
-        if ($success && !empty($event['deleted_attachments'])) {
-            foreach ($event['deleted_attachments'] as $attachment) {
-                $this->remove_attachment($attachment, $event['id']);
-            }
-        }
         if ($success) {
             unset($this->cache[$event['id']]);
             if ($update_recurring)
@@ -1271,7 +1265,6 @@ class caldav_driver extends calendar_driver
 	    $data = file_get_contents($attachment['path']);
 	else
 	    return 0;
-
         $query = $this->rc->db->query(
             "INSERT INTO " . $this->db_attachments .
             " (event_id, filename, mimetype, size, data)" .
@@ -1282,7 +1275,6 @@ class caldav_driver extends calendar_driver
             strlen($data),
             base64_encode($data)
         );
-
         return $this->rc->db->affected_rows($query);
     }
 

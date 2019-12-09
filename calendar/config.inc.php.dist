@@ -87,6 +87,12 @@ $config['calendar_work_end'] = 17;
 // show line at current time of the day
 $config['calendar_time_indicator'] = true;
 
+// Display week numbers:
+// -1: don't display week numbers
+//  0: in datepicker only (default)
+//  1: in both datepicker and calendar
+$config['calendar_show_weekno'] = 0;
+
 // default alarm settings for new events.
 // this is only a preset when a new event dialog opens
 // possible values are <empty>, DISPLAY, EMAIL
@@ -110,7 +116,7 @@ $config['calendar_categories'] = array(
     'Friends' => '2e004f',
    'Holidays' => '9e9e00',
    'Personal' => '005c5c',
-       'Work' => 'ff0000',
+       'Work' => '224c69',
 );
 
 // enable users to invite/edit attendees for shared events organized by others
@@ -145,9 +151,10 @@ $config['calendar_freebusy_trigger'] = false;
 $config['calendar_include_freebusy_data'] = 1;
 
 // SMTP server host used to send (anonymous) itip messages.
-// Set to '' in order to use PHP's mail() function for email delivery.
 // To override the SMTP port or connection method, provide a full URL like 'tls://somehost:587'
-$config['calendar_itip_smtp_server'] = '';
+// This will add a link to invitation messages to allow users from outside
+// to reply when their mail clients do not support iTip format.
+$config['calendar_itip_smtp_server'] = null;
 
 // SMTP username used to send (anonymous) itip messages
 $config['calendar_itip_smtp_user'] = '%u';
@@ -156,18 +163,15 @@ $config['calendar_itip_smtp_user'] = '%u';
 $config['calendar_itip_smtp_pass'] = '%p';
 
 // show virtual invitation calendars (Kolab driver only)
-$rcmail_config['kolab_invitation_calendars'] = false;
+$config['kolab_invitation_calendars'] = false;
 
 // Base URL to build fully qualified URIs to access calendars via CALDAV
 // The following replacement variables are supported:
-// %h - Current HTTP host //Not Working TODO
+// %h - Current HTTP host
 // %u - Current webmail user name
 // %n - Calendar name
 // %i - Calendar UUID
-// $config['calendar_caldav_url'] = 'https://www.mint70.com/cloud/remote.php/remote.php/dav/calendars/%u/%n';
-
-// Crypt key to encrypt passwords for added iCAL/CalDAV calendars
-$config['calendar_crypt_key'] = "some_random_24_string";
+// $config['calendar_caldav_url'] = 'http://%h/iRony/calendars/%u/%i';
 
 // Driver to provide a resource directory ('ldap' is the only implementation yet).
 // Leave empty or commented to disable resources support.
@@ -175,6 +179,14 @@ $config['calendar_crypt_key'] = "some_random_24_string";
 
 // LDAP directory configuration to find avilable resources for events
 // $config['calendar_resources_directory'] = array(/* ldap_public-like address book configuration */);
+
+// Enables displaying of free-busy URL with token-based authentication
+// Set it to the prefix URL, e.g. 'https://hostname/freebusy' or just '/freebusy'.
+// See freebusy_session_auth in configuration of kolab_auth plugin.
+$config['calendar_freebusy_session_auth_url'] = null;
+
+// Crypt key to encrypt passwords for added iCAL/CalDAV calendars
+$config['calendar_crypt_key'] = "random_24_byte_string";
 
 // Enable debugging output for iCAL/CalDAV drivers
 $config['calendar_caldav_debug'] = false;

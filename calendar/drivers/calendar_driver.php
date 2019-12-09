@@ -118,7 +118,7 @@ abstract class calendar_driver
 
   protected $default_categories = array(
     'Personal' => 'c0c0c0',
-    'Work'     => 'ff0000',
+    'Work'     => '224c69',
     'Family'   => '00ff00',
     'Holiday'  => 'ff6600',
   );
