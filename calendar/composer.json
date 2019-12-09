@@ -1,10 +1,10 @@
 {
-    "name": "kolab/calendar",
+    "name": "texxasrulez/calendar",
     "type": "roundcube-plugin",
-    "description": "Calendar plugin",
-    "homepage": "https://github.com/texxasrulez/Caldav_Calendar",
+    "description": "CalDav Capable Calendar plugin for Roundcube forked from Kolab 3.5.2",
+    "homepage": "https://github.com/texxasrulez/caldav_calendar",
     "license": "AGPLv3",
-    "version": "3.5.2",
+    "version": "0.6.0",
     "authors": [
         {
             "name": "Thomas Bruederli",
@@ -16,6 +16,7 @@
             "email": "machniak@kolabsys.com",
             "role": "Developer"
         },
+		{
             "name": "Gene Hawkins",
             "email": "gene@genesworld.net",
             "role": "Developer"
