@@ -2,7 +2,7 @@
     "name": "kolab/libcalendaring",
     "type": "roundcube-plugin",
     "description": "Library providing common functions for calendaring plugins",
-    "homepage": "https://git.kolab.org/diffusion/RPK/",
+    "homepage": "https://github.com/texxasrulez/Caldav_Calendar",
     "license": "AGPLv3",
     "version": "3.5.2",
     "authors": [
@@ -14,6 +14,10 @@
         {
             "name": "Aleksander Machniak",
             "email": "machniak@kolabsys.com",
+            "role": "Developer"
+        },
+            "name": "Gene Hawkins",
+            "email": "gene@genesworld.net",
             "role": "Developer"
         }
     ],
