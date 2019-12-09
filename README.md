@@ -36,7 +36,7 @@ Your username and password must be the same for Nextcloud and Roundcube to work 
 
 Known Issues:
 -------
-* Incompatible libcalendaring with Tasklist (WIP to make compatible)
+* ~~Incompatible libcalendaring with Tasklist (WIP to make compatible)~~ Fixed!!!!
 * Will not create new calendar from Roundcube GUI.
 * Caldav errors upon initial sync.
 * ~~Itip does not send reply to event organizer using RC1.3. Works in RC1.2.4.~~ Fixed!!!!
