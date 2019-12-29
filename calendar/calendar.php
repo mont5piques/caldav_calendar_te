@@ -363,7 +363,7 @@ class calendar extends rcube_plugin
    */
   public function get_default_driver()
   {
-    $default = $this->rc->config->get("calendar_driver_default", "database"); // Fallback to kolab if nothing was configured.
+    $default = $this->rc->config->get("calendar_driver_default", "database"); // Fallback to database if nothing was configured.
     return $this->get_driver_by_name($default);
   }
 
@@ -1924,7 +1924,7 @@ if(count($cals) > 0){
       if (!empty($event_id)) {
         if ($event = $this->driver->get_event(array('calendar' => $calid, 'id' => $event_id), 0, true)) {
           if ($event['recurrence_id']) {
-            $event = $driver->get_event(array('calendar' => $calid, 'id' => $event['recurrence_id']), 0, true);
+            $event = $this->driver->get_event(array('calendar' => $calid, 'id' => $event['recurrence_id']), 0, true);
           }
           $events = array($event);
           $filename = asciiwords($event['title']);

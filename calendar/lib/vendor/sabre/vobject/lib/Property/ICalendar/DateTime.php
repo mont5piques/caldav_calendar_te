@@ -182,9 +182,42 @@ class DateTime extends Property {
      * @param bool isFloating If set to true, timezones will be ignored.
      * @return void
      */
-    public function setDateTime(\DateTime $dt, $isFloating = false) {
+    public function setDateTime(\DateTime $dt, $dateType = self::LOCALTZ) {
 
-        $this->setDateTimes(array($dt), $isFloating);
+        switch($dateType) {
+
+            case self::LOCAL :
+                $this->setValue($dt->format('Ymd\\THis'));
+                $this->offsetUnset('VALUE');
+                $this->offsetUnset('TZID');
+                $this->offsetSet('VALUE','DATE-TIME');
+                break;
+            case self::UTC :
+                $dt->setTimeZone(new \DateTimeZone('UTC'));
+                $this->setValue($dt->format('Ymd\\THis\\Z'));
+                $this->offsetUnset('VALUE');
+                $this->offsetUnset('TZID');
+                $this->offsetSet('VALUE','DATE-TIME');
+                break;
+            case self::LOCALTZ :
+                $this->setValue($dt->format('Ymd\\THis'));
+                $this->offsetUnset('VALUE');
+                $this->offsetUnset('TZID');
+                $this->offsetSet('VALUE','DATE-TIME');
+                $this->offsetSet('TZID', $dt->getTimeZone()->getName());
+                break;
+            case self::DATE :
+                $this->setValue($dt->format('Ymd'));
+                $this->offsetUnset('VALUE');
+                $this->offsetUnset('TZID');
+                $this->offsetSet('VALUE','DATE');
+                break;
+            default :
+                throw new \InvalidArgumentException('You must pass a valid dateType constant');
+
+        }
+        $this->dateTime = $dt;
+        $this->dateType = $dateType;
 
     }
 

@@ -4,7 +4,7 @@
     "description": "Caldav Calendar plugin for use with NextCloud",
     "homepage": "https://github.com/texxasrulez/caldav_calendar",
     "license": "AGPLv3",
-    "version": "0.6.0",
+    "version": "0.6.0.1",
     "authors": [
         {
             "name": "Gene Hawkins",
