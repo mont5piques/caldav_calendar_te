@@ -266,8 +266,8 @@ class calendar extends rcube_plugin
 
         $driver = new $driver_class($this);
 
-        if ($this->driver->undelete)
-          $this->driver->undelete = $this->rc->config->get('undo_timeout', 0) > 0;
+        if ($driver->undelete)
+          $driver->undelete = $this->rc->config->get('undo_timeout', 0) > 0;
 
         $this->_drivers[$driver_name] = $driver;
       }
@@ -458,7 +458,7 @@ class calendar extends rcube_plugin
   public function get_default_calendar($sensitivity = null, $calendars = null)
   {
     if ($calendars === null) {
-      $calendars = $driver->list_calendars(calendar_driver::FILTER_PERSONAL | calendar_driver::FILTER_WRITEABLE);
+      // $calendars = $driver->list_calendars(calendar_driver::FILTER_PERSONAL | calendar_driver::FILTER_WRITEABLE);
     }
 
     $default_id = $this->rc->config->get('calendar_default_calendar');
@@ -665,42 +665,46 @@ class calendar extends rcube_plugin
       );
     }
 
-    if (!isset($no_override['calendar_default_alarm_type']) || !isset($no_override['calendar_default_alarm_offset'])) {
+    if (!isset($no_override['calendar_default_alarm_type'])) {
       if (!$p['current']) {
         $p['blocks']['view']['content'] = true;
         return $p;
       }
 
-      $alarm_type = $alarm_offset = '';
-
-      if (!isset($no_override['calendar_default_alarm_type'])) {
-        $field_id    = 'rcmfd_alarm';
-        $select_type = new html_select(array('name' => '_alarm_type', 'id' => $field_id));
-        $select_type->add($this->gettext('none'), '');
-
-        foreach ($this->driver->alarm_types as $type) {
-          $select_type->add($this->rc->gettext(strtolower("alarm{$type}option"), 'libcalendaring'), $type);
+      $field_id = 'rcmfd_alarm';
+      $select_type = new html_select(array('name' => '_alarm_type', 'id' => $field_id));
+      $select_type->add($this->gettext('none'), '');
+      $types = array();
+      foreach ($this->get_drivers() as $driver) {
+        foreach ($driver->alarm_types as $type) {
+          $types[$type] = $type;
         }
-
-        $alarm_type = $select_type->show($this->rc->config->get('calendar_default_alarm_type', ''));
       }
-
-      if (!isset($no_override['calendar_default_alarm_offset'])) {
-        $field_id      = 'rcmfd_alarm';
-        $input_value   = new html_inputfield(array('name' => '_alarm_value', 'id' => $field_id . 'value', 'size' => 3));
-        $select_offset = new html_select(array('name' => '_alarm_offset', 'id' => $field_id . 'offset'));
-
-        foreach (array('-M','-H','-D','+M','+H','+D') as $trigger) {
-          $select_offset->add($this->rc->gettext('trigger' . $trigger, 'libcalendaring'), $trigger);
-        }
-
-        $preset = libcalendaring::parse_alarm_value($this->rc->config->get('calendar_default_alarm_offset', '-15M'));
-        $alarm_offset = $input_value->show($preset[0]) . ' ' . $select_offset->show($preset[1]);
+      foreach ($types as $type) {
+        $select_type->add($this->gettext(strtolower("alarm{$type}option"), 'libcalendaring'), $type);
       }
-
       $p['blocks']['view']['options']['alarmtype'] = array(
         'title' => html::label($field_id, rcube::Q($this->gettext('defaultalarmtype'))),
-        'content' => html::div('input-group', $alarm_type . ' ' . $alarm_offset),
+        'content' => $select_type->show($this->rc->config->get('calendar_default_alarm_type', '')),
+      );
+    }
+
+    if (!isset($no_override['calendar_default_alarm_offset'])) {
+      if (!$p['current']) {
+        $p['blocks']['view']['content'] = true;
+        return $p;
+      }
+
+      $field_id = 'rcmfd_alarm';
+      $input_value = new html_inputfield(array('name' => '_alarm_value', 'id' => $field_id . 'value', 'size' => 3));
+      $select_offset = new html_select(array('name' => '_alarm_offset', 'id' => $field_id . 'offset'));
+      foreach (array('-M','-H','-D','+M','+H','+D') as $trigger)
+        $select_offset->add($this->rc->gettext('trigger' . $trigger, 'libcalendaring'), $trigger);
+
+      $preset = libcalendaring::parse_alarm_value($this->rc->config->get('calendar_default_alarm_offset', '-15M'));
+      $p['blocks']['view']['options']['alarmoffset'] = array(
+        'title' => html::label($field_id . 'value', rcube::Q($this->gettext('defaultalarmoffset'))),
+        'content' => $input_value->show($preset[0]) . ' ' . $select_offset->show($preset[1]),
       );
     }
 
@@ -1070,22 +1074,6 @@ if(count($cals) > 0){
         $driver = $this->get_driver_by_cal($cal['id']);
         if (!$driver->subscribe_calendar($cal))
           $this->rc->output->show_message($this->gettext('errorsaving'), 'error');
-        else {
-          $calendars = $driver->list_calendars();
-          $calendar  = $calendars[$cal['id']];
-
-          // find parent folder and check if it's a "user calendar"
-          // if it's also activated we need to refresh it (#5340)
-          while ($calendar['parent']) {
-            if (isset($calendars[$calendar['parent']]))
-              $calendar = $calendars[$calendar['parent']];
-            else
-              break;
-          }
-
-          if ($calendar['id'] != $cal['id'] && $calendar['active'] && $calendar['group'] == "other user")
-            $this->rc->output->command('plugin.refresh_source', $calendar['id']);
-        }
         return;
       case "search":
         $results    = array();
@@ -1093,33 +1081,39 @@ if(count($cals) > 0){
         $query      = rcube_utils::get_input_value('q', rcube_utils::INPUT_GPC);
         $source     = rcube_utils::get_input_value('source', rcube_utils::INPUT_GPC);
 
-        foreach ((array) $driver->search_calendars($query, $source) as $id => $prop) {
-          $editname = $prop['editname'];
-          unset($prop['editname']);  // force full name to be displayed
-          $prop['active'] = false;
+        $search_more_results = false;
+        foreach($this->get_drivers() as $driver) {
+          foreach ((array)$driver->search_calendars($query, $source) as $id => $prop) {
+            $editname = $prop['editname'];
+            unset($prop['editname']);  // force full name to be displayed
+            $prop['active'] = false;
 
-          // let the UI generate HTML and CSS representation for this calendar
-          $html = $this->ui->calendar_list_item($id, $prop, $jsenv);
-          $cal = $jsenv[$id];
-          $cal['editname'] = $editname;
-          $cal['html'] = $html;
-          if (!empty($prop['color']))
-            $cal['css'] = $this->ui->calendar_css_classes($id, $prop, $color_mode);
+            // let the UI generate HTML and CSS representation for this calendar
+            $html = $this->ui->calendar_list_item($id, $prop, $jsenv);
+            $cal = $jsenv[$id];
+            $cal['editname'] = $editname;
+            $cal['html'] = $html;
+            if (!empty($prop['color']))
+              $cal['css'] = $this->ui->calendar_css_classes($id, $prop, $color_mode);
 
-          $results[] = $cal;
+            $results[] = $cal;
+          }
+
+          $search_more_results |= $driver->search_more_results;
         }
+
         // report more results available
-        if ($driver->search_more_results)
-          $this->rc->output->show_message('autocompletemore', 'notice');
+        if ($search_more_results)
+          $this->rc->output->show_message('autocompletemore', 'info');
 
         $this->rc->output->command('multi_thread_http_response', $results, rcube_utils::get_input_value('_reqid', rcube_utils::INPUT_GPC));
         return;
     }
-
+    
     if ($success)
       $this->rc->output->show_message('successfullysaved', 'confirmation');
     else {
-      $error_msg = $this->gettext('errorsaving') . ($driver->last_error ? ': ' . $driver->last_error :'');
+      $error_msg = $this->gettext('errorsaving') . ($driver && $driver->last_error ? ': ' . $driver->last_error :'');
       $this->rc->output->show_message($error_msg, 'error');
     }
 
@@ -1914,7 +1908,7 @@ if(count($cals) > 0){
     $event_id    = rcube_utils::get_input_value('id', rcube_utils::INPUT_GET);
     $attachments = rcube_utils::get_input_value('attachments', rcube_utils::INPUT_GET);
     $calid = $filename = rcube_utils::get_input_value('source', rcube_utils::INPUT_GET);
-
+    $driver = $this->get_driver_by_cal($calid);
     $calendars = $this->driver->list_calendars();
     $events = array();
 
@@ -1922,9 +1916,9 @@ if(count($cals) > 0){
       $filename = $calendars[$calid]['name'] ? $calendars[$calid]['name'] : $calid;
       $filename = asciiwords(html_entity_decode($filename));  // to 7bit ascii
       if (!empty($event_id)) {
-        if ($event = $this->driver->get_event(array('calendar' => $calid, 'id' => $event_id), 0, true)) {
+        if ($event = $driver->get_event(array('calendar' => $calid, 'id' => $event_id), 0, true)) {
           if ($event['recurrence_id']) {
-            $event = $this->driver->get_event(array('calendar' => $calid, 'id' => $event['recurrence_id']), 0, true);
+            $event = $driver->get_event(array('calendar' => $calid, 'id' => $event['recurrence_id']), 0, true);
           }
           $events = array($event);
           $filename = asciiwords($event['title']);
@@ -1933,7 +1927,7 @@ if(count($cals) > 0){
         }
       }
       else {
-         $events = $this->driver->load_events($start, $end, null, $calid, 0);
+         $events = $driver->load_events($start, $end, null, $calid, 0);
          if (empty($filename))
            $filename = $calid;
       }
@@ -1942,7 +1936,7 @@ if(count($cals) > 0){
     header("Content-Type: text/calendar");
     header("Content-Disposition: inline; filename=".$filename.'.ics');
 
-    $this->get_ical()->export($events, '', true, $attachments ? array($this->driver, 'get_attachment_body') : null);
+    $this->get_ical()->export($events, '', true, $attachments ? array($driver, 'get_attachment_body') : null);
 
     if ($terminate)
       exit;
@@ -2100,21 +2094,18 @@ if(count($cals) > 0){
 
     foreach ((array)$event['attachments'] as $k => $attachment) {
       $event['attachments'][$k]['classname'] = rcube_utils::file2class($attachment['mimetype'], $attachment['name']);
-
-      unset($event['attachments'][$k]['data'], $event['attachments'][$k]['content']);
-
-      if (!$attachment['id']) {
-        $event['attachments'][$k]['id'] = $k;
-      }
     }
+
+    // Get driver for event calendar
+    $driver = $this->get_driver_by_cal($event['calendar']);
 
     // convert link URIs references into structs
     if (array_key_exists('links', $event)) {
-        foreach ((array) $event['links'] as $i => $link) {
-            if (strpos($link, 'imap://') === 0 && ($msgref = $driver->get_message_reference($link))) {
-                $event['links'][$i] = $msgref;
-            }
+      foreach ((array)$event['links'] as $i => $link) {
+        if (strpos($link, 'imap://') === 0 && ($msgref = $driver->get_message_reference($link))) {
+          $event['links'][$i] = $msgref;
         }
+      }
     }
 
     // check for organizer in attendees list
@@ -2254,44 +2245,31 @@ if(count($cals) > 0){
    */
   public function attachment_get()
   {
-    $handler = new kolab_attachments_handler();
-
     // show loading page
     if (!empty($_GET['_preload'])) {
-        return $handler->attachment_loading_page();
+        return $this->lib->attachment_loading_page();
     }
 
     $event_id = rcube_utils::get_input_value('_event', rcube_utils::INPUT_GPC);
     $calendar = rcube_utils::get_input_value('_cal', rcube_utils::INPUT_GPC);
     $id       = rcube_utils::get_input_value('_id', rcube_utils::INPUT_GPC);
     $rev      = rcube_utils::get_input_value('_rev', rcube_utils::INPUT_GPC);
+    $driver = $this->get_driver_by_cal($calendar);
 
     $event = array('id' => $event_id, 'calendar' => $calendar, 'rev' => $rev);
-
-    if ($calendar == '--invitation--itip') {
-        $uid  = rcube_utils::get_input_value('_uid', rcube_utils::INPUT_GPC);
-        $part = rcube_utils::get_input_value('_part', rcube_utils::INPUT_GPC);
-        $mbox = rcube_utils::get_input_value('_mbox', rcube_utils::INPUT_GPC);
-
-        $event      = $this->lib->mail_get_itip_object($mbox, $uid, $part, 'event');
-        $attachment = $event['attachments'][$id];
-        $attachment['body'] = &$attachment['data'];
-    }
-    else {
-        $attachment = $driver->get_attachment($id, $event);
-    }
+    $attachment = $driver->get_attachment($id, $event);
 
     // show part page
     if (!empty($_GET['_frame'])) {
-        $handler->attachment_page($attachment);
+        $this->lib->attachment = $attachment;
+        $this->register_handler('plugin.attachmentframe', array($this->lib, 'attachment_frame'));
+        $this->register_handler('plugin.attachmentcontrols', array($this->lib, 'attachment_header'));
+        $this->rc->output->send('calendar.attachment');
     }
     // deliver attachment content
     else if ($attachment) {
-        if ($calendar != '--invitation--itip') {
-            $attachment['body'] = $driver->get_attachment_body($id, $event);
-        }
-
-        $handler->attachment_get($attachment);
+        $attachment['body'] = $driver->get_attachment_body($id, $event);
+        $this->lib->attachment_get($attachment);
     }
 
     // if we arrive here, the requested part was not found
@@ -2872,7 +2850,7 @@ if(count($cals) > 0){
 
     // We search for writeable calendars in personal namespace by default
     $mode   = calendar_driver::FILTER_WRITEABLE | calendar_driver::FILTER_PERSONAL;
-    $result = $this->driver->get_event($event, $mode);
+    $result = $driver->get_event($event, $mode);
     // ... now check shared folders if not found
     if (!$result) {
       $result = $driver->get_event($event, calendar_driver::FILTER_WRITEABLE | calendar_driver::FILTER_SHARED);
@@ -2939,8 +2917,8 @@ if(count($cals) > 0){
       $day_end     = new Datetime(gmdate('Y-m-d 23:59', $data['date']), $this->lib->timezone);
 
       // get events on that day from the user's personal calendars
-      $calendars = $this->driver->list_calendars(calendar_driver::FILTER_PERSONAL);
-      $events = $this->driver->load_events($day_start->format('U'), $day_end->format('U'), null, array_keys($calendars));
+      $calendars = $driver->list_calendars(calendar_driver::FILTER_PERSONAL);
+      $events = $driver->load_events($day_start->format('U'), $day_end->format('U'), null, array_keys($calendars));
       usort($events, function($a, $b) { return $a['start'] > $b['start'] ? 1 : -1; });
 
       $before = $after = array();
@@ -3042,47 +3020,15 @@ if(count($cals) > 0){
             $this->rc->output->command('display_message', $this->gettext('errorsaving'), 'error', -1);
 
           // if user is logged in...
-          // FIXME: we should really consider removing this functionality
-          //        it's confusing that it creates/updates an event only for logged-in user
-          //        what if the logged-in user is not the same as the attendee?
           if ($this->rc->user->ID) {
-            $this->load_driver();
-
             $invitation = $itip->get_invitation($token);
-            $existing   = $driver->get_event($this->event);
+            $driver = $this->get_driver_by_cal($invitation['event']['calendar']);
 
             // save the event to his/her default calendar if not yet present
-            if (!$existing && ($calendar = $this->get_default_calendar($invitation['event']['sensitivity']))) {
+            if (!$driver->get_event($this->event) && ($calendar = $this->get_default_calendar($invitation['event']['sensitivity']))) {
               $invitation['event']['calendar'] = $calendar['id'];
               if ($driver->new_event($invitation['event']))
                 $this->rc->output->command('display_message', $this->gettext(array('name' => 'importedsuccessfully', 'vars' => array('calendar' => $calendar['name']))), 'confirmation');
-              else
-                $this->rc->output->command('display_message', $this->gettext('errorimportingevent'), 'error');
-            }
-            else if ($existing
-              && ($this->event['sequence'] >= $existing['sequence'] || $this->event['changed'] >= $existing['changed'])
-              && ($calendar = $driver->get_calendar($existing['calendar']))
-            ) {
-              $this->event       = $invitation['event'];
-              $this->event['id'] = $existing['id'];
-
-              unset($this->event['comment']);
-
-              // merge attendees status
-              // e.g. preserve my participant status for regular updates
-              $this->lib->merge_attendees($this->event, $existing, $status);
-
-              // update attachments list
-              $event['deleted_attachments'] = true;
-
-              // show me as free when declined (#1670)
-              if ($status == 'declined')
-                $this->event['free_busy'] = 'free';
-
-              if ($driver->edit_event($this->event))
-                $this->rc->output->command('display_message', $this->gettext(array('name' => 'updatedsuccessfully', 'vars' => array('calendar' => $calendar->get_name()))), 'confirmation');
-              else
-                $this->rc->output->command('display_message', $this->gettext('errorimportingevent'), 'error');
             }
           }
         }
@@ -3293,7 +3239,7 @@ if(count($cals) > 0){
       // find writeable calendar to store event
       $cal_id    = rcube_utils::get_input_value('_folder', rcube_utils::INPUT_POST);
       $dontsave  = $cal_id === '' && $event['_method'] == 'REQUEST';
-      $calendars = $this->driver->list_calendars($mode);
+      $calendars = $driver->list_calendars($mode);
       $calendar  = $calendars[$cal_id];
 
       // select default calendar except user explicitly selected 'none'
@@ -3428,7 +3374,7 @@ if(count($cals) > 0){
             // found matching attendee entry in both existing and new events
             if ($existing_attendee >= 0 && $event_attendee) {
               $existing['attendees'][$existing_attendee] = $event_attendee;
-              $success = $this->driver->update_attendees($existing, $update_attendees);
+              $success = $driver->update_attendees($existing, $update_attendees);
             }
             // update the entire attendees block
             else if (($event['sequence'] >= $existing['sequence'] || $event['changed'] >= $existing['changed']) && $event_attendee) {
@@ -3470,7 +3416,7 @@ if(count($cals) > 0){
             if ($status == 'declined' || $event['status'] == 'CANCELLED' || $event_attendee['role'] == 'NON-PARTICIPANT')
               $event['free_busy'] = 'free';
 
-            $success = $this->driver->edit_event($event);
+            $success = $driver->edit_event($event);
           }
           else if (!empty($status)) {
             $existing['attendees'] = $event['attendees'];
@@ -3762,7 +3708,7 @@ if(count($cals) > 0){
 
         // save ics to a temp file and register as attachment
         $tmp_path = tempnam($this->rc->config->get('temp_dir'), 'rcmAttmntCal');
-        file_put_contents($tmp_path, $this->get_ical()->export(array($event), '', false, array($this->driver, 'get_attachment_body')));
+        file_put_contents($tmp_path, $this->get_ical()->export(array($event), '', false, array($driver, 'get_attachment_body')));
 
         $args['attachments'][] = array(
           'path'     => $tmp_path,
