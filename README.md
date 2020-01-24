@@ -26,7 +26,7 @@ Copy calendar, libcalendaring and libkolab folders to Roundcube Plugin folder, c
 * calendar_crypt_key to any random sequence of characters.
 * calendar_itip_smtp_server to the SMTP server of yours or set it empty ''.
 
- Import sql schemas located in /driver/ folders to your database.	Import the corresponding (MySQL, Postgres) initial SQL schema located in calendar/drivers/caldav/SQL/ folder to your roundcube database.
+ Import sql schemas located in /driver/* folders to your database.	Import the corresponding (MySQL, Postgres) initial SQL schema located in calendar/drivers/*/SQL/ folder to your roundcube database.
 
 Add "calendar" to $config['plugins'] in your Roundcube main config file and you are set.
 
@@ -39,14 +39,16 @@ Known Issues:
 * ~~Incompatible libcalendaring with Tasklist (WIP to make compatible)~~ Fixed!!!!
 * Will not create new calendar from Roundcube GUI.
 * ~~Itip does not send reply to event organizer using RC1.3. Works in RC1.2.4.~~ Fixed!!!!
-* ~~Recurring events marked as "All Day Events" will be a day early the following years.~~ Fixed!!!!
-* ~~Database driver does not work. Birthdays are the issue due to being all day.~~ Fixed!!!
+* Recurring events marked as "All Day Events" will be a day early the following years.- Darn bug crept back in. Hekp is requested
+* Database driver does not work. Birthdays are the issue due to being all day.
 
 User Discovered Issues:
 -------
 * ~~Check Calendar shows Error 500.~~ Fixed!!!!
 
-If anyone would like to help out to make oauth work and other features, I would appreciate it.
+If anyone would like to help out to make oauth and other features work, I would truly appreciate it.
+Otherwise, issues are always welcome but I do ask that you provide as detailed info as you can ie, roundcube logs, system logs, OS info and any other pertinant information that you think can be helpful. I do thank you ...
+
 
 TODO:
 -------
