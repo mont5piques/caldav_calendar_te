@@ -39,7 +39,7 @@ Known Issues:
 * ~~Incompatible libcalendaring with Tasklist (WIP to make compatible)~~ Fixed!!!!
 * Will not create new calendar from Roundcube GUI.
 * ~~Itip does not send reply to event organizer using RC1.3. Works in RC1.2.4.~~ Fixed!!!!
-* Recurring events marked as "All Day Events" will be a day early the following years.- Darn bug crept back in. Hekp is requested
+* Recurring events marked as "All Day Events" will be a day early the following years.- Darn bug crept back in. Help is requested
 * Database driver does not work. Birthdays are the issue due to being all day.
 
 User Discovered Issues:
