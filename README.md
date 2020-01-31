@@ -40,9 +40,9 @@ Installation is pretty straight forward. I wouldn't use composer to install, jus
 
 Your username and password must be the same for Nextcloud and Roundcube to work properly.\
 The Nextcloud account must be created and logged into at least once before calendar will sync.\
-There are no plans at this time to implement but will try in the future once my wishlist is whittled down a bit.\
-Create your users in Nextcloud using the exact username and password required to login to Roundcube.\
-There is configurable parameters to alter your email for logins within Roundcube's config.
+There are no plans at this time to implement different logins but will try in the future once my wishlist is whittled down a bit.\
+In the meantime, create your users in Nextcloud using the exact username and password required to login to Roundcube.\
+There are configurable parameters to alter your email for logins within Roundcube's config that may help you out if you require something a little different.
 
 **Known Issues**
 
