@@ -15,29 +15,35 @@ I forked this with the intent to make a working, out of the box, specific for Ne
 
 I will update this when needed by deprecated purposes or when Nextcloud changes their sabre version for as long as I can. I am currently dreaming of many other features, but would love some help on that.
 
-This plugin is intended to be used with Nexcloud only at this point in time. The Calendar Plugin will sync already existing calendars from Nextcloud. If you want more than the default, you must add calendar within Nextcloud Calendar GUI and then go back to Roundcube and it will magically appear in your Roundcube Calendar GUI. From Roundcube Calendar GUI, you can add, edit, delete, download, copy and invite participants to your events and will be in sync with Nextcloud. Invitations are succesfully sent, accepted, declined, etc ... 
+This plugin is intended to be used with Nexcloud only at this point in time. The Calendar Plugin will sync already existing calendars from Nextcloud. If you want more than the default, you must add calendar within Nextcloud Calendar GUI and then go back to Roundcube and it will magically appear in your Roundcube Calendar GUI after a good refresh (F5). From Roundcube Calendar GUI, you can add, edit, delete, download, copy and add attachments to events. iTip invitations are succesfully sent, accepted, declined, etc upon inviting attendees ... 
 
 This is also compatible with RCMCARDDAV 3.0.3 as I use it to sync my contacts with Nextcloud to Roundcube as well.
 
-For Roundcube 1.3 download ver 0.4 here https://github.com/texxasrulez/Caldav_Calendar/releases/tag/0.4
+For Roundcube v1.3 download ver 0.4 here https://github.com/texxasrulez/Caldav_Calendar/releases/tag/0.4
 
 _________________________________________________________________________________________
 
 **Installation**
 
-Installation is pretty straight forward. I wouldn't use composer to install, just download repo from github and follow the directions below:
+Installation is pretty straight forward. I wouldn't use composer to install, just download zip file from github and follow the directions below:\
 
-Copy/FTP/Upload calendar, libcalendaring and libkolab folders to Roundcube Plugin folder, copy config.inc.php.dist to config.inc.php, located in root of calendar directory, and change:
-* domain.ltd to your FQDN. These URL's are already configured for the default calendar url for Nextcloud assuming installed in default directory. If Nextcloud was installed using a custom directory, change /nextcloud/ to the directory name you installed in.
-* *IMPORTANT* Change calendar_crypt_key to any random sequence of 24 characters.
-* Many customizable variables can be changed to your requirements.
-* Import the corresponding (MySQL, Postgres) initial SQL schema located in calendar/drivers/*/SQL/ folder to your roundcube database.
-* Add "calendar" to $config['plugins'] in your Roundcube main config file.
-* Login to Roundcube, click on the Calendar Tab, give it 15-30 seconds and you should be good to go.
+1. Copy/FTP/Upload calendar, libcalendaring and libkolab folders to Roundcube Plugin folder. 
+2. Copy config.inc.php.dist to config.inc.php, located in root of calendar directory, and change:
+	* Change domain.ltd to your FQDN. 
+	* If Nextcloud was installed using a custom directory, change /nextcloud/ in the URL structure to match the directory you installed in.
+	* **IMPORTANT** - Change calendar_crypt_key to any random sequence of 24 characters.
+	* Many customizable variables can be changed to your requirements.
+3. Import the corresponding (MySQL, Postgres) initial SQL schema located in calendar/drivers/*/SQL/ folder to your roundcube database.
+4. Add "calendar" to $config['plugins'] in your Roundcube main config file.
+5. Login to Roundcube, click on the Calendar Tab, give it 15-30 seconds to do its thang and you should be good to go.
 
 ***VERY IMPORTANT***
 
-Your username and password must be the same for Nextcloud and Roundcube to work properly. There are no plans at this time to implement. My advice is just create your users in Nextcloud using the exact username and password required to login to your email server. You should have no issues.
+Your username and password must be the same for Nextcloud and Roundcube to work properly.\
+There are no plans at this time to implement but will try in the future once my wishlist is whittled down a bit.\
+My advice is to create your users in Nextcloud using the exact username and password required to login to your email server.\
+There is configurable parameters to alter your email for logins within Roundcube's config.\
+You should have no issues.
 
 **Known Issues**
 
@@ -79,10 +85,10 @@ These errors are persistant, albeit not too often, and show up in Roundcube's er
 * [29-Jan-2020 21:02:25 America/Los_Angeles] PHP Warning:  feof() expects parameter 1 to be resource, null given in /path_to_roundcube/plugins/calendar/lib/vendor/sabre/vobject/lib/Parser/MimeDir.php on line 249
 * [29-Jan-2020 21:02:25 -0800]: <179594f3> PHP Error: iCal data parse error: Error reading from input stream in /path_to_roundcube/plugins/libcalendaring on line 163 (POST /mail/?_task=calendar&_action=refresh)
 
-*Donations*
+**Donations**
 
 If you like this plugin and would like to give me a donation, I would appreciate it. 
-Zelle - Just send to texxasrulez@yahoo.com
+Zelle (Zelle is integrated within many major banks Mobile Apps by default) - Just send to texxasrulez@yahoo.com
 [Paypal](https://paypal.me/texxasrulez?locale.x=en_US) Click it to send
 
 I appreciate the interest in this plugin and hope all the best ...
