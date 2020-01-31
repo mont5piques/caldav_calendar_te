@@ -1,5 +1,7 @@
 Elastic Skin Support now available
 
+* First thing to know. If you are updating this plugin from 0.5.x to 0.6.x, a clean install is required. Eead the [Update Info](update_guide.md) page for details.#
+
 
 I made this as a working, out of the box, calendar for use with Roundcube (Version 1.4.1) and Nextcloud (Version 17 is the latest known working).
 
