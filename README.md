@@ -76,9 +76,9 @@ Multiple Calendars saved with same color. To quickly get a random coloring, just
 
 **Submitting Issues**
 
-Issue submissions are always welcome but I do ask that you provide as detailed info as you can so I can try to recreate the issue. \
+Issue submissions are always welcome but I do ask that you provide as detailed info as you can so I can try to recreate the issue. What, how, why, where etc. No detail is too small to leave out. \
 Roundcube logs, installed plugins and versions, Nextcloud logs and version, system logs, OS info, PHP Version with mods enabled and config and SQL Server Type and Version are also requested to be posted at time of issue submission. This will help me out tremendously and is highly recommended. \
-Not supplying any of the preiously requested info will not impact anyone personally, but it will delay any help I can offer you. Failure to supply requested information within a reasonable time frame from initial request to provide will cause your issue to be cloaed with no action if I cannot recreate it. \
+Not supplying any of the previously requested info will not impact anyone personally, but it will delay any help I can offer you. Failure to supply requested information within a reasonable time frame from initial request to provide will cause your issue to be closed with no resolution provided if I cannot recreate it. \
 I appreciate your understanding and I do thank you ...
 
 **Persistant Errors**
