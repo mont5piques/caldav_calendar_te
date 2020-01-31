@@ -63,7 +63,7 @@ Random Color Quickie:
 
 Persistant Log Error:
 -------
-[29-Jan-2020 21:02:25 America/Los_Angeles] PHP Warning:  feof() expects parameter 1 to be resource, null given in /path_to_roundcube/plugins/calendar/lib/vendor/sabre/vobject/lib/Parser/MimeDir.php on line 245
-[29-Jan-2020 21:02:25 America/Los_Angeles] PHP Warning:  fgets() expects parameter 1 to be resource, null given in /path_to_roundcube/plugins/calendar/lib/vendor/sabre/vobject/lib/Parser/MimeDir.php on line 247
-[29-Jan-2020 21:02:25 America/Los_Angeles] PHP Warning:  feof() expects parameter 1 to be resource, null given in /path_to_roundcube/plugins/calendar/lib/vendor/sabre/vobject/lib/Parser/MimeDir.php on line 249
-[29-Jan-2020 21:02:25 -0800]: <179594f3> PHP Error: iCal data parse error: Error reading from input stream in /path_to_roundcube/plugins/libcalendaring on line 163 (POST /mail/?_task=calendar&_action=refresh)
+* [29-Jan-2020 21:02:25 America/Los_Angeles] PHP Warning:  feof() expects parameter 1 to be resource, null given in /path_to_roundcube/plugins/calendar/lib/vendor/sabre/vobject/lib/Parser/MimeDir.php on line 245
+* [29-Jan-2020 21:02:25 America/Los_Angeles] PHP Warning:  fgets() expects parameter 1 to be resource, null given in /path_to_roundcube/plugins/calendar/lib/vendor/sabre/vobject/lib/Parser/MimeDir.php on line 247
+* [29-Jan-2020 21:02:25 America/Los_Angeles] PHP Warning:  feof() expects parameter 1 to be resource, null given in /path_to_roundcube/plugins/calendar/lib/vendor/sabre/vobject/lib/Parser/MimeDir.php on line 249
+* [29-Jan-2020 21:02:25 -0800]: <179594f3> PHP Error: iCal data parse error: Error reading from input stream in /path_to_roundcube/plugins/libcalendaring on line 163 (POST /mail/?_task=calendar&_action=refresh)
