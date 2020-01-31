@@ -12,9 +12,9 @@ A clean install is required, so I recommend the following proceedures:
 * Downlaod the latest [commit](https://github.com/texxasrulez/Caldav_Calendar/archive/master.zip) for Caldav_Calendar.
 * Unzip contents
 * Upload the the folders calendar, libcalendaring and libkolab to /roundcube_directory/plugins/
-* Navigate to /roundcube_directory/plugins/ and rename config.inc.php.dist to config.inc.php and edit the URL's within config to match your Domain and Nextcloud install direcotry name as well as customize the many variables to your preferrences. Use the same crypt_key from your original config.inc.php if keeping database tables.
+* Navigate to /roundcube_directory/plugins/ and rename config.inc.php.dist to config.inc.php and edit the URL's within config to match your Domain and Nextcloud install direcotry name as well as customize the many variables to your preferrences. Use the same calendar_crypt_key from your original config.inc.php if keeping database tables.
 * Login to your sql server and backup the tables caldav_attachments, caldav_calendars and caldav_events under your roundcube database
-* If you do not want to redo attachments or invitations manually, skip next step (This potentially can cause issues, the risk is low, remember to use the same crypt_key from your original config.inc.php)
+* If you do not want to redo attachments or invitations manually, skip next step (This potentially can cause issues, the risk is low, remember to use the same calendar_crypt_key from your original config.inc.php)
 * TRUNCATE the tables caldav_attachments, caldav_calendars and caldav_events within your roundcube database
 * Login to Roundube like normal, click on Calendar Tab and give it 15-30 seconds to resync, and then BOOM - Should be repopulated with your calendars and events
 * If you care what color your calenders are, you can edit calendar color accordingly within Roundcube Calendar GUI at anytime, so skip next step
@@ -23,13 +23,12 @@ A clean install is required, so I recommend the following proceedures:
 * If all works well, delete the directories calendar2, libcalendaring2 and libkolab2 (if present), logout of your FTP/SSH Client and ... You are done ... Enjoy
 
 
-
 **Expert**
 * delete calendar, libcalendaring and libkolab (if there) directories 
-* install it
+* Do your thang
 * enjoy
 
-Now, if anyone finds this plugin handy or helpful or just want to help out someone. Buy me a coffe .. 
+If anyone finds this plugin handy or helpful or just want to help out someone. Buy me a coffe .. 
 
 You can faciliate the purchase of that cup of coffee by Zelle 'ing whatever amount you can afford to texxasrulez@yahoo.com. 
 No Zelle, no problem
