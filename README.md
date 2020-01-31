@@ -76,10 +76,10 @@ Multiple Calendars saved with same color. To quickly get a random coloring, just
 
 **Submitting Issues**
 
-Issue submissions are always welcome but I do ask that you provide as detailed info as you can.
-* Roundcube logs, installed plugins and versions, Nextcloud logs and version, system logs, OS info, PHP Version with mods enabled and config and SQL Server Type and Version. This will help me out tremendously and thus is highly recommended when submitting an issue.
-* Not supplying any of the preiously requested info will not impact anyone personally, but it will delay any help I can offer you.
-* I appreciate your understanding and I do thank you ...
+Issue submissions are always welcome but I do ask that you provide as detailed info as you can so I can try to recreate the issue. \
+Roundcube logs, installed plugins and versions, Nextcloud logs and version, system logs, OS info, PHP Version with mods enabled and config and SQL Server Type and Version are also requested to be posted at time of issue submission. This will help me out tremendously and is highly recommended. \
+Not supplying any of the preiously requested info will not impact anyone personally, but it will delay any help I can offer you. Failure to supply requested information within a reasonable time frame from initial request to provide will cause your issue to be cloaed with no action if I cannot recreate it. \
+I appreciate your understanding and I do thank you ...
 
 **Persistant Errors**
 
@@ -92,8 +92,8 @@ These 4 errors are persistant, albeit not too often, and show up in Roundcube's 
 
 :moneybag: **Donations** :moneybag:
 
-If you use this plugin and would like to give me a donation, I surely would appreciate it.\
-Zelle (Zelle is integrated within many major banks Mobile Apps by default) - Just send to texxasrulez@yahoo.com\
+If you use this plugin and would like to show your appreciation by giving me a donation, I surely would appreciate it. \
+Zelle (Zelle is integrated within many major banks Mobile Apps by default) - Just send to texxasrulez at yahoo.com \
 No Zelle in your app, no problem, just click [Paypal](https://paypal.me/texxasrulez?locale.x=en_US)
 
 I appreciate the interest in this plugin and hope all the best ...
