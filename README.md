@@ -2,7 +2,7 @@
 
 **IMPORTANT** If you are updating this plugin from < 0.5.x to 0.6.x, a clean install is required. Read the [Update Info](update_guide.md) page for details.
 
-**Tested using**
+**Tested using:**
 * Roundcube v1.4.2
 * Nextcloud v18.0
 * PHP v7.2.24
@@ -37,18 +37,18 @@ Copy/FTP/Upload calendar, libcalendaring and libkolab folders to Roundcube Plugi
 
 ***VERY IMPORTANT***
 
-Your username and password must be the same for Nextcloud and Roundcube to work properly. There are no plans at this time to implement. My advice is just create your users in Nextcloud using the exact username required to login to your email server. You should have no issues.
+Your username and password must be the same for Nextcloud and Roundcube to work properly. There are no plans at this time to implement. My advice is just create your users in Nextcloud using the exact username and password required to login to your email server. You should have no issues.
 
 **Known Issues**
 
 * Will not create new calendar from Roundcube Calendar GUI.
-* Recurring events marked as "All Day Events" will be a day early the following instance of it.
-	* Workarounds for All Day Recurring Events
+* Recurring events marked as "All Day" displays a day early the following instance of it.
+	* Workarounds for All Day Recurring Events issue:
 		- Do not check the "All Day" box, no issues. 
-			- If you just need that box checked, do so and save it. 
-			- Then edit the event and uncheck the box and save it. 
-			- Then, one more time, edit the event and check that box again and save it. 
-			- It will then appear properly the next time it is displayed and can be edited (as long as it is not the future instance you click to edit) and still display properly.
+			- If you just have to have that box checked, do so and save it. Let Calendar refresh.
+			- Then edit the event and uncheck the box and save it. Let Calendar refresh.
+			- Then, one more time, edit the event and check that box again and save it. Let Calendar refresh.
+			- It will then appear properly the next time it is scheduled and can be edited (as long as it is not the future instance you click to edit) and still display properly.
 
 **Help Wanted**
 
@@ -59,10 +59,12 @@ Otherwise, issues are always welcome but I do ask that you provide as detailed i
 
 - [ ] Ability to add new calendar to Nextcloud from Roundcube Calendar GUI.
 - [ ] Oauth support. (TBD. My skills aren't the best. :frowning_face:  ....  I need some help
-- [ ] Assign random colors to autodiscover calendars.
-- [ ] Add sound notifications
-- [ ] Integrate a Caldav Enabled Tasklist plugin
-* User requests always welcome ... :smiley_face:
+- [ ] Assign random colors upon initial sync of calendars.
+- [ ] Add sound notifications.
+- [ ] Integrate a Caldav Enabled Tasklist plugin.
+- [ ] Add Emoticon Support.
+- [x] ~~Remove mcrypt and replace with openssl.~~
+* User feature requests are always welcome but I cannot guarantee I can pull all of them off ... :smiley_face:
 
 **Random Color Quickie**
 

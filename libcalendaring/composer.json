@@ -4,7 +4,7 @@
     "description": "Library providing common functions for calendaring plugins",
     "homepage": "https://github.com/texxasrulez/Caldav_Calendar",
     "license": "AGPLv3",
-    "version": "0.6.0",
+    "version": "0.6.0.1",
     "authors": [
         {
             "name": "Thomas Bruederli",
