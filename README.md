@@ -46,6 +46,7 @@ There are configurable parameters to alter your email for logins within Roundcub
 
 **Known Issues**
 
+* There are 4 persistant errors being thrown in Roundcube errors.log. More info at bottom of this file.
 * Will not create new calendar from Roundcube Calendar GUI.
 * Recurring events marked as "All Day" displays a day early the following instance of it.
 	* Workarounds for All Day Recurring Events issue:
@@ -57,12 +58,12 @@ There are configurable parameters to alter your email for logins within Roundcub
 
 **Help Wanted**
 
-If anyone would like to help maintain and add more features, I would truly appreciate it.
+If anyone would like to help maintain and develop more features, I would truly appreciate it.
 
 **Wishlist**
 
 - [ ] Ability to add new calendar to Nextcloud from Roundcube Calendar GUI.
-- [ ] Oauth support. (TBD. My skills aren't the best. :frowning_face:  ....  I need some help
+- [ ] Oauth support. (Probably will take me a month of Sundays as my skills aren't the best. :frowning_face:  ....  I need some help
 - [ ] Assign random colors upon initial sync of calendars.
 - [ ] Add sound notifications.
 - [ ] Integrate a Caldav Enabled Tasklist plugin.
@@ -72,18 +73,18 @@ If anyone would like to help maintain and add more features, I would truly appre
 
 **Random Color Quickie**
 
-Multiple Calendars saved with same color. To quickly get a random coloring, just import into database `UPDATE caldav_calendars SET color = substring(MD5(RAND()), -6);` after initial sync of calendars.
+Multiple Calendars are created with the same color. To quickly get a random coloring scheme, just import the following into database `UPDATE caldav_calendars SET color = substring(MD5(RAND()), -6);` after initial sync of calendars.
 
 **Submitting Issues**
 
 Issue submissions are always welcome but I do ask that you provide as detailed info as you can so I can try to recreate the issue. What, how, why, where etc. No detail is too small to leave out. \
 Roundcube logs, installed plugins and versions, Nextcloud logs and version, system logs, OS info, PHP Version with mods enabled and config and SQL Server Type and Version are also requested to be posted at time of issue submission. This will help me out tremendously and is highly recommended. \
-Not supplying any of the previously requested info will not impact anyone personally, but it will delay any help I can offer you. Failure to supply requested information within a reasonable time frame from initial request to provide will cause your issue to be closed with no resolution provided if I cannot recreate it. \
+Not supplying any of the previously requested info will not impact anyone personally, but it will delay any help I can offer you. Failure to supply requested information within a reasonable time frame from initial request will cause your issue to be closed with no resolution provided if I cannot recreate your issue. \
 I appreciate your understanding and I do thank you ...
 
 **Persistant Errors**
 
-These 4 errors are persistant, albeit not too often, and show up in Roundcube's errors.log always together at the exact same time down to the second. It has no rhyme or reason for when they appear. 99% of the time when these do get logged, users will be unaware as the requested task will complete successfully. As far as I can tell, the first three errors has to do with line endings `\r\n` which I am working on. Once I clear the first 3, I will tackle the 4th. So far, no joy ..
+These 4 errors are persistant, albeit not too often, and show up in Roundcube's errors.log, always together, at the exact same time down to the second. They have no rhyme or reason for when they appear. 99% of the time when these do get logged, users will be unaware as the requested task will complete successfully. As far as I can tell, the first three errors has to do with line endings `\r\n` which I am working on. Once I clear the first 3, I will tackle the 4th. So far, no joy ..
 
 * PHP Warning:  feof() expects parameter 1 to be resource, null given in /path_to_roundcube/plugins/calendar/lib/vendor/sabre/vobject/lib/Parser/MimeDir.php on line 245
 * PHP Warning:  fgets() expects parameter 1 to be resource, null given in /path_to_roundcube/plugins/calendar/lib/vendor/sabre/vobject/lib/Parser/MimeDir.php on line 247
@@ -92,8 +93,8 @@ These 4 errors are persistant, albeit not too often, and show up in Roundcube's 
 
 :moneybag: **Donations** :moneybag:
 
-If you use this plugin and would like to show your appreciation by giving me a donation, I surely would appreciate it. \
+If you use this plugin and would like to show your appreciation by buying me a cup of coffee, I surely would appreciate it. A regular cup of Joe is sufficient, but a Starbucks Coffee would be better ... \
 Zelle (Zelle is integrated within many major banks Mobile Apps by default) - Just send to texxasrulez at yahoo.com \
-No Zelle in your app, no problem, just click [Paypal](https://paypal.me/texxasrulez?locale.x=en_US)
+No Zelle in your banks mobile app, no problem, just click [Paypal](https://paypal.me/texxasrulez?locale.x=en_US) and I can make a Starbucks run ...
 
 I appreciate the interest in this plugin and hope all the best ...
