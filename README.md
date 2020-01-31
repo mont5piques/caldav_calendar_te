@@ -41,9 +41,8 @@ Installation is pretty straight forward. I wouldn't use composer to install, jus
 
 Your username and password must be the same for Nextcloud and Roundcube to work properly.\
 There are no plans at this time to implement but will try in the future once my wishlist is whittled down a bit.\
-My advice is to create your users in Nextcloud using the exact username and password required to login to your email server.\
-There is configurable parameters to alter your email for logins within Roundcube's config.\
-You should have no issues.
+Create your users in Nextcloud using the exact username and password required to login to Roundcube.\
+There is configurable parameters to alter your email for logins within Roundcube's config.
 
 **Known Issues**
 
@@ -69,8 +68,8 @@ Otherwise, issues are always welcome but I do ask that you provide as detailed i
 - [ ] Add sound notifications.
 - [ ] Integrate a Caldav Enabled Tasklist plugin.
 - [ ] Add Emoticon Support.
-- [x] ~~Remove mcrypt and replace with openssl.~~
-* User feature requests are always welcome but I cannot guarantee I can pull all of them off ... :smiley_face:
+- [x] ~~Remove mcrypt and replace with openssl.~~ Thank you @MAT-WEISS-2017
+* User feature requests are always welcome but I cannot guarantee if I can pull it off ... :relaxed:
 
 **Random Color Quickie**
 
