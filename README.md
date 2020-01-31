@@ -77,13 +77,13 @@ Multiple Calendars saved with same color. To quickly get a random coloring, just
 **Submitting Issues**
 
 Issue submissions are always welcome but I do ask that you provide as detailed info as you can.
-* Roundcube logs, installed plugins and versions, Nextcloud logs and version, system logs, OS info, PHP Version with mods enabled and config and SQL Server Type and Version. This will help me out tremendously and is highly recommended when submitting an issue.\
-* Not supplying any of the preiously requested info will not impact anyone personally, but it will delay any help I can offer you.\
+* Roundcube logs, installed plugins and versions, Nextcloud logs and version, system logs, OS info, PHP Version with mods enabled and config and SQL Server Type and Version. This will help me out tremendously and thus is highly recommended when submitting an issue.
+* Not supplying any of the preiously requested info will not impact anyone personally, but it will delay any help I can offer you.
 * I appreciate your understanding and I do thank you ...
 
 **Persistant Errors**
 
-These 4 errors are persistant, albeit not too often, and show up in Roundcube's errors.log always togetherat the exact same time down to the second. It has no rhyme or reason for when they appear. 99% of the time when these do get logged, users will be unaware as the requested task will complete successfully. As far as I can tell, the first three has to do with line endings `\r\n` which I am working on. So far, no joy ..
+These 4 errors are persistant, albeit not too often, and show up in Roundcube's errors.log always together at the exact same time down to the second. It has no rhyme or reason for when they appear. 99% of the time when these do get logged, users will be unaware as the requested task will complete successfully. As far as I can tell, the first three errors has to do with line endings `\r\n` which I am working on. Once I clear the first 3, I will tackle the 4th. So far, no joy ..
 
 * PHP Warning:  feof() expects parameter 1 to be resource, null given in /path_to_roundcube/plugins/calendar/lib/vendor/sabre/vobject/lib/Parser/MimeDir.php on line 245
 * PHP Warning:  fgets() expects parameter 1 to be resource, null given in /path_to_roundcube/plugins/calendar/lib/vendor/sabre/vobject/lib/Parser/MimeDir.php on line 247
