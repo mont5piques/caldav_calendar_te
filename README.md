@@ -76,3 +76,11 @@ These errors are persistant, albeit not too often, and show up in Roundcube's er
 * [29-Jan-2020 21:02:25 America/Los_Angeles] PHP Warning:  fgets() expects parameter 1 to be resource, null given in /path_to_roundcube/plugins/calendar/lib/vendor/sabre/vobject/lib/Parser/MimeDir.php on line 247
 * [29-Jan-2020 21:02:25 America/Los_Angeles] PHP Warning:  feof() expects parameter 1 to be resource, null given in /path_to_roundcube/plugins/calendar/lib/vendor/sabre/vobject/lib/Parser/MimeDir.php on line 249
 * [29-Jan-2020 21:02:25 -0800]: <179594f3> PHP Error: iCal data parse error: Error reading from input stream in /path_to_roundcube/plugins/libcalendaring on line 163 (POST /mail/?_task=calendar&_action=refresh)
+
+*Donations*
+
+If you like this plugin and would like to give me a donation, I would appreciate it. 
+Zelle - Just send to texxasrulez@yahoo.com
+[Paypal](https://paypal.me/texxasrulez?locale.x=en_US) Click it to send
+
+I appreciate the interest in this plugin and hope all the best ...

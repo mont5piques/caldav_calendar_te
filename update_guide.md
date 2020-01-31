@@ -28,9 +28,10 @@ A clean install is required, so I recommend the following proceedures:
 * Do your thang
 * enjoy
 
-If anyone finds this plugin handy or helpful or just want to help out someone. Buy me a coffe .. 
 
-You can faciliate the purchase of that cup of coffee by Zelle 'ing whatever amount you can afford to texxasrulez@yahoo.com. 
-No Zelle, no problem
-Paypal to texxasrulez@yahoo.com (Icon to come)
+*Donations*
+.
+If you like this plugin and would like to give me a donation, I would appreciate it. 
+Zelle - Just send to texxasrulez@yahoo.com
+[Paypal](https://paypal.me/texxasrulez?locale.x=en_US) Click it to send
 
