@@ -1,10 +1,10 @@
-#Caldav Calendar Plugin for Roundcube to sync with Nextcloud#
-## First thing to know. If you are updating this plugin from 0.5.x to 0.6.x, a clean install is required. Read the [Update Info](update_guide.md) page for details. ##
-### Testing using:###
-####Roundcube v1.4.2####
-####Nextcloud v18.0####
-####PHP v7.2.24####
-####MySQL Server v5.5.60####
+#Caldav Calendar Plugin for Roundcube to sync with Nextcloud
+**IMPORTANT** If you are updating this plugin from 0.5.x to 0.6.x, a clean install is required. Read the [Update Info](update_guide.md) page for details.
+**Tested using:**
+* Roundcube v1.4.2
+* Nextcloud v18.0
+* PHP v7.2.24
+* MySQL Server v5.5.60
 
 **Elastic Skin Support now available**
 
