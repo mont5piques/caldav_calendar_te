@@ -21,7 +21,7 @@ This is also compatible with RCMCARDDAV 3.0.3 as I use it to sync my contacts fr
 For Roundcube v1.3.x and older download ver [0.4](https://github.com/texxasrulez/caldav_calendar_te/releases/tag/0.4)
 
 
-**Installation** More Detailed instructions for [Beginners](detailed_install_instructions.md)
+**Installation** [More Detailed Instructions](detailed_install_instructions.md)
 
 Installation is pretty straight forward. I wouldn't use composer to install, just download zip file of the latest release or most current commit from github and follow the directions below:
 

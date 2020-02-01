@@ -1,4 +1,4 @@
-# Proper Contribution Ediquette
+#Proper Contribution Ediquette
 
 Open Source Software is an awesome and very powerful way to bring people together to protentially create awesome software that is more often than not, made publicly available for anyone to use and modify at no monetary cost. I am creating this file for every project I manage from now on just to document my opinion on certain areas involved with OSS that I feel has gotten a little lost.
 
