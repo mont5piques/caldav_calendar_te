@@ -1,4 +1,4 @@
-# Caldav Calendar Plugin for Roundcube
+# Caldav Calendar Plugin for Roundcube - Texas Edition
 
 **IMPORTANT** If you are updating this plugin from version prior to and including 0.5.1 to 0.6.x, a clean install is required. Read the [Update Info](update_guide.md) page for details.
 
