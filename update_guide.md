@@ -9,31 +9,33 @@ A clean install is required, so I recommend the following proceedures:
 * Login to webserver. (FTP is recommended method. SSH is fine if you are skilled in the SSH Arts. I would not use composer update method.)
 * Navigate to your /roundcube_directory/plugins
 * Rename folders/directories calendar, libcalendaring and libkolab (if present) to calendar2, libcalendaring2 and libkolab2 (if present)
-* Downlaod the latest [commit](https://github.com/texxasrulez/caldav_calendar_te/archive/master.zip) for Caldav_Calendar.
+* Downlaod the latest [Release](https://github.com/texxasrulez/caldav_calendar_te/releases/latest) for Caldav_Calendar **Texas Edition**.
 * Unzip contents
-* Upload the the folders calendar, libcalendaring and libkolab to /roundcube_directory/plugins/
+* Upload folders calendar, libcalendaring and libkolab to /roundcube_directory/plugins/
 * Navigate to /roundcube_directory/plugins/ and rename config.inc.php.dist to config.inc.php and edit the URL's within config to match your Domain and Nextcloud install direcotry name as well as customize the many variables to your preferrences. Use the same calendar_crypt_key from your original config.inc.php if keeping database tables.
 * Login to your sql server and backup the tables caldav_attachments, caldav_calendars and caldav_events under your roundcube database
 * If you do not want to redo attachments or invitations manually, skip next step (This potentially can cause issues, the risk is low, remember to use the same calendar_crypt_key from your original config.inc.php)
 * TRUNCATE the tables caldav_attachments, caldav_calendars and caldav_events within your roundcube database
 * Login to Roundube like normal, click on Calendar Tab and give it 15-30 seconds to resync, and then BOOM - Should be repopulated with your calendars and events
 * If you care what color your calenders are, you can edit calendar color accordingly within Roundcube Calendar GUI at anytime, so skip next step
-* Go back to your SQL terminal and import into database `UPDATE caldav_calendars SET color = substring(MD5(RAND()), -6);` to assign radmon colors after initial sync of calendars
+* Go back to your SQL terminal and import into database `UPDATE caldav_calendars SET color = substring(MD5(RAND()), -6);` to assign randmon colors after initial sync of calendars
 * Logout of your SQL server. (Just a friendly reminder)
-* If all works well, delete the directories calendar2, libcalendaring2 and libkolab2 (if present), logout of your FTP/SSH Client and ... You are done ... Enjoy
+* If all works well, delete the directories calendar2, libcalendaring2 and libkolab2 (if present) from your /roundcube_directory/plugins/ directory. Logout of your FTP/SSH Client and ... BOOM!, You are done ... Enjoy
 
 
 **Expert**
+* Downlaod Latest [Release](https://github.com/texxasrulez/caldav_calendar_te/releases/latest) or Latest [commit](https://github.com/texxasrulez/caldav_calendar_te/archive/master.zip) , Dealers Choice
 * delete calendar, libcalendaring and libkolab (if there) directories 
-* Do your thang
-* enjoy
+* Do yo thang
+* Enjoy
 
 
-*Donations*
-.
-If you like this plugin and would like to give me a donation, I would appreciate it. 
-Zelle (Enabled by default in most major banks mobile app) - Just send to texxasrulez@yahoo.com
-Your bank doesn't support Zelle, no prob, there is [Paypal](https://paypal.me/texxasrulez?locale.x=en_US) to send.
+:moneybag: **Donations** :moneybag:
+
+If you use this plugin and would like to show your appreciation by buying me a cup of coffee, I surely would appreciate it. A regular cup of Joe is sufficient, but a Starbucks Coffee would be better ... \
+Zelle (Zelle is integrated within many major banks Mobile Apps by default) - Just send to texxasrulez at yahoo dot com \
+No Zelle in your banks mobile app, no problem, just click [Paypal](https://paypal.me/texxasrulez?locale.x=en_US) and I can make a Starbucks run ... \
+If you got the skills to and would prefer to donate your time to this project, I welcome it and NEED it .. 
 
 Many Thanks and have a great day ...
 
