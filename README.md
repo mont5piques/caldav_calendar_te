@@ -1,6 +1,6 @@
 # Caldav Calendar Plugin for Roundcube - Texas Edition
 
-**IMPORTANT** If you are updating this plugin from version prior to and including 0.5.1 to 0.6.x, a clean install is required. Read the [Update Info](update_guide.md) page for details.
+**IMPORTANT** If you are updating this plugin from versions prior to and including 0.5.1 to 0.6.x, a clean install is highly recommended. Read the [Update Info](update_guide.md) page for details.
 
 **Tested and working using the following:**
 * Roundcube v 1.4.2
@@ -12,16 +12,16 @@
 
 I forked this with the intent to make a working, out of the box caldav enabled calendar for exclusive use with Nextcloud.
 
-I will update this when needed by deprecated purposes or when Nextcloud changes their sabre version for as long as I can.
+I will maintain this repo for as long as I can.
 
 This plugin is intended to be used with Nexcloud only at this point in time. The Calendar Plugin will sync already existing calendars from Nextcloud. If you want more than the default, you must add calendar within Nextcloud Calendar GUI and then go back to Roundcube and it will magically appear in your Roundcube Calendar GUI after a good refresh (F5). From Roundcube Calendar GUI, you can add, edit, delete, download, copy and add attachments to events. iTip invitations are succesfully sent, accepted, declined, etc upon inviting attendees ... 
 
 This is also compatible with RCMCARDDAV 3.0.3 as I use it to sync my contacts from Nextcloud to Roundcube as well.
 
-For Roundcube v1.3 and older download ver 0.4 here https://github.com/texxasrulez/caldav_calendar_te/releases/tag/0.4 
+For Roundcube v1.3.x and older download ver [0.4](https://github.com/texxasrulez/caldav_calendar_te/releases/tag/0.4)
 
 
-**Installation**
+**Installation** More Detailed instructions for [Beginners](detailed_install_instructions.md)
 
 Installation is pretty straight forward. I wouldn't use composer to install, just download zip file of the latest release or most current commit from github and follow the directions below:
 
@@ -77,9 +77,7 @@ Multiple Calendars are created with the same color. To quickly get a random colo
 
 **Submitting Issues**
 
-Issue submissions are always welcome but I do ask that you provide as detailed info as you can so I can try to recreate the issue. What, how, why, where etc. No detail is too small to leave out. \
-Roundcube logs, installed plugins and versions, Nextcloud logs and version, system logs, OS info, PHP Version with mods enabled and config and SQL Server Type and Version are also requested to be posted at time of issue submission. This will help me out tremendously and is highly recommended. \
-Not supplying any of the previously requested info will not impact anyone personally, but it will delay any help I can offer you. Failure to supply requested information within a reasonable time frame from initial request will cause your issue to be closed with no resolution provided if I cannot recreate your issue. \
+Issue submissions are always welcome but I do ask that you read this [file](issue_submittal_readme.md) first. \
 I appreciate your understanding and I do thank you ...
 
 **Persistant Errors**
