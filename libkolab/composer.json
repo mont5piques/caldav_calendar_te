@@ -1,10 +1,10 @@
 {
-    "name": "kolab/libkolab",
+    "name": "texxasrulez/caldav_calendar_te/libkolab",
     "type": "roundcube-plugin",
-    "description": "Plugin to setup a basic environment for the interaction with a Kolab server.",
-    "homepage": "https://git.kolab.org/diffusion/RPK/",
+    "description": "Plugin to setup a basic environment for the interaction with a Kolab server. The _te stands for Texas Edition",
+    "homepage": "https://github.com/texxasrulez/caldav_calendar_te",
     "license": "AGPLv3",
-    "version": "3.5.2",
+    "version": "0.6.0.2",
     "authors": [
         {
             "name": "Thomas Bruederli",
@@ -15,6 +15,12 @@
             "name": "Aleksander Machniak",
             "email": "machniak@kolabsys.com",
             "role": "Developer"
+        }
+    ],
+        {
+            "name": "Gene Hawkins",
+            "email": "texxasrulez@yahoo.com",
+            "role": "Developer and Lead of this Texas Edition Fork"
         }
     ],
     "repositories": [

@@ -9,7 +9,7 @@ A clean install is required, so I recommend the following proceedures:
 * Login to webserver. (FTP is recommended method. SSH is fine if you are skilled in the SSH Arts. I would not use composer update method.)
 * Navigate to your /roundcube_directory/plugins
 * Rename folders/directories calendar, libcalendaring and libkolab (if present) to calendar2, libcalendaring2 and libkolab2 (if present)
-* Downlaod the latest [commit](https://github.com/texxasrulez/Caldav_Calendar/archive/master.zip) for Caldav_Calendar.
+* Downlaod the latest [commit](https://github.com/texxasrulez/caldav_calendar_te/archive/master.zip) for Caldav_Calendar.
 * Unzip contents
 * Upload the the folders calendar, libcalendaring and libkolab to /roundcube_directory/plugins/
 * Navigate to /roundcube_directory/plugins/ and rename config.inc.php.dist to config.inc.php and edit the URL's within config to match your Domain and Nextcloud install direcotry name as well as customize the many variables to your preferrences. Use the same calendar_crypt_key from your original config.inc.php if keeping database tables.
@@ -32,6 +32,8 @@ A clean install is required, so I recommend the following proceedures:
 *Donations*
 .
 If you like this plugin and would like to give me a donation, I would appreciate it. 
-Zelle - Just send to texxasrulez@yahoo.com
-[Paypal](https://paypal.me/texxasrulez?locale.x=en_US) Click it to send
+Zelle (Enabled by default in most major banks mobile app) - Just send to texxasrulez@yahoo.com
+Your bank doesn't support Zelle, no prob, there is [Paypal](https://paypal.me/texxasrulez?locale.x=en_US) to send.
+
+Many Thanks and have a great day ...
 

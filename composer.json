@@ -1,14 +1,14 @@
 {
-    "name": "texxasrulez/caldav_calendar",
+    "name": "texxasrulez/caldav_calendar_te",
     "type": "roundcube-plugin",
-    "description": "Caldav Calendar plugin for use with NextCloud",
-    "homepage": "https://github.com/texxasrulez/caldav_calendar",
+    "description": "Caldav Calendar plugin for use with NextCloud. The _te stands for Texas Edition",
+    "homepage": "https://github.com/texxasrulez/caldav_calendar_te",
     "license": "AGPLv3",
-    "version": "0.6.0.1",
+    "version": "0.6.0.2",
     "authors": [
         {
             "name": "Gene Hawkins",
-            "email": "gene@genesworld.net",
+            "email": "texxasrulez@yahoo.com",
             "role": "Lead"
         }
     ],
