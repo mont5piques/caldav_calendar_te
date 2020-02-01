@@ -10,9 +10,8 @@ Please provide as much detailed info as you can. Describe what you wanted to do,
 
 **Providing the requested information upfront will help out both you and I tremendously.**
 I promise to not just close issue if requested information is not provided with initial submittal, but if requested material is not provided within a a timely manner, this may cause the issue to be closed with no resolution provided if I cannot recreate it.  \
-I apologize if I come off harsh, but honestly, because I do this totally **alone** and get **ZERO** dollars for my time, effort and little bits my soul, I think insisting info to be provided is not an outrageous request. \
-To gather this information will take next to no time to do, but it will save me **TONS** of time. I will have a better chance at finding and solving the cause of the issue and providing a fix fast. \
-This also is super helpful because I can have that much more time to improve this plugin for the benefit of us **ALL**.
+I apologize if I come off harsh, but honestly, because I do this totally **alone** and get **ZERO** dollars for my time, effort and little bits my soul, I think insisting that a little bit of info to be provided is not an outrageous request. \
+To gather this information will take next to no time to do, but it will save **TONS** of time for developers to quickly find the source of issue and provide a solution. 
 
 :moneybag: **Donations** :moneybag:
 

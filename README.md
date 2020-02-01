@@ -16,9 +16,9 @@ I will maintain this repo for as long as I can.
 
 This plugin is intended to be used with Nexcloud only at this point in time. The Calendar Plugin will sync already existing calendars from Nextcloud. If you want more than the default, you must add calendar within Nextcloud Calendar GUI and then go back to Roundcube and it will magically appear in your Roundcube Calendar GUI after a good refresh (F5). From Roundcube Calendar GUI, you can add, edit, delete, download, copy and add attachments to events. iTip invitations are succesfully sent, accepted, declined, etc upon inviting attendees ... 
 
-This is also compatible with RCMCARDDAV 3.0.3 as I use it to sync my contacts from Nextcloud to Roundcube as well.
+This is verified as compatible with RCMCARDDAV 3.0.3 as I use it to sync my contacts from Nextcloud to Roundcube.
 
-For Roundcube v1.3.x and older download ver [0.4](https://github.com/texxasrulez/caldav_calendar_te/releases/tag/0.4)
+For Older Roundcube versions (v1.3.x and older) download [v0.4](https://github.com/texxasrulez/caldav_calendar_te/releases/tag/0.4)
 
 
 **Installation** [More Detailed Instructions](detailed_install_instructions.md)
