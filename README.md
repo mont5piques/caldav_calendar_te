@@ -2,9 +2,9 @@
 
 ## WARNING - This Repo is not for the faint of heart
 Be warned. This is **NOT** intended for Production Use. \
-This plugin will be under constant development for the foreseeable future and **ASOLUTELY NO SUPPORT** is offered momentarily. As soon as I get the new features added and operating as expected, support will **MOST DEFINATELY** resume. \
+This plugin will be under constant development for the foreseeable future and **ASOLUTELY NO SUPPORT** is offered at the moment. As soon as I get the new features added and operating as expected, support will **MOST DEFINATELY** resume. \
 Never fret, I have the Stable Version Ready to Rock 'n Roll. Download below ...  \
-[Download Stable Version](https://github.com/texxasrulez/caldav_calendar)
+[Stable Version](https://github.com/texxasrulez/caldav_calendar) - LTS Version.
 
 **USE AT YOUR OWN RISK**
 
@@ -30,7 +30,7 @@ This is verified as compatible with RCMCARDDAV 3.0.3 as I use it to sync my cont
 For Older Roundcube versions (v1.3.x and older) download [v0.4](https://github.com/texxasrulez/caldav_calendar_te/releases/tag/0.4)
 
 
-**Installation** [More Detailed Instructions](detailed_install_instructions.md)
+**Installation** [Detailed Instructions](detailed_install_instructions.md)
 
 Installation is pretty straight forward. I wouldn't use composer to install, just download zip file of the latest release or most current commit from github and follow the directions below:
 
@@ -39,28 +39,28 @@ Installation is pretty straight forward. I wouldn't use composer to install, jus
 	* Change domain.ltd to your FQDN. 
 	* If Nextcloud was installed using a custom directory, change /nextcloud/ in the URL structure to match the directory you installed in.
 	* **IMPORTANT** - Change calendar_crypt_key to any random sequence of 24 characters.
-	* There are many customizable variables whcih can be changed to your suite your needs.
+	* There are many customizable variables which can be changed to your suite your needs.
 3. Import the corresponding initial SQL schema (MySQL, Postgres) located in calendar/drivers/*/SQL/ folder to your roundcube database.
 4. Add "calendar" to $config['plugins'] in your Roundcube main config file.
 5. Login to Roundcube, click on the Calendar Tab, give it 15-30 seconds to do its thang and you should be good to go.
 
 ***VERY IMPORTANT***
 
-Your username and password must be the same for Nextcloud and Roundcube to work properly.\
+Your username and password **must** be the same for Nextcloud and Roundcube to work properly.\
 The Nextcloud account must be created and user must log into Nextcloud at least once before calendar will sync in Roundcube. Nextcloud does not create calendars until the initial login, so there will be no calendar for the Roundcube Calendar to find.\
 There are no plans at this time to implement the use of different login usernames. \
 There shouldn't be any issues if you create your users in Nextcloud using the exact username and password required to login to Roundcube. \
-There are configurable parameters to alter your email for logins within Roundcube's config that may help you out if you require something a little different.
+There are configurable parameters to alter your email for logins within Roundcube config that may help you out if you require something a little different.
 
 **Known Issues**
 
-* There are 4 persistant errors being thrown in Roundcube errors.log. More info at bottom of this file.
+* There are 4 persistent errors being thrown in Roundcube errors.log. More info at bottom of this file.
 * Will not create new calendar from Roundcube Calendar GUI.
 * Recurring events marked as "All Day" displays a day early the following instance of it.
 	* Workarounds for All Day Recurring Events issue:
 		- Do not check the "All Day" box and there will be no issue. 
 			- If you just have to have that box checked, do so and save it. Let Calendar refresh.
-			- Then edit the event and uncheck the box and save it. Let Calendar refresh.
+			- Then edit the event and un-check the box and save it. Let Calendar refresh.
 			- Then, one more time, edit the event and check that box again and save it. Let Calendar refresh.
 			- It will then appear properly the next time it is scheduled and can be edited (as long as it is not the future instance you click to edit) and still display properly.
 
@@ -88,9 +88,9 @@ Multiple Calendars are created with the same color. To quickly get a random colo
 
 Since this is a **USE AT YOUR OWN RISK** plugin, any submitted issues may or may not be attended to in any timely manner. I will be introducing bugs and fixing and back again. Issue Submitting is by all means totally welcome since details given by users will help me out ...
 
-**Persistant Errors**
+**Persistent Errors**
 
-These 4 errors are persistant, albeit not too often, and show up in Roundcube's errors.log, always together, at the exact same time down to the second. They have no rhyme or reason for when they appear. 99% of the time when these do get logged, users will be unaware as the requested task will complete successfully. As far as I can tell, the first three errors has to do with line endings `\r\n` which I am working on. Once I clear the first 3, I will tackle the 4th. So far, no joy ..
+These 4 errors are persistent, albeit not too often, and show up in Roundcube's errors.log, always together, at the exact same time down to the second. They have no rhyme or reason for when they appear. 99% of the time when these do get logged, users will be unaware as the requested task will complete successfully. As far as I can tell, the first three errors has to do with line endings `\r\n` which I am working on. Once I clear the first 3, I will tackle the 4th. So far, no joy ..
 
 * PHP Warning:  feof() expects parameter 1 to be resource, null given in /path_to_roundcube/plugins/calendar/lib/vendor/sabre/vobject/lib/Parser/MimeDir.php on line 245
 * PHP Warning:  fgets() expects parameter 1 to be resource, null given in /path_to_roundcube/plugins/calendar/lib/vendor/sabre/vobject/lib/Parser/MimeDir.php on line 247

@@ -1,4 +1,4 @@
-#Issue Submittal Request 
+# Issue Submittal Request 
 
 Please provide as much detailed info as you can. Describe what you wanted to do, how you went about to do it click by click and what did happen. No detail is too small to leave out. \
 **Please provide the following minimum information with your initial issue submittal:**
