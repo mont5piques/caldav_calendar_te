@@ -1,4 +1,13 @@
-# Caldav Calendar Plugin for Roundcube - Texas Edition
+# Texas Edition Caldav Calendar Plugin for Roundcube
+
+## WARNING - This Repo is not for the faint of heart
+Be warned. This is **NOT** intended for Production Use. \
+This plugin will be under constant development for the foreseeable future and **ASOLUTELY NO SUPPORT** is offered momentarily. As soon as I get the new features added and operating as expected, support will **MOST DEFINATELY** resume. \
+Never fret, I have the Stable Version Ready to Rock 'n Roll. Download below ...  \
+[Download Stable Version](https://github.com/texxasrulez/caldav_calendar)
+
+**USE AT YOUR OWN RISK**
+
 
 **IMPORTANT** If you are updating this plugin from versions prior to and including 0.5.1 to 0.6.x, a clean install is highly recommended. Read the [Update Info](update_guide.md) page for details.
 
@@ -77,8 +86,7 @@ Multiple Calendars are created with the same color. To quickly get a random colo
 
 **Submitting Issues**
 
-Issue submissions are always welcome but I do ask that you read this [file](issue_submittal_readme.md) first. \
-I appreciate your understanding and I do thank you ...
+Since this is a **USE AT YOUR OWN RISK** plugin, any submitted issues may or may not be attended to in any timely manner. I will be introducing bugs and fixing and back again. Issue Submitting is by all means totally welcome since details given by users will help me out ...
 
 **Persistant Errors**
 
