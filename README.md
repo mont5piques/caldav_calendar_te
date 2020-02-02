@@ -2,14 +2,14 @@
 
 ## WARNING - This Repo is not for the faint of heart
 Be warned. This is **NOT** intended for Production Use. \
-This plugin will be under constant development for the foreseeable future and **ASOLUTELY NO SUPPORT** is offered at the moment. As soon as I get the new features added and operating as expected, support will **MOST DEFINATELY** resume. \
-Never fret, I have the Stable Version Ready to Rock 'n Roll. Download below ...  \
+This plugin will be under constant development for the foreseeable future with **ASOLUTELY NO SUPPORT** at the moment. As soon as I get the new features added and operating as expected, support will **MOST DEFINATELY** resume. \
+Never fret, I have a Stable Version Ready to Rock 'n Roll. Download below ...  \
 [Stable Version](https://github.com/texxasrulez/caldav_calendar) - LTS Version.
 
 **USE AT YOUR OWN RISK**
 
 
-**IMPORTANT** If you are updating this plugin from versions prior to and including 0.5.1 to 0.6.x, a clean install is highly recommended. Read the [Update Info](update_guide.md) page for details.
+**IMPORTANT** If you are updating this plugin from versions prior to and including 0.5.1 to 0.6.x, a clean install is highly recommended. Read the [Update Info](https://github.com/texxasrulez/caldav_calendar_te/blob/master/update_guide.md) page for details.
 
 **Tested and working using the following:**
 * Roundcube v 1.4.2
@@ -30,7 +30,7 @@ This is verified as compatible with RCMCARDDAV 3.0.3 as I use it to sync my cont
 For Older Roundcube versions (v1.3.x and older) download [v0.4](https://github.com/texxasrulez/caldav_calendar_te/releases/tag/0.4)
 
 
-**Installation** [Detailed Instructions](detailed_install_instructions.md)
+**Installation** [Detailed Instructions](https://github.com/texxasrulez/caldav_calendar_te/blob/master/detailed_install_instructions.md)
 
 Installation is pretty straight forward. I wouldn't use composer to install, just download zip file of the latest release or most current commit from github and follow the directions below:
 
