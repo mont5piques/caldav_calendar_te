@@ -8,9 +8,6 @@ Never fret, I have a Stable Version Ready to Rock 'n Roll. Download below ...  \
 
 **USE AT YOUR OWN RISK**
 
-
-**IMPORTANT** If you are updating this plugin from versions prior to and including 0.5.1 to 0.6.x, a clean install is highly recommended. Read the [Update Info](https://github.com/texxasrulez/caldav_calendar_te/blob/master/update_guide.md) page for details.
-
 **Tested and working using the following:**
 * Roundcube v 1.4.2
 * Nextcloud v 18.0
@@ -40,7 +37,7 @@ Installation is pretty straight forward. I wouldn't use composer to install, jus
 	* If Nextcloud was installed using a custom directory, change /nextcloud/ in the URL structure to match the directory you installed in.
 	* **IMPORTANT** - Change calendar_crypt_key to any random sequence of 24 characters.
 	* There are many customizable variables which can be changed to your suite your needs.
-3. Import the corresponding initial SQL schema (MySQL, Postgres) located in calendar/drivers/*/SQL/ folder to your roundcube database.
+3. Import the corresponding initial SQL schema (MySQL, Postgres) located in calendar/drivers/*/SQL/ folder to your Roundcube database.
 4. Add "calendar" to $config['plugins'] in your Roundcube main config file.
 5. Login to Roundcube, click on the Calendar Tab, give it 15-30 seconds to do its thang and you should be good to go.
 
@@ -60,9 +57,7 @@ There are configurable parameters to alter your email for logins within Roundcub
 	* Workarounds for All Day Recurring Events issue:
 		- Do not check the "All Day" box and there will be no issue. 
 			- If you just have to have that box checked, do so and save it. Let Calendar refresh.
-			- Then edit the event and un-check the box and save it. Let Calendar refresh.
-			- Then, one more time, edit the event and check that box again and save it. Let Calendar refresh.
-			- It will then appear properly the next time it is scheduled and can be edited (as long as it is not the future instance you click to edit) and still display properly.
+			- Edit the event again and do nothing but click save. It should work properly now.
 
 **Help Wanted**
 

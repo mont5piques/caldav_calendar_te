@@ -1,7 +1,7 @@
 {
     "name": "texxasrulez/caldav_calendar_te",
     "type": "roundcube-plugin",
-    "description": "Caldav Calendar plugin for use with NextCloud. The _te stands for Texas Edition",
+    "description": "Caldav Calendar plugin for use with NextCloud - Texas Edition",
     "homepage": "https://github.com/texxasrulez/caldav_calendar_te",
     "license": "GPL-3.0-only",
     "version": "0.6.0.2",
