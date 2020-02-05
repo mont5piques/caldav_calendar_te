@@ -48,7 +48,7 @@ class caldav_driver extends calendar_driver
     // Holds CalDAV sync clients
     private $sync_clients = array();
     // Min. time period to wait until CalDAV sync check.
-    private $sync_period = 10; // seconds
+    private $sync_period = 600; // value in seconds, 600sec=10minutes, original was 10
     // Indicates debug mode for CalDAV
     static private $debug = null;
     /**
