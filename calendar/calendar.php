@@ -92,6 +92,10 @@ class calendar extends rcube_plugin
     }
 
     $this->add_hook('user_delete', array($this, 'user_delete'));
+
+    if ($this->rc->task == 'calendar') {
+      $this->rc->output->set_env('refresh_interval', 0);
+    }
   }
 
   /**
