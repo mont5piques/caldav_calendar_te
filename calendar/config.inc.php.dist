@@ -33,8 +33,11 @@ $config['calendar_driver_default'] = "caldav";
 // default calendar view (agendaDay, agendaWeek, month)
 $config['calendar_default_view'] = "month";
 
-// Default calendar Save to
-// $config['default_save_calendar'] = 'Personal';
+//Default Sync time value in seconds, 600sec=10minutes
+$config['calendar_sync_period'] = "600";
+
+// Default calendar Save to - Personal is the default for Nextcloud
+$config['calendar_default_calendar'] = 'Personal';
 
 // show a birthdays calendar from the user's address book(s)
 $config['calendar_contact_birthdays'] = false;	// TODO
