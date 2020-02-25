@@ -69,7 +69,7 @@ If anyone would like to help maintain and develop more features, I would truly a
 - [ ] Add the ability to create new calendar within Roundcube Calendar GUI.
 - [ ] Oauth support for a wider range of calendar choices. (Probably will take me a month of Sundays as my skills aren't the best. :frowning_face:  ....  I need some help
 - [ ] Add a preview / agenda list in main Mail Tab within the left side column at the bottom.
-- [ ] Assign random colors upon initial sync of calendars.
+- [x] ~~Assign random colors upon initial sync of calendars.~~ - Thank you @drlight17
 - [ ] Add sound notifications.
 - [ ] Integrate a Caldav Enabled Tasklist plugin.
 - [ ] Add Emoticon Support.
