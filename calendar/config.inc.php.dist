@@ -208,7 +208,7 @@ $config['calendar_oauth_providers'] = array(
     "key" => array(
         "name" => "Google OAuth2 Provider",
         "scope" => "https://www.googleapis.com/auth/calendar",
-        "json" => "/lib/oauth2/google_oauth.json" // Rename google_oauth.json.dist to google_oauth.json
+        "json" => "/lib/vendor/oauth2/google_oauth.json" // Rename google_oauth.json.dist to google_oauth.json
     ) //,
 /*
     "key" => array(
@@ -220,8 +220,6 @@ $config['calendar_oauth_providers'] = array(
         "token_endpoint" => "https://www.domain.tld/mail/?_task=calendar="
     ) */
 );
-
-*/
 
 // Pre-installed calendars, added at first access to calendar section
 // Caldav driver is supported only
