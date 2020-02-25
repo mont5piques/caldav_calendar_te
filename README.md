@@ -9,11 +9,10 @@ Never fret, I have a Stable Version Ready to Rock 'n Roll. Download below ...  \
 **USE AT YOUR OWN RISK**
 
 **Tested and working using the following:**
-* Roundcube v1.4.2
-* Composer v1.6.3
-* Nextcloud v18.0
-* PHP v7.2.24
-* MySQL Server v5.5.60
+* Roundcube v 1.4.2
+* Nextcloud v 18.0
+* PHP v 7.2.24
+* MySQL Server v 5.5.60
 
 **Elastic Skin Support now available**
 
@@ -30,9 +29,9 @@ For Older Roundcube versions (v1.3.x and older) download [v0.4](https://github.c
 
 **Installation** [Detailed Instructions](https://github.com/texxasrulez/caldav_calendar_te/blob/master/detailed_install_instructions.md)
 
-1. Download zip file of the latest release or most current commit in master branch from github
+Installation is pretty straight forward. I wouldn't use composer to install, just download zip file of the latest release or most current commit from github and follow the directions below:
+
 1. Copy/FTP/Upload calendar, libcalendaring and libkolab folders to Roundcube Plugin folder. 
-1. Run `composer install` in calendar plugin directory
 2. Copy config.inc.php.dist to config.inc.php, located in root of calendar directory, and edit the following according to your requirements:
 	* Change domain.ltd to your FQDN. 
 	* If Nextcloud was installed using a custom directory, change /nextcloud/ in the URL structure to match the directory you installed in.
