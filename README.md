@@ -76,10 +76,6 @@ If anyone would like to help maintain and develop more features, I would truly a
 - [x] ~~Remove mcrypt and replace with openssl.~~ Thank you @MAT-WEISS-2017
 * User feature requests are always welcome but I cannot guarantee if I can pull it off ... :relaxed:
 
-**Random Color Quickie**
-
-Multiple Calendars are created with the same color. To quickly get a random coloring scheme, just import the following into database `UPDATE caldav_calendars SET color = substring(MD5(RAND()), -6);` after initial sync of calendars.
-
 **Submitting Issues**
 
 Since this is a **USE AT YOUR OWN RISK** plugin, any submitted issues may or may not be attended to in any timely manner. I will be introducing bugs and fixing and back again. Issue Submitting is by all means totally welcome since details given by users will help me out ...
