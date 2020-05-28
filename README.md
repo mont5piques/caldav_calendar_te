@@ -1,4 +1,4 @@
-# Texas Edition Caldav Calendar Plugin for Roundcube
+# Texas Edition Caldav Calendar Plugin for Roundcube & NextCloud
 
 ## WARNING - This Repo is not for the faint of heart
 Be warned. This is **NOT** intended for Production Use. \
